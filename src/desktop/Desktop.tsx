@@ -10,6 +10,7 @@ import { useTheme } from '../shell/theme'
 import { topWindowId, useWindows, type Win } from '../store/windows'
 import { useLayout } from '../store/layout'
 import Boot from './Boot'
+import GuestNotes from './GuestNotes'
 import Draggable from './Draggable'
 import Screensaver from './Screensaver'
 import Wallpaper from './Wallpaper'
@@ -446,6 +447,7 @@ export default function Desktop() {
           {trash && <DeskIcon node={trash} label="trash" onOpen={() => openNode(trash)} />}
         </ul>
         <NowNote />
+        <GuestNotes />
         {windows.length === 0 && <p className="desk-hint">Double-click a folder (or select it and press Enter) to open it. The dev/portfolio button opens the start menu.</p>}
         {windows.map((w) => (
           <Window key={w.id} win={w} active={w.id === top}>
