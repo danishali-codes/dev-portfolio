@@ -1,0 +1,69 @@
+import { readFileSync } from 'node:fs'
+import { describe, expect, it } from 'vitest'
+import { sitemapUrls, sitemapXml } from './sitemap.mjs'
+
+const tree = {
+  children: [
+    { type: 'dir', name: 'trash', children: [{ type: 'dir', name: 'old', path: '/trash/old', meta: { name: 'Old' } }] },
+    {
+      type: 'dir',
+      name: 'projects',
+      children: [
+        { type: 'dir', name: 'fuloos', path: '/projects/fuloos', meta: { name: 'Fuloos' } },
+        {
+          type: 'dir',
+          name: 'university',
+          path: '/projects/university',
+          meta: { name: 'University' },
+          children: [
+            {
+              type: 'dir',
+              name: 'ledger',
+              path: '/projects/university/ledger',
+              meta: { name: 'Ledger', aliases: ['ledger', 'bank & sms'] },
+            },
+          ],
+        },
+      ],
+    },
+  ],
+}
+
+describe('sitemap', () => {
+  const urls = sitemapUrls(tree, (path) => (path.endsWith('ledger') ? '2026-05-01T00:00:00Z' : undefined))
+  const xml = sitemapXml(urls)
+  const locs = [...xml.matchAll(/<loc>([^<]*)<\/loc>/g)].map((match) => match[1])
+
+  it('lists the routes that open windows and skips trash', () => {
+    expect(locs).toEqual([
+      'https://danishali.dev/',
+      'https://danishali.dev/cv',
+      'https://danishali.dev/contact',
+      'https://danishali.dev/projects/fuloos',
+      'https://danishali.dev/projects/university',
+      'https://danishali.dev/projects/ledger',
+      'https://danishali.dev/projects/bank%20%26%20sms',
+    ])
+    expect(xml).not.toContain('/trash')
+    expect(xml).not.toContain('/api/')
+    expect(xml).toContain('<lastmod>2026-05-01T00:00:00Z</lastmod>')
+    expect(xml.match(/<lastmod>/g)).toHaveLength(2)
+  })
+})
+
+describe('static seo files', () => {
+  const vercel = JSON.parse(readFileSync('vercel.json', 'utf8'))
+  const rewrite = new RegExp(`^${vercel.rewrites[0].source}$`)
+
+  it('serves robots.txt as plain text and keeps the SPA rewrite off both files', () => {
+    const robots = readFileSync('public/robots.txt', 'utf8')
+    expect(robots).toBe('User-agent: *\nAllow: /\nDisallow: /api/\n\nSitemap: https://danishali.dev/sitemap.xml\n')
+    expect(robots).not.toMatch(/<html/i)
+    for (const path of ['/robots.txt', '/sitemap.xml', '/api/guestbook', '/fs/a', '/assets/a', '/favicon.svg', '/stats.json']) {
+      expect(rewrite.test(path)).toBe(false)
+    }
+    for (const path of ['/', '/cv', '/contact', '/projects/ledger']) {
+      expect(rewrite.test(path)).toBe(true)
+    }
+  })
+})

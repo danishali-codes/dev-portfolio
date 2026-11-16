@@ -2,15 +2,26 @@
 
 NLP and LLMs, Assessment 2: NLP solution design.
 
+## Problem
+
 Ledger reads the SMS alerts UAE banks send after every card payment, puts each
 expense into one of 12 spending categories with a calibrated confidence score,
 asks about the uncertain ones, and answers questions like *"How much did I spend
 on food in May 2025?"* through guarded, read-only SQL written by a small local LLM.
 
-## Results
+## Data
+
+9,592 personal and 1,776 external expenses. The checks are a random 5-fold split,
+a future split (train before 2025, test on 2025), an unseen person, an external
+bank (ADIB), and unseen merchants.
+
+## Approach
 
 TF-IDF (character 2–5 and word 1–2 grams, plus log amount) with logistic
-regression, on 9,592 personal and 1,776 external expenses:
+regression. Qwen2.5-1.5B-Instruct writes the SQL, and a guard keeps every query
+read-only.
+
+## Results
 
 | Test set-up | Accuracy | Macro-F1 | Exact-lookup baseline |
 | --- | --- | --- | --- |
@@ -24,8 +35,3 @@ regression, on 9,592 personal and 1,776 external expenses:
   the time, so 31% of brand-new merchants are filed automatically at 91% accuracy.
 - **Text-to-SQL:** Qwen2.5-1.5B-Instruct wrote correct SQL for 20 of 30 questions,
   and a guard keeps every query read-only.
-
-## Try it
-
-The public prototype at ledger.danishali.dev/try runs the whole pipeline in your
-browser: upload a bank SMS export and nothing leaves your device.

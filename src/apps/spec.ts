@@ -20,8 +20,14 @@ export function specFor(node: FsNode): OpenSpec {
   if (node.kind === 'link') return { kind: 'text', path: node.path, title: node.name, color }
   // "README.md" alone is ambiguous in the taskbar once a few projects are open.
   const project = projectAt(node.path)
-  const readme = /^readme\.md$/i.test(node.name) && project && project.path === node.path.slice(0, node.path.lastIndexOf('/'))
-  return { kind: node.kind, path: node.path, title: readme ? `${project.meta?.name} · README` : node.name, color }
+  const folder = node.path.slice(0, node.path.lastIndexOf('/'))
+  if (project && /^readme\.md$/i.test(node.name) && project.path === folder) {
+    if (project.path.endsWith('/ledger')) {
+      return { kind: node.kind, path: node.path, title: `${project.meta?.name} · case study`, color, w: 960, h: 760 }
+    }
+    return { kind: node.kind, path: node.path, title: `${project.meta?.name} · README`, color }
+  }
+  return { kind: node.kind, path: node.path, title: node.name, color }
 }
 
 export { findReadme }

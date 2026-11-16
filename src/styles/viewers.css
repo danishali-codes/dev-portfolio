@@ -167,6 +167,38 @@
 .doc a {
   color: var(--accent);
 }
+.doc-wrap:has(.case-try) .doc table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 14px;
+  margin: 0.6em 0 1em;
+}
+.doc-wrap:has(.case-try) .doc th,
+.doc-wrap:has(.case-try) .doc td {
+  padding: 7px 8px;
+  border-bottom: var(--stroke) solid var(--chip-line);
+  text-align: left;
+  vertical-align: top;
+}
+.doc-wrap:has(.case-try) .doc th {
+  font-size: 12px;
+  font-weight: 800;
+}
+.case-try {
+  margin-top: 8px;
+}
+.case-try iframe {
+  width: 100%;
+  height: min(70vh, 640px);
+  margin-top: 12px;
+  border: var(--stroke) solid var(--ink);
+  border-radius: var(--radius);
+  background: var(--paper);
+  display: block;
+}
+.case-try .pill {
+  margin-top: 12px;
+}
 .doc code {
   font-family: var(--font-mono);
   font-size: 0.88em;

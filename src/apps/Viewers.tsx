@@ -18,6 +18,26 @@ function projectOf(path: string): DirNode | undefined {
   return dir?.type === 'dir' && dir.meta ? dir : undefined
 }
 
+/** ledger.danishali.dev/try sends neither X-Frame-Options nor CSP frame-ancestors, so the demo can sit in the window. */
+const LEDGER_TRY = 'https://ledger.danishali.dev/try'
+
+function LedgerTry() {
+  return (
+    <section className="case-try">
+      <div className="doc">
+        <h2>Try it</h2>
+        <p>The public prototype runs the whole pipeline in your browser: upload a bank SMS export and nothing leaves your device.</p>
+      </div>
+      <iframe src={LEDGER_TRY} title="Try Ledger" loading="lazy" />
+      <div className="doc">
+        <a className="pill pill-dark" href={LEDGER_TRY} target="_blank" rel="noreferrer">
+          Open the demo ↗
+        </a>
+      </div>
+    </section>
+  )
+}
+
 /** A link file's button label: github.link reads "GitHub", itch.link "itch.io". */
 function linkLabel(l: FileNode) {
   return l.name.replace(/\.link$/, '').replace(/^github$/i, 'GitHub').replace(/^itch$/i, 'itch.io')
@@ -98,6 +118,7 @@ export function MarkdownView({ path }: { path?: string }) {
           }
         }}
       />
+      {project?.path.endsWith('/ledger') && <LedgerTry />}
     </div>
   )
 }
