@@ -16,6 +16,7 @@ import Wallpaper from './Wallpaper'
 import { Star } from '../achievements/Notepad'
 import { SkyStar } from '../achievements/SkyStar'
 import { restart, shutdown } from '../achievements/effects'
+import { setResume } from '../shell/plain'
 import Window from './Window'
 
 const GITHUB = 'https://github.com/danishali-codes'
@@ -247,6 +248,9 @@ function Taskbar({ windows }: { windows: Win[] }) {
             </button>
           ))}
         </div>
+        <button type="button" className="tb-resume" onClick={() => setResume(true)}>
+          Résumé
+        </button>
         <button
           type="button"
           className="tb-theme"

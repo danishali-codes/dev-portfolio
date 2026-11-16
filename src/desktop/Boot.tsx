@@ -1,6 +1,7 @@
 import { useCallback, useEffect, useState } from 'react'
 import { projects } from '../fs'
 import { usePower } from '../shell/power'
+import { setResume } from '../shell/plain'
 
 type Screen = 'post' | 'splash'
 
@@ -121,6 +122,16 @@ export default function Boot() {
       {screen === 'splash' && <Splash key={boots} duration={short ? 700 : 1500} onDone={finish} />}
       {!leaving && (
         <div className="boot-skip">
+          <button
+            type="button"
+            className="boot-resume"
+            onPointerDown={(e) => {
+              e.stopPropagation()
+              setResume(true)
+            }}
+          >
+            Skip to résumé
+          </button>
           <span className="keys">press any key to skip</span>
           <span className="touch">tap to skip</span>
         </div>

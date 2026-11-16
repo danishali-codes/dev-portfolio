@@ -41,6 +41,7 @@ describe('sitemap', () => {
       'https://danishali.dev/contact',
       'https://danishali.dev/now',
       'https://danishali.dev/uses',
+      'https://danishali.dev/resume',
       'https://danishali.dev/projects/fuloos',
       'https://danishali.dev/projects/university',
       'https://danishali.dev/projects/ledger',
@@ -64,7 +65,7 @@ describe('static seo files', () => {
     for (const path of ['/robots.txt', '/sitemap.xml', '/api/guestbook', '/fs/a', '/assets/a', '/favicon.svg', '/stats.json']) {
       expect(rewrite.test(path)).toBe(false)
     }
-    for (const path of ['/', '/cv', '/contact', '/now', '/uses', '/projects/ledger']) {
+    for (const path of ['/', '/cv', '/contact', '/now', '/uses', '/resume', '/simple', '/projects/ledger']) {
       expect(rewrite.test(path)).toBe(true)
     }
   })

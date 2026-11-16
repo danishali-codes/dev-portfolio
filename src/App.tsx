@@ -1,6 +1,8 @@
 import { useEffect, useState } from 'react'
 import { findProject, findReadme } from './fs'
 import { pageNode } from './shell/pages'
+import { resumeOn, resumePath, setResume, watchResume } from './shell/plain'
+import Resume from './apps/Resume'
 import { specFor } from './apps/spec'
 import Desktop from './desktop/Desktop'
 import Phone from './phone/Phone'
@@ -40,9 +42,15 @@ function openStartupWindows() {
 export default function App() {
   const phone = usePhone()
   const boots = usePower((s) => s.boots)
+  const [resume, setResumeView] = useState(() => resumeOn())
+  useEffect(() => watchResume(setResumeView), [])
   useEffect(() => {
-    if (!phone) openStartupWindows()
-  }, [phone, boots])
+    if (resumePath(location.pathname)) setResume(true)
+  }, [])
+  useEffect(() => {
+    if (!phone && !resume) openStartupWindows()
+  }, [phone, boots, resume])
+  if (resume) return <Resume />
   return (
     <>
       {phone ? <Phone /> : <Desktop />}

@@ -32,12 +32,19 @@ export function pageNode(pathname = location.pathname): FsNode | undefined {
   return route ? getNode(route.file) : undefined
 }
 
-/** Point the existing title and description tags at /now or /uses. Other paths keep the defaults. */
+const PLAIN = {
+  title: 'Résumé · Danish Ali',
+  description: 'Danish Ali, a developer in Dubai. Fuloos, Lockout and Ledger, plus how to get in touch.',
+}
+
+/** Point the existing title and description tags at /now, /uses or /resume. Other paths keep the defaults. */
 export function applyRouteMeta(pathname = location.pathname) {
+  const plain = pathname.replace(/\/+$/, '').replace(/^\//, '').toLowerCase()
+  const plainPage = plain === 'resume' || plain === 'simple'
   const route = pageRoute(pathname)
   const own = route?.file === '/now.md' || route?.file === '/uses.md'
-  const title = own && route ? route.title : DEFAULT_TITLE
-  const description = own && route ? route.description : DEFAULT_DESCRIPTION
+  const title = plainPage ? PLAIN.title : own && route ? route.title : DEFAULT_TITLE
+  const description = plainPage ? PLAIN.description : own && route ? route.description : DEFAULT_DESCRIPTION
   document.title = title
   const set = (selector: string, value: string) => document.querySelector(selector)?.setAttribute('content', value)
   set('meta[name="description"]', description)
@@ -45,6 +52,6 @@ export function applyRouteMeta(pathname = location.pathname) {
   set('meta[property="og:description"]', description)
   set('meta[name="twitter:title"]', title)
   set('meta[name="twitter:description"]', description)
-  const url = own && route ? `https://danishali.dev${pathname.replace(/\/+$/, '') || '/'}` : DEFAULT_URL
+  const url = plainPage || (own && route) ? `https://danishali.dev${pathname.replace(/\/+$/, '') || '/'}` : DEFAULT_URL
   set('meta[property="og:url"]', url)
 }
