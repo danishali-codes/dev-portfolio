@@ -15,13 +15,15 @@ function walkProjects(dir, out) {
   return out
 }
 
-/** Absolute URLs for /, /cv, /contact and every project folder (plus its aliases). */
+/** Absolute URLs for /, /cv, /contact, /now, /uses and every project folder (plus its aliases). */
 export function sitemapUrls(tree, lastmod = () => undefined) {
   const projects = tree.children?.find((child) => child.type === 'dir' && child.name === 'projects')
   const urls = [
     { loc: `${SITE}/`, lastmod: lastmod('content') },
     { loc: `${SITE}/cv`, lastmod: lastmod('content/cv.md') },
     { loc: `${SITE}/contact`, lastmod: lastmod('content/contact.json') },
+    { loc: `${SITE}/now`, lastmod: lastmod('content/now.md') },
+    { loc: `${SITE}/uses`, lastmod: lastmod('content/uses.md') },
   ]
   for (const project of walkProjects(projects, [])) {
     const when = lastmod(`content${project.path}`)

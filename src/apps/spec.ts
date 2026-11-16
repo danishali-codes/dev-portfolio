@@ -10,6 +10,8 @@ export function specFor(node: FsNode): OpenSpec {
     return { kind: 'folder', path: node.path, title, color: node.meta?.color }
   }
   if (node.path === CV_PATH) return { kind: 'cv', path: node.path, title: 'CV & contact' }
+  if (node.path === '/now.md') return { kind: 'markdown', path: node.path, title: 'Now' }
+  if (node.path === '/uses.md') return { kind: 'markdown', path: node.path, title: 'Uses' }
   const color = projectColor(node.path)
   if (node.kind === 'app') {
     const title = node.title ?? node.name.replace(/\.app$/, '')

@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from 'react'
 import { findProject, findReadme, getNode, projects, TRASH_DIR } from '../fs'
+import { pageNode } from '../shell/pages'
 import type { FsNode } from '../fs/types'
 import Icon from '../apps/Icon'
 import { WindowContent } from '../apps/registry'
@@ -28,10 +29,10 @@ function StatusBar() {
 
 /** Phone UI: a home screen of app icons; every app opens full screen. */
 export default function Phone() {
-  // /projects/<name> opens that project's folder (and its README on top).
+  // /projects/<name> opens that project's folder (and its README on top). /cv, /now and /uses open that file.
   const [stack, setStack] = useState<OpenSpec[]>(() => {
-    const cv = getNode('/cv.md')
-    if (cv && /^\/(cv|contact)\/?$/i.test(location.pathname)) return [specFor(cv)]
+    const page = pageNode()
+    if (page) return [specFor(page)]
     const match = location.pathname.match(/^\/projects\/([^/]+)/)
     const project = match && findProject(decodeURIComponent(match[1]))
     if (!project) return []
