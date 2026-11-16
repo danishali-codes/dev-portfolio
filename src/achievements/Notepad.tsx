@@ -1,6 +1,7 @@
 import { lazy, Suspense, useEffect, useState } from 'react'
 import Draggable from '../desktop/Draggable'
 import { ACHIEVEMENTS, formatDuration, getProgress, resetAchievements, runSeed, unlock, useAchievements } from '.'
+import { BadgeBox } from './BadgeBox'
 
 // Loaded only once everything is found; it brings the name filter with it.
 const AchBoard = lazy(() => import('../leaderboard/AchBoard'))
@@ -54,6 +55,7 @@ export default function Notepad() {
   const { found, finishedAt, notepadOpen, setNotepad, runId } = useAchievements()
   const [hints, setHints] = useState<Set<string>>(new Set())
   const [confirm, setConfirm] = useState(false)
+  const [card, setCard] = useState<string | null>(null)
   const ms = useActiveTime()
   const count = Object.keys(found).length
 
@@ -96,6 +98,7 @@ export default function Notepad() {
           <span style={{ width: `${(count / ACHIEVEMENTS.length) * 100}%` }} />
         </div>
         {finishedAt && <p className="np-done">All found. You are officially a power user.</p>}
+        {finishedAt && <BadgeBox when={finishedAt} title="Every secret" detail={`${ACHIEVEMENTS.length} achievements on danishali.dev`} />}
         {finishedAt && (
           <Suspense fallback={null}>
             <AchBoard />
@@ -110,6 +113,10 @@ export default function Notepad() {
               <span>
                 <span className="np-name">{a.title}</span>
                 <span className="np-sub">{a.done}</span>
+                <button type="button" className="np-hint-btn" onClick={() => setCard(card === a.id ? null : a.id)}>
+                  Badge
+                </button>
+                {card === a.id && <BadgeBox when={found[a.id]} title={a.title} detail={a.done} />}
               </span>
             </li>
           ))}
