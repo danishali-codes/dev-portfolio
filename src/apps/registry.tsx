@@ -98,7 +98,7 @@ export function WindowContent({ win, opts }: { win: Pick<Win, 'kind' | 'path' | 
     case 'ask':
       return (
         <Loading>
-          <Ask seed={win.path} />
+          <Ask />
         </Loading>
       )
     case 'app':

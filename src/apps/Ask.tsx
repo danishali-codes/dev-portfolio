@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState, type FormEvent } from 'react'
+import { takeAsk } from '../shell/askQueue'
 
 interface Msg {
   role: 'you' | 'danish'
@@ -8,16 +9,22 @@ interface Msg {
 const MAX = 500
 
 /** A short chat grounded in the public notes. Loaded only when the window opens. */
-export default function Ask({ seed }: { seed?: string }) {
+export default function Ask() {
   const [messages, setMessages] = useState<Msg[]>([])
   const [question, setQuestion] = useState('')
   const [busy, setBusy] = useState(false)
-  const sent = useRef(false)
+  const busyRef = useRef(false)
+  const pending = useRef<string[]>([])
   const end = useRef<HTMLDivElement>(null)
 
   const send = async (text: string) => {
     const q = text.trim().slice(0, MAX)
-    if (!q || busy) return
+    if (!q) return
+    if (busyRef.current) {
+      pending.current.push(q)
+      return
+    }
+    busyRef.current = true
     setBusy(true)
     setQuestion('')
     setMessages((m) => [...m, { role: 'you', text: q }])
@@ -33,17 +40,14 @@ export default function Ask({ seed }: { seed?: string }) {
     } catch {
       setMessages((m) => [...m, { role: 'danish', text: "I couldn't get an answer just now." }])
     } finally {
+      busyRef.current = false
       setBusy(false)
+      const next = pending.current.shift()
+      if (next) void send(next)
     }
   }
 
-  useEffect(() => {
-    if (sent.current || !seed?.trim()) return
-    sent.current = true
-    void send(seed)
-    // The seed is the question that opened the window.
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [seed])
+  useEffect(() => takeAsk((q) => void send(q)), [])
 
   useEffect(() => {
     end.current?.scrollIntoView({ block: 'end' })
