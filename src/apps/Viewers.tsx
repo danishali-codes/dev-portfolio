@@ -101,7 +101,8 @@ export function MarkdownView({ path }: { path?: string }) {
     if (!file?.text) return ''
     // The project header already shows the title, so drop the README's first heading.
     const text = project ? file.text.replace(/^\s*(<!--[\s\S]*?-->\s*)*#\s.*\n/, '') : file.text
-    return marked.parse(text) as string
+    // Images further down a write-up wait until they are near the window.
+    return (marked.parse(text) as string).replace(/<img /g, '<img loading="lazy" decoding="async" ')
   }, [file, project])
   if (!file) return <Missing />
   return (
@@ -188,6 +189,7 @@ export function ImageView({ path }: { path?: string }) {
         alt={altFor(current)}
         width={current.width}
         height={current.height}
+        loading="lazy"
         decoding="async"
       />
       {(n > 1 || current.full) && (
@@ -220,7 +222,7 @@ export function ImageView({ path }: { path?: string }) {
 export function VideoView({ path }: { path?: string }) {
   const file = fileAt(path)
   if (!file) return <Missing />
-  return <video className="media" src={file.src} poster={file.poster} controls playsInline preload="metadata" />
+  return <video className="media" src={file.src} poster={file.poster} controls playsInline preload="none" />
 }
 
 export function PdfView({ path }: { path?: string }) {
