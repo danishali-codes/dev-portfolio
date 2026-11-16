@@ -16,6 +16,7 @@ const StatsView = lazy(() => import('./StatsView'))
 const Guestbook = lazy(() => import('./Guestbook'))
 const Updates = lazy(() => import('./Updates'))
 const WallpaperPicker = lazy(() => import('./WallpaperPicker'))
+const Ask = lazy(() => import('./Ask'))
 
 function Loading({ children }: { children: ReactNode }) {
   return <Suspense fallback={<div className="appframe-loading">Loading…</div>}>{children}</Suspense>
@@ -92,6 +93,12 @@ export function WindowContent({ win, opts }: { win: Pick<Win, 'kind' | 'path' | 
       return (
         <Loading>
           <Updates />
+        </Loading>
+      )
+    case 'ask':
+      return (
+        <Loading>
+          <Ask seed={win.path} />
         </Loading>
       )
     case 'app':

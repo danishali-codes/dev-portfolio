@@ -5,7 +5,7 @@ import { WindowContent } from '../apps/registry'
 import { specFor } from '../apps/spec'
 import Icon from '../apps/Icon'
 import { formatUpdated, NOW_PATH, readNow } from '../apps/now'
-import { hasWallpaperPicker, openGuestbook, openNode, openStats, openTerminal, openUpdates, openWallpaperPicker, registerOpener, registerWallpaperPicker, viewSource, WALLPAPER_SPEC } from '../shell/opener'
+import { hasWallpaperPicker, openAsk, openGuestbook, openNode, openStats, openTerminal, openUpdates, openWallpaperPicker, registerOpener, registerWallpaperPicker, viewSource, WALLPAPER_SPEC } from '../shell/opener'
 import { useTheme } from '../shell/theme'
 import { topWindowId, useWindows, type Win } from '../store/windows'
 import { useLayout } from '../store/layout'
@@ -122,6 +122,9 @@ function StartMenu({ onClose }: { onClose: () => void }) {
         </button>
         <button type="button" className="pill" onClick={() => (openGuestbook(), onClose())}>
           Guestbook
+        </button>
+        <button type="button" className="pill" onClick={() => (openAsk(), onClose())}>
+          Ask Danish
         </button>
         <a className="pill" href={GITHUB} target="_blank" rel="noreferrer">
           GitHub

@@ -4,7 +4,7 @@
   "version": "0.1.0",
   "type": "module",
   "scripts": {
-    "content": "node scripts/build-content.mjs && node scripts/build-stats.mjs && node scripts/build-changelog.mjs",
+    "content": "node scripts/build-content.mjs && node scripts/build-stats.mjs && node scripts/build-changelog.mjs && node scripts/build-ask.mjs",
     "predev": "npm run content",
     "dev": "vite",
     "prebuild": "npm run content",

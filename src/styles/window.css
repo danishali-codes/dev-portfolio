@@ -65,6 +65,9 @@
 .win-glyph-guestbook {
   background: var(--btn-min);
 }
+.win-glyph-ask {
+  background: var(--peach);
+}
 .win-glyph-updates {
   background: var(--mint);
   border-radius: 50%;

@@ -71,5 +71,9 @@ export function openGuestbook() {
   specOpener(GUESTBOOK)
 }
 
+export function openAsk(question?: string) {
+  specOpener({ kind: 'ask', title: 'Ask Danish', path: question })
+}
+
 /** The wallpaper settings window. */
 export const WALLPAPER_SPEC: OpenSpec = { kind: 'wallpaper', title: 'Wallpaper' }
