@@ -47,7 +47,9 @@ export default function Ask() {
     }
   }
 
-  useEffect(() => takeAsk((q) => void send(q)), [])
+  const sendRef = useRef(send)
+  sendRef.current = send
+  useEffect(() => takeAsk((q) => void sendRef.current(q)), [])
 
   useEffect(() => {
     end.current?.scrollIntoView({ block: 'end' })
