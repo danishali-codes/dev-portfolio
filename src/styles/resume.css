@@ -2,15 +2,15 @@ body:has(.resume),
 body:has(.resume) #root {
   height: auto;
   min-height: 100%;
-  background: #fff;
+  background: var(--paper);
   overflow: auto;
 }
 .resume {
   max-width: 42rem;
   margin: 0 auto;
   padding: 32px 22px 64px;
-  color: #1b1916;
-  background: #fff;
+  color: var(--ink);
+  background: var(--paper);
   font-size: 17px;
   line-height: 1.5;
   min-height: 100%;
@@ -22,7 +22,7 @@ body:has(.resume) #root {
 }
 .resume-role {
   margin: 4px 0 0;
-  color: #444;
+  color: var(--muted);
 }
 .resume-links {
   display: flex;
@@ -31,7 +31,7 @@ body:has(.resume) #root {
   margin: 12px 0 0;
 }
 .resume a {
-  color: #6b3414;
+  color: var(--accent);
 }
 .resume h2 {
   margin: 1.4em 0 0.3em;
@@ -47,7 +47,7 @@ body:has(.resume) #root {
 .resume-back button {
   font: inherit;
   font-weight: 700;
-  color: #6b3414;
+  color: var(--accent);
   background: none;
   border: 0;
   padding: 0;
@@ -55,6 +55,8 @@ body:has(.resume) #root {
 }
 
 @media print {
+  body:has(.resume), body:has(.resume) #root, .resume { background: #fff; color: #000; }
+  .resume-role { color: #444; }
   .resume {
     padding: 0;
     max-width: none;

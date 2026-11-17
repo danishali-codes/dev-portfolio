@@ -3,6 +3,7 @@ import { specFor } from '../apps/spec'
 import type { OpenSpec } from '../store/windows'
 
 const SPECIAL: Record<string, OpenSpec> = {
+  '/welcome': { kind: 'introduction', title: 'Welcome', color: 'var(--mint)' },
   '/ask': { kind: 'ask', title: 'Ask Danish' },
   '/terminal': { kind: 'terminal', title: 'Terminal' },
   '/stats': { kind: 'stats', title: 'Stats' },

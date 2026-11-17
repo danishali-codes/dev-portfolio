@@ -1,4 +1,3 @@
-import Introduction from '../apps/Introduction'
 import DesktopNavigation from '../shell/DesktopNavigation'
 import { useCallback, useEffect, useRef, useState } from 'react'
 import { allProjects, getNode, projects, TRASH_DIR } from '../fs'
@@ -7,7 +6,7 @@ import { WindowContent } from '../apps/registry'
 import { specFor } from '../apps/spec'
 import Icon from '../apps/Icon'
 import { formatUpdated, NOW_PATH, readNow } from '../apps/now'
-import { hasWallpaperPicker, openAsk, openGuestbook, openNode, openStats, openTerminal, openUpdates, openWallpaperPicker, registerOpener, registerWallpaperPicker, viewSource, WALLPAPER_SPEC } from '../shell/opener'
+import { hasWallpaperPicker, openIntroduction, openAsk, openGuestbook, openNode, openStats, openTerminal, openUpdates, openWallpaperPicker, registerOpener, registerWallpaperPicker, viewSource, WALLPAPER_SPEC } from '../shell/opener'
 import { useTheme } from '../shell/theme'
 import { topWindowId, useWindows, type Win } from '../store/windows'
 import { useLayout } from '../store/layout'
@@ -103,6 +102,7 @@ function StartMenu({ onClose }: { onClose: () => void }) {
         ))}
       </ul>
       <div className="sm-actions">
+        <button type="button" className="pill" onClick={() => (openIntroduction(), onClose())}>Welcome</button>
         {about && (
           <button type="button" className="pill pill-dark" onClick={() => go(about)}>
             About me
@@ -255,7 +255,7 @@ function Taskbar({ windows }: { windows: Win[] }) {
           ))}
         </div>
         <button type="button" className="tb-resume" onClick={() => setResume(true)}>
-          Résumé
+          Resume
         </button>
         <button
           type="button"
@@ -369,7 +369,7 @@ function ContextMenu({ x, y, items, onClose }: { x: number; y: number; items: (M
   )
 }
 
-function DeskIcon({ node, label, onOpen, color }: { node: FsNode | 'terminal' | 'guestbook' | 'stats'; label: string; onOpen: () => void; color?: string }) {
+function DeskIcon({ node, label, onOpen, color }: { node: FsNode | 'terminal' | 'guestbook' | 'stats' | 'introduction'; label: string; onOpen: () => void; color?: string }) {
   return (
     <Draggable as="li" id={`icon:${label}`} stack>
       <button
@@ -435,13 +435,13 @@ export default function Desktop() {
           setMenu({ x: e.clientX, y: e.clientY })
         }}
       >
-        <Introduction />
         <ul
           className={`desk-icons${refreshing ? ' refreshing' : ''}`}
           key={refreshing}
           aria-label="Desktop"
           onAnimationEnd={() => setRefreshing(0)}
         >
+          <DeskIcon node="introduction" label="welcome" onOpen={openIntroduction} />
           {projects().map((p) => (
             <DeskIcon key={p.path} node={p} label={p.name} onOpen={() => openNode(p)} />
           ))}

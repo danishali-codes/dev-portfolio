@@ -41,11 +41,11 @@ function walk(dir) {
 walk(tree)
 const trash = tree.children.find((c) => c.path === '/trash')
 if (trash) pages.push({ route: '/trash', title: 'Project archive · Danish Ali', description: 'Abandoned experiments and lessons from earlier projects.', text: readme(trash) })
-for (const [route, name, title] of [['/about', 'about.md', 'About'], ['/contact', 'cv.md', 'CV & contact'], ['/now', 'now.md', 'Now'], ['/uses', 'uses.md', 'Uses'], ['/resume', 'resume.md', 'Résumé']]) {
+for (const [route, name, title] of [['/about', 'about.md', 'About'], ['/contact', 'cv.md', 'CV & contact'], ['/now', 'now.md', 'Now'], ['/uses', 'uses.md', 'Uses'], ['/resume', 'resume.md', 'Resume']]) {
   const text = tree.children.find((c) => c.name === name)?.text ?? ''
   pages.push({ route, title: title + ' · Danish Ali', description: plain(text).slice(0, 160), text })
 }
-for (const [route, title] of [['/ask', 'Ask Danish'], ['/stats', 'Stats'], ['/terminal', 'Terminal'], ['/guestbook', 'Guestbook'], ['/updates', 'System Updates'], ['/wallpaper', 'Wallpaper']]) {
+for (const [route, title] of [['/welcome', 'Welcome'], ['/ask', 'Ask Danish'], ['/stats', 'Stats'], ['/terminal', 'Terminal'], ['/guestbook', 'Guestbook'], ['/updates', 'System Updates'], ['/wallpaper', 'Wallpaper']]) {
   pages.push({ route, title: title + ' · Danish Ali', description: title + ' on Danish Ali’s interactive portfolio.', text: '# ' + title })
 }
 pages.find((p) => p.route === '/projects').text += '\n\n' + pages.filter((p) => p.route.startsWith('/projects/')).map((p) => '- [' + p.title.replace(' · Danish Ali', '') + '](' + p.route + ') — ' + p.description).join('\n')

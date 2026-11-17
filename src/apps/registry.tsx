@@ -2,6 +2,7 @@ import { lazy, Suspense, useEffect, type ReactNode } from 'react'
 import { markRead } from '../achievements'
 import type { Win } from '../store/windows'
 import FolderView from './FolderView'
+import Introduction from './Introduction'
 
 const Terminal = lazy(() => import('./Terminal'))
 const viewers = () => import('./Viewers')
@@ -33,6 +34,8 @@ export function WindowContent({ win, opts }: { win: Pick<Win, 'kind' | 'path' | 
     if (win.kind === 'markdown' && win.path) markRead(win.path)
   }, [win.kind, win.path])
   switch (win.kind) {
+    case 'introduction':
+      return <Introduction />
     case 'terminal':
       return (
         <Loading>

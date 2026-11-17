@@ -1,7 +1,7 @@
 import { afterEach, describe, expect, it } from 'vitest'
 import { resumeOn, setResume } from './plain'
 afterEach(() => { localStorage.clear(); history.replaceState(null, '', '/') })
-describe('résumé navigation', () => {
+describe('resume navigation', () => {
   it('updates the URL and allows a return to the desktop', () => {
     history.replaceState({ paperosIndex: 0 }, '', '/')
     setResume(true)

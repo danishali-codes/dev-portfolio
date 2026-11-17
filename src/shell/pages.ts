@@ -33,7 +33,7 @@ export function pageNode(pathname = location.pathname): FsNode | undefined {
 }
 
 const PLAIN = {
-  title: 'Résumé · Danish Ali',
+  title: 'Resume · Danish Ali',
   description: 'Danish Ali, a developer in Dubai. Fuloos, Lockout and Ledger, plus how to get in touch.',
 }
 

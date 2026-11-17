@@ -1,77 +1,36 @@
-<!--
-  The CV shown in the "CV & contact" window, by `cv`, and by `cat cv.md`.
-  Contact details (email, links) live in contact.json; empty ones are hidden.
-  Drop a cv.pdf next to this file and the window offers it as a download.
-
-  While the line "coming soon" below is here, the window shows this short note
-  and hides the print button. Delete it once the real CV is in.
--->
-<!-- coming soon -->
-
 # Danish Ali
 
-## CV coming soon
+I’m a Technical Lead and software developer based in Dubai. I build workplace applications, interactive games and 3D experiences, and I’m studying for a Master of Applied Artificial Intelligence at the University of Wollongong in Dubai.
 
-I'm rewriting my CV at the moment. Until it's up, the projects on this desktop
-say more than a page would, and the email above is the quickest way to reach me.
+## Experience
 
-<!--
-  The earlier draft, built from the project write-ups and GitHub, in case any of
-  it is useful for the new version. Lines marked GUESS were inferred.
+**Technical Lead — TechZone Networking Services LLC**
+January 2023–present
 
-# Danish Ali
+- Develop and maintain client applications, including an internal chat app, a wayfinding application and a hot desking system.
+- Lead projects across different disciplines and collaborate with a distributed team of 15+ developers across multiple regions.
 
-Developer in Dubai. I build full-stack web apps that I use myself, mostly
-React and TypeScript on top of PocketBase, and I'm studying applied AI, so
-lately there's a model in most of them too.
+**Multimedia Developer — TechZone Networking Services LLC**
+
+- Created 3D animations for cybersecurity awareness modules, using storytelling and character progression to explain technical topics.
+- Developed interactive cybersecurity games and learning experiences.
+- Managed a team of four, coordinating tasks, deliverables and project timelines.
 
 ## Education
 
-**Master of Applied Artificial Intelligence**, University of Wollongong in
-Dubai. In progress, 2026. ( GUESS: start year and expected finish not known )
+**Master of Applied Artificial Intelligence — University of Wollongong in Dubai**
+In progress.
 
-- *Deep Learning for Visual Data:* benchmarked ViT, ConvNeXt, CLIP
-  and DINOv2 on classifying camouflaged animals in COD10K, and built an
-  interactive talk on autoencoders that runs the models in the browser.
-- *NLP and LLMs:* Ledger, which sorts UAE bank SMS alerts into
-  spending categories with scikit-learn and answers questions about them with
-  Qwen2.5 running in the browser through WebLLM.
+**Bachelor of Computer Science — University of Wollongong in Dubai**
+2016–2020. Specialisation: Multimedia and Game Development.
 
-( TODO: earlier degree, if you want it here )
+## Selected projects
 
-( TODO: work experience. Nothing on GitHub says where you've worked, so this
-     section is left out until you add it, e.g.
-## Experience
-**Role**, Company · 2023 to now
-- What you built, and what changed because of it
-)
-
-## Projects
-
-- **Fuloos** (2026): a money tracker that reads UAE bank SMS alerts and
-  statements, suggests categories and spots repeating bills.
-  TypeScript, React, PocketBase. [fuloos.danishali.dev](https://fuloos.danishali.dev)
-- **Lockout** (2026): our quiz night game. The TV shows the board and
-  everyone buzzes in from their phone, in real time.
-  TypeScript, React, PocketBase. [jeopardy.danishali.dev](https://jeopardy.danishali.dev)
-- **This site** (2026): a portfolio that runs as a tiny desktop OS with a
-  working terminal. React, TypeScript, Vite, Zustand.
-- **Homelab:** self-hosted services and small tools for them, including a
-  year-in-review for Jellyfin watch history. ( GUESS: from the jellyfin-rewind and portainer repos )
-
-## Game jams
-
-- **Game Dev Loop**, GMTK Game Jam 2025, my first jam.
-- **Rolling in Dough**, Brackeys Game Jam 2025.2, in a team of eight.
-- **The Feed**, Pakistan Game Jam 2026.
-
-All made in Unity with C#, and playable on this site.
+- **Fuloos** is a personal budgeting app for UAE bank statements and SMS alerts, with category suggestions and recurring payment detection. [Open Fuloos](https://fuloos.danishali.dev)
+- **Lockout** is a quiz night game with a TV board and phone buzzers. [Open Lockout](https://jeopardy.danishali.dev)
+- **Ledger** categorises UAE bank SMS expenses and answers questions about them. [Open Ledger](https://ledger.danishali.dev)
+- **Game jam projects** include Game Dev Loop, Rolling in Dough and The Feed, built with Unity and C#.
 
 ## Skills
 
-- **Languages:** TypeScript, JavaScript, Python, Go, C# ( GUESS: Go from the chat app and Lockout backend repos )
-- **Web:** React, Vite, Zustand, PocketBase, Vercel
-- **Machine learning:** PyTorch, scikit-learn, vision transformers, CLIP,
-  DINOv2, ONNX, WebLLM
-- **Other:** Unity, Docker and Portainer, Linux homelab ( GUESS: Docker/Portainer from the portainer repo )
--->
+React, TypeScript, Node.js, Go, Unity and C#. Maya and Blender for 3D work. PocketBase, Vite and Vercel for personal web projects; Python, PyTorch and scikit-learn for applied AI coursework.

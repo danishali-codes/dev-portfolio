@@ -79,3 +79,10 @@ export function openAsk(question?: string) {
 
 /** The wallpaper settings window. */
 export const WALLPAPER_SPEC: OpenSpec = { kind: 'wallpaper', title: 'Wallpaper' }
+
+/** The welcome card uses the same window controls as every other app. */
+export const INTRODUCTION: OpenSpec = { kind: 'introduction', title: 'Welcome', color: 'var(--mint)' }
+
+export function openIntroduction() {
+  specOpener(INTRODUCTION)
+}
