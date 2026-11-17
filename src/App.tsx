@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react'
-import { findProject, findReadme, getNode } from './fs'
+import { findProject, findReadme } from './fs'
+import { pageNode } from './shell/pages'
 import { specFor } from './apps/spec'
 import Desktop from './desktop/Desktop'
 import Phone from './phone/Phone'
@@ -21,12 +22,12 @@ function usePhone() {
   return phone
 }
 
-/** First visit (and after a restart): terminal open. /projects/<name>: that project's folder and README open too; /cv or /contact: the CV window. */
+/** First visit (and after a restart): terminal open. /projects/<name>: that project's folder and README open too. /cv, /contact, /now and /uses open that file. */
 function openStartupWindows() {
   const { windows, open } = useWindows.getState()
   if (windows.length === 0) open({ kind: 'terminal', title: 'Terminal' })
-  const cv = getNode('/cv.md')
-  if (cv && /^\/(cv|contact)\/?$/i.test(location.pathname)) open(specFor(cv))
+  const page = pageNode()
+  if (page) open(specFor(page))
   const match = location.pathname.match(/^\/projects\/([^/]+)/)
   const project = match && findProject(decodeURIComponent(match[1]))
   if (project) {
