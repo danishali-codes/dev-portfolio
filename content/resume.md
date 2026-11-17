@@ -1,29 +1,34 @@
-I'm a developer in Dubai, studying for a Master of Applied Artificial
-Intelligence at the University of Wollongong in Dubai. I build things I
-actually use: apps for my own money and my friends' game nights.
-
-## Projects
-
-- **Fuloos** tracks my money. It reads UAE bank SMS alerts and statements, suggests categories, and spots the bills and subscriptions that repeat. [fuloos.danishali.dev](https://fuloos.danishali.dev)
-- **Lockout** is our quiz night game. The TV shows the board, and everyone buzzes in from their phone. [jeopardy.danishali.dev](https://jeopardy.danishali.dev)
-- **Ledger** sorts UAE bank SMS alerts into spending categories and answers questions about them. [ledger.danishali.dev](https://ledger.danishali.dev)
-
-## Skills
-
-React, TypeScript, Vite, Zustand, Tailwind, PocketBase and Vercel. Python, PyTorch and scikit-learn for the coursework. Qwen2.5 and WebLLM for Ledger. Unity and C# for the games.
+I’m a Technical Lead and software developer based in Dubai. I build workplace applications, interactive games and 3D experiences, and I’m studying for a Master of Applied Artificial Intelligence at the University of Wollongong in Dubai.
 
 ## Experience
 
-<!-- TODO: Danish — jobs, companies and dates. Nothing in the repo says where you have worked. -->
+**Technical Lead — TechZone Networking Services LLC**
+January 2023–present
+
+- Develop and maintain client applications, including an internal chat app, a wayfinding application and a hot desking system.
+- Lead projects across different disciplines and collaborate with a distributed team of 15+ developers across multiple regions.
+
+**Multimedia Developer — TechZone Networking Services LLC**
+
+- Created 3D animations for cybersecurity awareness modules, using storytelling and character progression to explain technical topics.
+- Developed interactive cybersecurity games and learning experiences.
+- Managed a team of four, coordinating tasks, deliverables and project timelines.
 
 ## Education
 
-**Master of Applied Artificial Intelligence**, University of Wollongong in Dubai. In progress.
+**Master of Applied Artificial Intelligence — University of Wollongong in Dubai**
+In progress.
 
-<!-- TODO: Danish — start year, expected finish, and any earlier degree. -->
+**Bachelor of Computer Science — University of Wollongong in Dubai**
+2016–2020. Specialisation: Multimedia and Game Development.
 
-## Contact
+## Selected projects
 
-The email and links above are the ones in contact.json.
+- **Fuloos** is a personal budgeting app for UAE bank statements and SMS alerts, with category suggestions and recurring payment detection. [Open Fuloos](https://fuloos.danishali.dev)
+- **Lockout** is a quiz night game with a TV board and phone buzzers. [Open Lockout](https://jeopardy.danishali.dev)
+- **Ledger** categorises UAE bank SMS expenses and answers questions about them. [Open Ledger](https://ledger.danishali.dev)
+- **Game jam projects** include Game Dev Loop, Rolling in Dough and The Feed, built with Unity and C#.
 
-<!-- TODO: Danish — a cv.pdf next to content/cv.md turns into the download button. The CV window still says coming soon. -->
+## Skills
+
+React, TypeScript, Node.js, Go, Unity and C#. Maya and Blender for 3D work. PocketBase, Vite and Vercel for personal web projects; Python, PyTorch and scikit-learn for applied AI coursework.

@@ -2,11 +2,13 @@ import type { CSSProperties } from 'react'
 import { TRASH_DIR } from '../fs'
 import type { FsNode } from '../fs/types'
 
-type IconNode = FsNode | 'terminal' | 'about' | 'cv' | 'guestbook' | 'stats'
+type IconNode = FsNode | 'terminal' | 'about' | 'cv' | 'guestbook' | 'stats' | 'introduction'
 
 /** Rounded, outlined Soft Paper icons, drawn with CSS so they follow the theme. */
 export default function Icon({ node, size = 'md', color }: { node: IconNode; size?: 'sm' | 'md' | 'lg' | 'xl'; color?: string }) {
   const cls = `ic ic-${size}`
+  if (node === 'introduction')
+    return <span className={`${cls} ic-tile ic-introduction`} aria-hidden="true">👋</span>
   if (node === 'terminal')
     return (
       <span className={`${cls} ic-term`} aria-hidden="true">

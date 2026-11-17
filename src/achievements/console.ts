@@ -1,5 +1,5 @@
 // A hello for anyone who opens DevTools, and a login hidden in the console (an idea from lupine.dev).
-import { ACHIEVEMENTS, getProgress, isFound, unlock } from '.'
+import { ACHIEVEMENTS, getProgress, isFound, unlock, useAchievements } from '.'
 
 const big = 'font: 800 28px/1.2 "JetBrains Mono", monospace; color: #3cff7a; background: #0a0f0a; padding: 6px 12px; border-radius: 6px'
 const body = 'font: 500 13px/1.6 "JetBrains Mono", monospace'
@@ -19,22 +19,26 @@ let wrong = 0
 const danish = {
   help() {
     console.log(
-      '%cdanish.help()%c        this\n%cdanish.login(pw)%c     you know what this does\n%cdanish.whoami()%c      who made this\n%cdanish.progress()%c    your achievements so far',
+      '%cdanish.help()%c        this\n%cdanish.login("password")%c  use the password hidden in the terminal\n%cdanish.whoami()%c      who made this\n%cdanish.progress()%c    your achievements so far',
       accent, body, accent, body, accent, body, accent, body,
     )
     return '¯\\_(ツ)_/¯'
   },
   login(password?: string) {
-    if (isFound('console')) return console.log('%cAlready logged in as root. Power corrupts.', body)
-    if (password === undefined) return console.log('%cusage: danish.login("password")', body)
+    if (isFound('console')) {
+      useAchievements.setState({ latest: { id: 'console', at: Date.now() }, notepadOpen: true })
+      return 'Already logged in as root. Console achievement is unlocked.'
+    }
+    if (password === undefined) return 'Usage in browser DevTools: danish.login("password"). Replace password with the value hidden in the terminal.'
     if (String(password).trim().toLowerCase() !== PASSWORD) {
       wrong++
       const lines = ['Access denied.', 'Nope. Still denied.', 'Wrong again. Someone in the terminal was leaking passwords earlier, you know.']
-      return console.log(`%c${lines[Math.min(wrong, lines.length) - 1]}`, 'font: 700 13px/1.6 monospace; color: #ff7a6b')
+      return lines[Math.min(wrong, lines.length) - 1]
     }
     console.log('%cACCESS GRANTED', big)
     console.log('%cWelcome back, root. Everything here was public anyway, but well done.', body)
     unlock('console')
+    return 'ACCESS GRANTED. Console achievement unlocked.'
   },
   whoami() {
     console.log('%cDanish Ali, developer in Dubai. %chttps://github.com/danishali-codes', body, accent)

@@ -203,7 +203,7 @@
   font-size: 10px;
 }
 .ic-doc-accent {
-  color: var(--rust);
+  color: var(--accent);
 }
 .ic-folder {
   width: calc(var(--s) * 1.18);
@@ -397,7 +397,7 @@
   width: 210px;
   padding: 16px 16px 12px;
   background: var(--peach-soft);
-  color: var(--on-pastel);
+  color: var(--ink);
   border: var(--stroke) solid var(--ink);
   border-radius: 4px 14px 14px 4px;
   box-shadow: var(--shadow-sm);
@@ -432,6 +432,7 @@
   transform: rotate(1.4deg);
 }
 .guest-note-2 {
+  color: var(--on-pastel);
   top: 590px;
   background: var(--btn-min);
   transform: rotate(-0.6deg);
@@ -1085,7 +1086,7 @@
 
 /* Introduction stays visible until a visitor opens a window. */
 .portfolio-intro { position: relative; background: var(--paper); color: var(--ink); padding: 22px; border: var(--stroke) solid var(--ink); border-radius: var(--radius-lg); box-shadow: var(--shadow-sm); }
-.desktop .portfolio-intro { position: absolute; top: 28px; left: 260px; width: min(460px, calc(100% - 290px)); max-height: calc(100% - 100px); overflow: auto; }
+.win-introduction .portfolio-intro { border: 0; box-shadow: none; border-radius: 0; }
 .intro-kicker { margin: 0 0 8px; font-size: 12px; color: var(--muted); }
 .portfolio-intro h1 { margin: 0; font-size: clamp(26px, 3vw, 38px); line-height: 1.15; }
 .portfolio-intro > p:not(.intro-kicker) { font-size: 15px; line-height: 1.6; }
@@ -1097,3 +1098,5 @@
 .win-buttons .copy-link { width: auto; height: auto; background: var(--paper); border-radius: 999px; padding: 3px 9px; font-size: 11px; white-space: nowrap; }
 @media (max-width: 1220px) { .desktop .now-note { display: none; } }
 
+
+.ic-introduction { background: var(--mint); color: var(--on-pastel); }

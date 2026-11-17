@@ -6,7 +6,7 @@ tiny operating system.
 - **Terminal mode.** Open the Terminal icon from the desktop. Type
   `help`, `projects`, `open fuloos` or `play lockout`. Anything underlined is
   clickable if you'd rather not type.
-- **Desktop mode.** The site opens with an introduction and Selected work, About and Contact shortcuts,
+- **Desktop mode.** The site opens with a Welcome window and Selected work, About and Contact shortcuts,
   with a taskbar along the bottom (start menu, project search, open windows and
   the clock). Every project is a folder, and every file opens in its own window
   that you can drag, resize, minimise and maximise.
@@ -94,7 +94,7 @@ opens as plain text. `content/about.md` is the About page and the output of
 
 ## CV and contact
 
-`content/cv.md` is the CV, shown in the "CV & contact" window (desktop icon,
+`content/cv.md` is the public CV summary, shown in the "CV & contact" window (desktop icon,
 start menu, phone home screen, `cv`, or danishali.dev/cv). `content/contact.json`
 holds the name, location, time zone, email and links on the card above it; leave
 a field empty and it's hidden. The window's "Print or save as PDF" button prints
@@ -328,3 +328,5 @@ It also creates `dist/sitemap.xml`; `public/robots.txt` is copied into the outpu
 Vercel excludes these files and generated page paths from the desktop fallback.
 No blog or publishing system is added.
 
+
+The Welcome window has the standard minimise, maximise and close controls. Reopen it from the welcome desktop icon or the start menu; phones have a Welcome app on the home screen. The CV and resume pages contain professional information as web content, without attaching the source document.

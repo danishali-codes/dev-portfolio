@@ -62,10 +62,11 @@ describe('static seo files', () => {
     const robots = readFileSync('public/robots.txt', 'utf8')
     expect(robots).toBe('User-agent: *\nAllow: /\nDisallow: /api/\n\nSitemap: https://danishali.dev/sitemap.xml\n')
     expect(robots).not.toMatch(/<html/i)
+    expect(vercel.rewrites[0].destination).toBe('/')
     for (const path of ['/robots.txt', '/sitemap.xml', '/api/guestbook', '/fs/a', '/assets/a', '/favicon.svg', '/stats.json', '/cv', '/contact', '/now', '/uses', '/resume', '/simple', '/projects/ledger', '/about', '/og/home.png']) {
       expect(rewrite.test(path)).toBe(false)
     }
-    for (const path of ['/', '/files/about.md', '/found/headers', '/wp-admin']) {
+    for (const path of ['/', '/files/about.md', '/found/headers', '/found/dug', '/wp-admin']) {
       expect(rewrite.test(path)).toBe(true)
     }
   })

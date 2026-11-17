@@ -560,7 +560,7 @@
 }
 .gb-error {
   margin: 0;
-  color: var(--rust);
+  color: var(--accent);
   font-size: 13px;
   font-weight: 700;
 }

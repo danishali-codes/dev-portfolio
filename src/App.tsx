@@ -28,7 +28,7 @@ export default function App() {
     const restore = () => {
       const plain = resumePath(location.pathname)
       setResumeView(plain)
-      if (plain) updateMetadata({ kind: 'markdown', path: '/resume.md', title: 'Résumé' })
+      if (plain) updateMetadata({ kind: 'markdown', path: '/resume.md', title: 'Resume' })
     }
     const unwatch = watchResume(setResumeView)
     window.addEventListener('popstate', restore)

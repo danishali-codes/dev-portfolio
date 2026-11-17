@@ -1,4 +1,3 @@
-import Introduction from '../apps/Introduction'
 import CopyLink from '../apps/CopyLink'
 import { initialiseHistory, specFromUrl, syncNavigation } from '../shell/navigation'
 import { useEffect, useRef, useState } from 'react'
@@ -7,7 +6,7 @@ import type { FsNode } from '../fs/types'
 import Icon from '../apps/Icon'
 import { WindowContent } from '../apps/registry'
 import { specFor } from '../apps/spec'
-import { GUESTBOOK, registerOpener, registerWallpaperPicker, STATS, WALLPAPER_SPEC } from '../shell/opener'
+import { GUESTBOOK, INTRODUCTION, registerOpener, registerWallpaperPicker, STATS, WALLPAPER_SPEC } from '../shell/opener'
 import Boot from '../desktop/Boot'
 import Draggable from '../desktop/Draggable'
 import Wallpaper from '../desktop/Wallpaper'
@@ -119,8 +118,18 @@ export default function Phone() {
         </main>
       ) : (
         <main className="ph-home">
-          <Introduction />
+          <div className="ph-hello">
+            <div className="ph-kicker">dev/portfolio</div>
+            <h1 ref={titleRef} tabIndex={-1}>Hi, I’m Danish.</h1>
+            <p>Apps, games and the odd homelab tool</p>
+          </div>
           <ul className="ph-grid">
+            <Draggable as="li" id="app:welcome" stack>
+              <button type="button" onClick={() => open(INTRODUCTION)}>
+                <Icon node="introduction" size="xl" />
+                <span>Welcome</span>
+              </button>
+            </Draggable>
             {projects().map((p) => (
               <Draggable as="li" key={p.path} id={`app:${p.name}`} stack>
                 <button type="button" onClick={() => open(specFor(p))}>

@@ -95,8 +95,11 @@
   font-size: 13px;
   line-height: 1;
   font-weight: 800;
-  color: var(--on-pastel);
+  color: var(--ink);
 }
+.win-buttons .b-min,
+.win-buttons .b-max,
+.win-buttons .b-close { color: var(--on-pastel); }
 .win-buttons .b-min {
   background: var(--btn-min);
 }

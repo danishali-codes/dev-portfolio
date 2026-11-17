@@ -130,7 +130,7 @@ export default function Boot() {
               setResume(true)
             }}
           >
-            Skip to résumé
+            Skip to resume
           </button>
           <span className="keys">press any key to skip</span>
           <span className="touch">tap to skip</span>

@@ -1,22 +1,12 @@
 # Danish Ali
 
-I'm a developer in Dubai, studying for a Master of Applied Artificial
-Intelligence at the University of Wollongong in Dubai. I like building things I
-actually use: apps for my own money and my friends' game nights, and small tools
-for my homelab.
+I’m a Technical Lead and software developer in Dubai. At TechZone Networking Services LLC, I work on client applications including internal chat, wayfinding and hot desking systems, collaborating with a distributed team of 15+ developers.
 
-The projects on this desktop:
+My background is in multimedia and game development. I’ve created 3D animations and interactive cybersecurity games, and managed a team of four delivering that work. I studied Computer Science at the University of Wollongong in Dubai from 2016 to 2020, specialising in Multimedia and Game Development. I’m now studying for a Master of Applied Artificial Intelligence.
 
-- **Fuloos** tracks my money. It reads UAE bank SMS alerts and statements,
-  suggests categories, and spots the bills and subscriptions that repeat.
-- **Lockout** is our quiz night game. The TV shows the board, and everyone buzzes
-  in from their phone.
-- **University** has my coursework: a benchmark of vision models on camouflaged
-  animals, an interactive talk on autoencoders, and Ledger, which sorts bank SMS
-  alerts into spending categories.
+Outside work, I build things I actually use: Fuloos for my money, Lockout for game nights with friends, and small tools for my homelab. The University folder has my applied AI coursework, including Ledger and projects on visual models and autoencoders.
 
-Most of it is React and TypeScript on the front, PocketBase behind, and Python
-and PyTorch when there's a model involved.
+I work with React, TypeScript, Node.js, Go and Unity, with Maya and Blender for 3D work. My AI coursework uses Python and PyTorch.
 
 - GitHub: [danishali-codes](https://github.com/danishali-codes)
 - Site: [danishali.dev](https://danishali.dev)

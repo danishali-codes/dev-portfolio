@@ -53,7 +53,10 @@ try {
   console.warn(`changelog: GitHub API unavailable (${e.message}), using ${entries.length ? 'git history' : 'nothing'}`)
 }
 
-for (const e of entries) e.date = new Date(e.date).toISOString()
+for (const e of entries) {
+  e.date = new Date(e.date).toISOString()
+  e.title = e.title.replace(/résumé/gi, (word) => word[0] === 'R' ? 'Resume' : 'resume')
+}
 entries.sort((a, b) => b.date.localeCompare(a.date))
 mkdirSync(join(OUT, '..'), { recursive: true })
 writeFileSync(OUT, JSON.stringify({ source, repo: REPO, entries }, null, 2))

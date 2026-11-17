@@ -8,9 +8,9 @@ export default function Introduction() {
   }
   return (
     <section className="portfolio-intro" aria-labelledby="intro-title">
-      <p className="intro-kicker">Developer · Dubai, UAE</p>
+      <p className="intro-kicker">Technical Lead · Dubai, UAE</p>
       <h1 id="intro-title">Hi, I’m Danish.</h1>
-      <p>I build apps, games and tools for my homelab. Currently studying applied AI and building things I actually use.</p>
+      <p>I’m a Technical Lead and software developer in Dubai. I build workplace apps, games and interactive experiences, and I’m studying applied AI.</p>
       <nav className="intro-actions" aria-label="Introduction">
         <button className="pill pill-dark" type="button" onClick={() => go('/projects')}>Selected work</button>
         <button className="pill" type="button" onClick={() => go('/about.md')}>About</button>

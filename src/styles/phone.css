@@ -170,7 +170,7 @@
 .ph-home { min-height: 0; overflow-y: auto; }
 .phone .portfolio-intro { padding: 16px; }
 .phone .portfolio-intro h1 { font-size: 30px; }
-.phone .intro-selected { display: none; }
+.phone .intro-selected { display: grid; }
 .ph-app-bar { grid-template-columns: 28px minmax(0, 1fr) auto; gap: 6px; }
 .ph-app-actions { display: flex; align-items: center; gap: 5px; }
 .ph-app-actions .copy-link, .ph-home-btn { font-size: 11px; padding: 4px 7px; white-space: nowrap; }
