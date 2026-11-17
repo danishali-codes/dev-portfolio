@@ -4,7 +4,7 @@
   "outputDirectory": "dist",
   "rewrites": [
     {
-      "source": "/((?!fs/|assets/|favicon|api/|stats\\.json|robots\\.txt|sitemap\\.xml|og/|projects(?:/|$)|trash(?:/|$)|about(?:/|$)|contact(?:/|$)|cv(?:/|$)|now(?:/|$)|stats(?:/|$)|terminal(?:/|$)|guestbook(?:/|$)|updates(?:/|$)|wallpaper(?:/|$)).*)",
+      "source": "/((?!fs/|assets/|favicon|api/|stats\\.json|robots\\.txt|sitemap\\.xml|og/|projects(?:/|$)|trash(?:/|$)|about(?:/|$)|contact(?:/|$)|cv(?:/|$)|now(?:/|$)|uses(?:/|$)|resume(?:/|$)|simple(?:/|$)|ask(?:/|$)|stats(?:/|$)|terminal(?:/|$)|guestbook(?:/|$)|updates(?:/|$)|wallpaper(?:/|$)).*)",
       "destination": "/index.html"
     }
   ],

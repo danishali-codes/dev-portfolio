@@ -25,6 +25,12 @@ export default function Terminal({ onExit, showShortcuts = false }: { onExit: ()
   useEffect(() => {
     endRef.current?.scrollIntoView({ block: 'end' })
   }, [lines])
+  // The prompt only grabs the keyboard when this window is the one in front.
+  // autoFocus would raise a terminal that loaded behind a deep-linked window.
+  useEffect(() => {
+    const host = inputRef.current?.closest('.win')
+    if (!host || host.classList.contains('active')) inputRef.current?.focus()
+  }, [])
 
   const prompt = (path: string): Line => [
     { t: 'danish@dev', cls: 'accent' },
@@ -156,7 +162,6 @@ export default function Terminal({ onExit, showShortcuts = false }: { onExit: ()
             type={handler?.secret ? 'password' : 'text'}
             onChange={(e) => setInput(e.target.value)}
             onKeyDown={onKey}
-            autoFocus
             spellCheck={false}
             autoCapitalize="off"
             autoComplete="off"

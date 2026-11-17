@@ -120,6 +120,7 @@ becomes a download of that file instead.
 | `wallpaper [name]` | open the wallpaper picker, or switch straight to one |
 | `screensaver` | start the screensaver now |
 | `guestbook` | open the guestbook |
+| `ask [question]` | ask about the projects |
 | `clear`, `exit` | clear the screen, close the terminal |
 
 Tab completes commands and paths; the up and down arrows recall history.
@@ -207,6 +208,20 @@ src/styles/tokens.css every colour, font, radius and shadow
 The look is "Soft Paper": rounded pastel windows and folders, the Nunito font,
 an illustrated hills-and-sun wallpaper, and a terminal that is always green on
 black. Every colour, font and shadow comes from `src/styles/tokens.css`.
+
+## Ask Danish
+
+`ask` in the terminal, or Ask Danish in the start menu, opens a chat window.
+Answers come from `api/ask.ts`, a Vercel function that calls Gemini
+(`gemini-2.5-flash`) with notes built from `content/` at deploy time
+(`scripts/build-ask.mjs`). The draft CV is left out of those notes. The model
+is told to refuse questions that are not about the work, and to say "I don't
+know" rather than guess. Each question is at most 500 characters and the reply
+is capped. One server instance allows 8 questions per IP every 10 minutes.
+
+Set `GEMINI_API_KEY` in the Vercel project (see `.env.example`). Until it is
+set, the window says the chat is not set up. A Gemini quota error is shown as
+such, not as an invented answer.
 
 ## Guestbook
 
@@ -312,3 +327,4 @@ pages. Nunito glyph outlines make the cards independent of system fonts.
 It also creates `dist/sitemap.xml`; `public/robots.txt` is copied into the output.
 Vercel excludes these files and generated page paths from the desktop fallback.
 No blog or publishing system is added.
+

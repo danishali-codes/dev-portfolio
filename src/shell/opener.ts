@@ -1,5 +1,6 @@
 import type { FsNode } from '../fs/types'
 import type { OpenSpec } from '../store/windows'
+import { pushAsk } from './askQueue'
 
 /**
  * The desktop and the phone UI each register how to open a file or folder.
@@ -69,6 +70,11 @@ export const GUESTBOOK: OpenSpec = { kind: 'guestbook', title: 'Guestbook' }
 
 export function openGuestbook() {
   specOpener(GUESTBOOK)
+}
+
+export function openAsk(question?: string) {
+  specOpener({ kind: 'ask', title: 'Ask Danish' })
+  if (question) pushAsk(question)
 }
 
 /** The wallpaper settings window. */

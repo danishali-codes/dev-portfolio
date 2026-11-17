@@ -27,3 +27,5 @@ dist-ssr
 src/generated/
 public/fs/
 public/stats.json
+public/sitemap.xml
+api/_generated/

@@ -1,0 +1,73 @@
+body:has(.resume),
+body:has(.resume) #root {
+  height: auto;
+  min-height: 100%;
+  background: #fff;
+  overflow: auto;
+}
+.resume {
+  max-width: 42rem;
+  margin: 0 auto;
+  padding: 32px 22px 64px;
+  color: #1b1916;
+  background: #fff;
+  font-size: 17px;
+  line-height: 1.5;
+  min-height: 100%;
+}
+.resume h1 {
+  margin: 0;
+  font-size: 2rem;
+  letter-spacing: -0.03em;
+}
+.resume-role {
+  margin: 4px 0 0;
+  color: #444;
+}
+.resume-links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px 14px;
+  margin: 12px 0 0;
+}
+.resume a {
+  color: #6b3414;
+}
+.resume h2 {
+  margin: 1.4em 0 0.3em;
+  font-size: 1.05rem;
+}
+.resume ul {
+  margin: 0.2em 0 0;
+  padding-left: 1.2em;
+}
+.resume-back {
+  margin: 0 0 18px;
+}
+.resume-back button {
+  font: inherit;
+  font-weight: 700;
+  color: #6b3414;
+  background: none;
+  border: 0;
+  padding: 0;
+  text-decoration: underline;
+}
+
+@media print {
+  .resume {
+    padding: 0;
+    max-width: none;
+  }
+  .resume-back {
+    display: none;
+  }
+  .resume a {
+    color: #000;
+    text-decoration: none;
+  }
+  .resume a[href^='http']::after {
+    content: ' (' attr(href) ')';
+    font-size: 0.85em;
+  }
+}

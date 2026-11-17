@@ -391,8 +391,54 @@
 .now-more:hover {
   color: var(--on-pastel);
 }
+.guest-note {
+  position: absolute;
+  right: 36px;
+  width: 210px;
+  padding: 16px 16px 12px;
+  background: var(--peach-soft);
+  color: var(--on-pastel);
+  border: var(--stroke) solid var(--ink);
+  border-radius: 4px 14px 14px 4px;
+  box-shadow: var(--shadow-sm);
+  font-size: 14px;
+  line-height: 1.35;
+}
+.guest-note p {
+  margin: 0;
+}
+.guest-note footer {
+  margin-top: 8px;
+  font-size: 12px;
+  font-weight: 800;
+}
+.guest-note-x {
+  position: absolute;
+  top: 4px;
+  right: 6px;
+  width: 22px;
+  height: 22px;
+  font-size: 16px;
+  line-height: 1;
+}
+.guest-note-0 {
+  top: 250px;
+  transform: rotate(-1.5deg);
+}
+.guest-note-1 {
+  top: 420px;
+  right: 64px;
+  background: var(--mint-soft);
+  transform: rotate(1.4deg);
+}
+.guest-note-2 {
+  top: 590px;
+  background: var(--btn-min);
+  transform: rotate(-0.6deg);
+}
 @media (max-width: 760px), (max-height: 520px) {
-  .now-note {
+  .now-note,
+  .guest-note {
     display: none;
   }
 }
@@ -569,6 +615,17 @@
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
+}
+.tb-resume {
+  flex: none;
+  height: 32px;
+  padding: 0 10px;
+  border-radius: 999px;
+  font-size: 12px;
+  font-weight: 800;
+}
+.tb-resume:hover {
+  background: var(--chip);
 }
 .tb-theme {
   flex: none;
@@ -869,9 +926,22 @@
   bottom: 18px;
   left: 50%;
   transform: translateX(-50%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
   font-size: 12px;
   color: var(--muted);
   white-space: nowrap;
+}
+.boot-resume {
+  font: inherit;
+  font-weight: 800;
+  color: inherit;
+  background: transparent;
+  border: 1.5px solid currentColor;
+  border-radius: 999px;
+  padding: 6px 14px;
 }
 .boot-dark .boot-skip {
   color: var(--term-dim);
@@ -1026,3 +1096,4 @@
 .intro-selected button > span { font-size: 12px; color: var(--muted); }
 .win-buttons .copy-link { width: auto; height: auto; background: var(--paper); border-radius: 999px; padding: 3px 9px; font-size: 11px; white-space: nowrap; }
 @media (max-width: 1220px) { .desktop .now-note { display: none; } }
+

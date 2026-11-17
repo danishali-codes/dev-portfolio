@@ -6,9 +6,11 @@
 // screenshots and videos in that repo's portfolio/ folder (or the folder named
 // by "media"). They load straight from GitHub, so pushing a new screenshot to a
 // project's repo and redeploying this site is enough to show it.
+import { execFileSync } from 'node:child_process'
 import { cpSync, mkdirSync, readdirSync, readFileSync, rmSync, statSync, writeFileSync } from 'node:fs'
 import { extname, join, posix } from 'node:path'
 import { fileURLToPath } from 'node:url'
+import { sitemapUrls, sitemapXml } from './sitemap.mjs'
 
 const ROOT = fileURLToPath(new URL('..', import.meta.url))
 const CONTENT = join(ROOT, 'content')
@@ -219,11 +221,58 @@ async function walk(dir, path) {
   return meta ? { type: 'dir', name, path, children, meta } : { type: 'dir', name, path, children }
 }
 
+/** Newest commit time for a file or everything under a directory, from `git log`. */
+function gitLastmod() {
+  let raw = ''
+  try {
+    raw = execFileSync('git', ['log', '--format=%cI', '--name-only'], {
+      cwd: ROOT,
+      encoding: 'utf8',
+      stdio: ['ignore', 'pipe', 'ignore'],
+      maxBuffer: 16 * 1024 * 1024,
+    })
+  } catch {
+    return () => undefined
+  }
+  const newest = new Map()
+  let date
+  for (const line of raw.split('\n')) {
+    if (/^\d{4}-\d{2}-\d{2}T/.test(line)) {
+      date = line
+      continue
+    }
+    if (!line || !date || newest.has(line)) continue
+    newest.set(line, date)
+  }
+  return (spec) => {
+    const prefix = spec.endsWith('/') ? spec : `${spec}/`
+    let best
+    let bestMs = -Infinity
+    for (const [file, when] of newest) {
+      if (file !== spec && !file.startsWith(prefix)) continue
+      const ms = Date.parse(when)
+      if (ms > bestMs) {
+        bestMs = ms
+        best = when
+      }
+    }
+    return best
+  }
+}
+
 const tree = await walk(CONTENT, '/')
 mkdirSync(join(OUT_JSON, '..'), { recursive: true })
 writeFileSync(OUT_JSON, JSON.stringify(tree, null, 2))
 
+const sitemap = sitemapXml(sitemapUrls(tree, gitLastmod()))
+const locs = [...sitemap.matchAll(/<loc>([^<]*)<\/loc>/g)].map((match) => match[1])
+if (!locs.includes('https://danishali.dev/projects/university/nlp-and-llms/ledger') || locs.some((loc) => loc.includes('/trash') || loc.includes('/api/'))) {
+  throw new Error(`sitemap: unexpected urls (${locs.length})`)
+}
+writeFileSync(join(ROOT, 'public/sitemap.xml'), sitemap)
+
 const count = (node) => (node.meta ? 1 : 0) + (node.children ?? []).reduce((n, c) => n + count(c), 0)
 const media = (node) => (node.name === 'media' && node.type === 'dir' ? node.children.length : 0) + (node.children ?? []).reduce((n, c) => n + media(c), 0)
 console.log(`content: ${count(tree)} project folders, ${media(tree)} media files -> src/generated/fs.json`)
+console.log(`content: sitemap.xml ${locs.length} urls -> public/sitemap.xml`)
 if (saved) console.log(`content: WebP copies save ${(saved / 1024 / 1024).toFixed(1)} MB for image viewers`)

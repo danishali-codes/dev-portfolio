@@ -1,6 +1,7 @@
 import { create } from 'zustand'
 import { useTerm } from '../terminal/store'
 import { useWindows } from '../store/windows'
+import { applyRouteMeta } from './pages'
 
 /**
  * The machine's power state. The boot screen shows whenever `phase` isn't 'on'.
@@ -54,5 +55,6 @@ export function restart() {
   useWindows.setState({ windows: [], topZ: 1 })
   useTerm.setState({ lines: [], cwd: '/', handler: null, program: null })
   if (location.pathname !== '/') history.replaceState(null, '', '/')
+  applyRouteMeta()
   usePower.setState((s) => ({ phase: 'post', short: reducedMotion(), boots: s.boots + 1 }))
 }

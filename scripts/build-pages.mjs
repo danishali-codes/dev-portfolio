@@ -41,11 +41,11 @@ function walk(dir) {
 walk(tree)
 const trash = tree.children.find((c) => c.path === '/trash')
 if (trash) pages.push({ route: '/trash', title: 'Project archive · Danish Ali', description: 'Abandoned experiments and lessons from earlier projects.', text: readme(trash) })
-for (const [route, name, title] of [['/about', 'about.md', 'About'], ['/contact', 'cv.md', 'CV & contact'], ['/now', 'now.md', 'Now']]) {
+for (const [route, name, title] of [['/about', 'about.md', 'About'], ['/contact', 'cv.md', 'CV & contact'], ['/now', 'now.md', 'Now'], ['/uses', 'uses.md', 'Uses'], ['/resume', 'resume.md', 'Résumé']]) {
   const text = tree.children.find((c) => c.name === name)?.text ?? ''
   pages.push({ route, title: title + ' · Danish Ali', description: plain(text).slice(0, 160), text })
 }
-for (const [route, title] of [['/stats', 'Stats'], ['/terminal', 'Terminal'], ['/guestbook', 'Guestbook'], ['/updates', 'System Updates'], ['/wallpaper', 'Wallpaper']]) {
+for (const [route, title] of [['/ask', 'Ask Danish'], ['/stats', 'Stats'], ['/terminal', 'Terminal'], ['/guestbook', 'Guestbook'], ['/updates', 'System Updates'], ['/wallpaper', 'Wallpaper']]) {
   pages.push({ route, title: title + ' · Danish Ali', description: title + ' on Danish Ali’s interactive portfolio.', text: '# ' + title })
 }
 pages.find((p) => p.route === '/projects').text += '\n\n' + pages.filter((p) => p.route.startsWith('/projects/')).map((p) => '- [' + p.title.replace(' · Danish Ali', '') + '](' + p.route + ') — ' + p.description).join('\n')
@@ -99,7 +99,9 @@ for (const page of pages) {
     writeFileSync(alias, html)
   }
 }
+mkdirSync(join(out, 'simple'), { recursive: true })
+writeFileSync(join(out, 'simple/index.html'), readFileSync(join(out, 'resume/index.html')))
 mkdirSync(join(out, 'cv'), { recursive: true })
 writeFileSync(join(out, 'cv/index.html'), readFileSync(join(out, 'contact/index.html')))
-writeFileSync(join(out, 'sitemap.xml'), '<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">' + pages.map((p) => '<url><loc>' + origin + escape(p.route) + '</loc></url>').join('') + '</urlset>\n')
+writeFileSync(join(out, 'sitemap.xml'), readFileSync(join(root, 'public/sitemap.xml')))
 console.log('pages: ' + pages.length + ' HTML pages and social preview cards generated')

@@ -33,7 +33,7 @@ describe('shareable navigation', () => {
     expect(document.title).toContain('Danish Ali')
   })
   it('round trips contact, utility apps and media paths', () => {
-    for (const route of ['/contact', '/stats', '/terminal', '/guestbook', '/files/now.md']) {
+    for (const route of ['/contact', '/stats', '/ask', '/uses', '/resume', '/terminal', '/guestbook', '/files/now.md']) {
       const spec = specFromUrl(route)!
       expect(spec).toBeTruthy()
       expect(specFromUrl(routeFor(spec))).toEqual(spec)

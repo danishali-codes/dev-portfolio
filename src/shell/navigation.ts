@@ -3,13 +3,14 @@ import { specFor } from '../apps/spec'
 import type { OpenSpec } from '../store/windows'
 
 const SPECIAL: Record<string, OpenSpec> = {
+  '/ask': { kind: 'ask', title: 'Ask Danish' },
   '/terminal': { kind: 'terminal', title: 'Terminal' },
   '/stats': { kind: 'stats', title: 'Stats' },
   '/guestbook': { kind: 'guestbook', title: 'Guestbook' },
   '/updates': { kind: 'updates', title: 'System Updates' },
   '/wallpaper': { kind: 'wallpaper', title: 'Wallpaper' },
 }
-const DOCUMENTS: Record<string, string> = { '/about': '/about.md', '/now': '/now.md', '/cv': '/cv.md', '/contact': '/cv.md' }
+const DOCUMENTS: Record<string, string> = { '/uses': '/uses.md', '/resume': '/resume.md', '/about': '/about.md', '/now': '/now.md', '/cv': '/cv.md', '/contact': '/cv.md' }
 
 function shareableProjects() {
   const archive = getNode('/trash')
@@ -58,6 +59,7 @@ export function syncNavigation(spec?: OpenSpec) {
   const route = routeFor(spec)
   if (route !== location.pathname + location.search) {
     history.pushState({ paperosIndex: (history.state?.paperosIndex ?? 0) + 1 }, '', route)
+    window.dispatchEvent(new Event('paperos:navigation'))
   }
   updateMetadata(spec)
 }
