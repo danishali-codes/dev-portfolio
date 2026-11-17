@@ -29,6 +29,7 @@ export interface Commit {
 export interface Stats {
   builtAt: string
   github: {
+    fetchedAt?: Partial<Record<'profile' | 'contributions' | 'languages' | 'commits', string>>
     profile: { login: string; publicRepos: number; followers: number; since: string; stars: number } | null
     contributions: Contributions | null
     languages: { name: string; share: number }[] | null
@@ -48,11 +49,19 @@ export interface Visits {
 let stats: Promise<Stats | null> | undefined
 let visits: Promise<Visits | null> | undefined
 
-export function loadStats() {
-  stats ??= fetch('/stats.json')
-    .then((r) => (r.ok ? (r.json() as Promise<Stats>) : null))
-    .catch(() => null)
-  return stats
+let liveGithub: Promise<{ github: Stats['github'] } | null> | undefined
+export function loadStats(refresh = false): Promise<Stats | null> {
+  stats ??= fetch('/stats.json').then((r) => r.ok ? r.json() as Promise<Stats> : null).catch(() => null)
+  if (!refresh) return stats
+  const snapshot = stats
+  liveGithub ??= fetch('/api/github-stats').then((r) => r.ok ? r.json() as Promise<{ github: Stats['github'] }> : null).catch(() => null)
+  const live = liveGithub
+  return Promise.all([snapshot, live]).then(([previous, result]) => {
+    if (!result?.github) return previous
+    const merged = { ...(previous ?? { builtAt: '', itch: null, site: { commits: null, files: 0 } }), github: result.github }
+    stats = Promise.resolve(merged)
+    return merged
+  }).finally(() => { liveGithub = undefined })
 }
 
 export function loadVisits() {

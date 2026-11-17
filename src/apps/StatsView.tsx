@@ -72,14 +72,28 @@ function Languages({ langs }: { langs: { name: string; share: number }[] }) {
 
 export default function StatsView() {
   const [stats, setStats] = useState<Stats | null | undefined>()
+  const [refreshing, setRefreshing] = useState(false)
   const [visits, setVisits] = useState<Visits | null | undefined>()
   useEffect(() => {
-    loadStats().then(setStats)
-    loadVisits().then(setVisits)
+    let active = true
+    loadStats().then((value) => { if (active) setStats(value) })
+    const refreshGithub = () => { void loadStats(true).then((value) => { if (active) setStats(value) }) }
+    refreshGithub()
+    const timer = setInterval(() => { if (!document.hidden) refreshGithub() }, 3600_000)
+    loadVisits().then((value) => { if (active) setVisits(value) })
+    return () => { active = false; clearInterval(timer) }
   }, [])
 
   if (stats === undefined) return <div className="stats st-loading">reading counters…</div>
 
+  const refresh = async () => {
+    setRefreshing(true)
+    try { setStats(await loadStats(true)) } finally { setRefreshing(false) }
+  }
+  const fetched = (section: 'profile' | 'contributions' | 'languages' | 'commits') => {
+    const date = stats?.github.fetchedAt?.[section]
+    return date ? <time dateTime={date} title={new Date(date).toLocaleString()}>fetched {ago(date)}</time> : 'fetch date unavailable'
+  }
   const gh = stats?.github
   const c = gh?.contributions
   const fav = c && c.total ? c.weekday.indexOf(Math.max(...c.weekday)) : -1
@@ -90,11 +104,12 @@ export default function StatsView() {
     <div className="stats">
       <p className="st-prompt">
         <span>danish@dev</span> ~ $ stats{' '}
-        {stats && <span className="st-note">refreshed {ago(stats.builtAt)}, on every deploy</span>}
+        {stats?.builtAt && <span className="st-note">site snapshot {ago(stats.builtAt)}</span>}
+        <button type="button" className="pill" onClick={refresh} disabled={refreshing}>{refreshing ? 'Refreshing…' : 'Refresh stats'}</button>
       </p>
 
       {c ? (
-        <Section title="Contributions" note={c.exact ? `${c.total.toLocaleString()} in the last year` : 'the last year'}>
+        <Section title="Contributions" note={<>{c.exact ? `${c.total.toLocaleString()} in the last year` : 'the last year'} · {fetched('contributions')}</>}>
           <Heatmap c={c} />
           <dl className="st-rows">
             <Row label="current streak">{c.currentStreak ? `${c.currentStreak} day${c.currentStreak === 1 ? '' : 's'}` : 'resting'}</Row>
@@ -111,13 +126,13 @@ export default function StatsView() {
       ) : null}
 
       {gh?.languages?.length ? (
-        <Section title="Languages" note="by bytes across my public repos, notebooks left out">
+        <Section title="Languages" note={<>by bytes, notebooks left out · {fetched('languages')}</>}>
           <Languages langs={gh.languages} />
         </Section>
       ) : null}
 
       {gh?.commits?.length ? (
-        <Section title="Recent commits">
+        <Section title="Recent commits" note={fetched('commits')}>
           <ol className="st-log">
             {gh.commits.map((cm) => (
               <li key={cm.sha + cm.repo}>
@@ -165,7 +180,7 @@ export default function StatsView() {
           {stats?.site.commits ? <Row label="commits to build it">{stats.site.commits}</Row> : null}
           {gh?.profile && (
             <>
-              <Row label="public repos">{gh.profile.publicRepos}</Row>
+              <Row label="public repos">{gh.profile.publicRepos} <span className="st-note">{fetched('profile')}</span></Row>
               <Row label="on GitHub since">{new Date(gh.profile.since).getFullYear()}</Row>
             </>
           )}
@@ -173,7 +188,7 @@ export default function StatsView() {
         {visits && visits.visits > 0 && <p className="st-fine">Visits are counted without cookies or tracking: each page load only sends how long the tab was open.</p>}
       </Section>
 
-      {!c && !gh?.commits?.length && <p className="st-fine">GitHub couldn&apos;t be reached when this version was built, so its numbers will be back after the next deploy.</p>}
+      {!c && !gh?.commits?.length && <p className="st-fine">GitHub is temporarily unavailable. Try refreshing the stats in a few minutes.</p>}
     </div>
   )
 }

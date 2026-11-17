@@ -40,7 +40,7 @@ const SHADES = ['·', '░', '▒', '▓', '█']
 
 /** GitHub and site numbers, drawn in text. The same data as the Stats window. */
 async function printStats(print: Ctx['print']) {
-  const [stats, visits] = await Promise.all([loadStats(), loadVisits()])
+  const [stats, visits] = await Promise.all([loadStats(true), loadVisits()])
   const gh = stats?.github
   const c = gh?.contributions
   if (c) {

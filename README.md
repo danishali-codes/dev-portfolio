@@ -3,10 +3,10 @@
 The source for [danishali.dev](https://danishali.dev): my projects presented as a
 tiny operating system.
 
-- **Terminal mode.** The site opens on a desktop with a terminal in front. Type
+- **Terminal mode.** Open the Terminal icon from the desktop. Type
   `help`, `projects`, `open fuloos` or `play lockout`. Anything underlined is
   clickable if you'd rather not type.
-- **Desktop mode.** Close, minimise or `exit` the terminal to get the desktop,
+- **Desktop mode.** The site opens with an introduction and Selected work, About and Contact shortcuts,
   with a taskbar along the bottom (start menu, project search, open windows and
   the clock). Every project is a folder, and every file opens in its own window
   that you can drag, resize, minimise and maximise.
@@ -159,9 +159,9 @@ The Stats window (desktop icon, start menu, phone home screen or `stats -w`)
 shows a contribution heatmap and streaks, languages, recent commits, itch.io
 views and visits to this site.
 
-- **GitHub and itch.io numbers** are fetched once per deploy by
+- **The initial stats snapshot** is fetched once per deploy by
   `scripts/build-stats.mjs` into `public/stats.json`, so visitors never call
-  GitHub and no rate limit is reached from the browser. If a source fails during
+  GitHub directly. The Stats window also refreshes GitHub through\n  `api/github-stats.ts`, independently of deployments, with an hourly server/CDN\n  cache and a Refresh stats button. Fetch dates are tracked per GitHub section;\n  failed requests retain the previous data and its original date. If a source fails during
   a build, the numbers from the live site's `stats.json` are kept. Optional
   Vercel environment variables: `GITHUB_TOKEN` (a token with no scopes; exact
   counts and a higher rate limit) and `ITCH_API_KEY` (itch.io > Settings > API
@@ -246,7 +246,7 @@ caches the list for a minute. If the key ever leaks, run the script again with
   key or click skips it. `restart()` in `src/shell/power.ts` closes every window,
   resets the terminal and plays the full boot again (for a restart command).
 - After 30 seconds without input the screensaver starts (`src/desktop/Screensaver.tsx`).
-  It holds off while a video plays or a live demo has focus.
+  It holds off while a video plays, a live demo has focus, or the active window displays a document or PDF.
 - The wallpaper picker (start menu, `wallpaper`, or the phone's Wallpaper icon)
   offers seven backgrounds, each with a day and a night version that follow the
   theme. Images are in `public/wallpapers/`; credits and licences are in
@@ -287,7 +287,7 @@ and update the variable in Vercel.
 
 ## Deploying
 
-The site deploys to Vercel (`vercel.json` sends every route to the app so links
+The site deploys to Vercel (generated pages include metadata, while `vercel.json` sends file and secret routes to the app so links
 like `/projects/lockout` open that project's window). The domain's DNS stays on
 Cloudflare and points `danishali.dev` at Vercel.
 
@@ -296,3 +296,19 @@ Cloudflare and points `danishali.dev` at Vercel.
 - Read through the drafted write-ups in `content/` and put them in your own words.
 - Add the other projects (Pan, HomeHub, Actual Budget Import) once they have
   danishali.dev subdomains.
+
+## Sharing and search
+
+The taskbar searches every nested project, including individual games and university
+projects. Window navigation, focusing, closing and minimising update the address;
+browser Back/Forward restores the corresponding screen on desktop and phone.
+Each window has a Copy link button. A project's main URL opens its write-up;
+`?view=files` opens the folder, and `/files/...` links to individual media/files.
+Existing short URLs such as `/projects/ledger` remain supported.
+
+After Vite builds, `scripts/build-pages.mjs` creates standalone HTML metadata and
+1200×630 PNG social cards for every project and the existing document/utility
+pages. Nunito glyph outlines make the cards independent of system fonts.
+It also creates `dist/sitemap.xml`; `public/robots.txt` is copied into the output.
+Vercel excludes these files and generated page paths from the desktop fallback.
+No blog or publishing system is added.

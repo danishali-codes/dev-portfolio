@@ -1,5 +1,8 @@
+import Introduction from '../apps/Introduction'
+import CopyLink from '../apps/CopyLink'
+import { initialiseHistory, specFromUrl, syncNavigation } from '../shell/navigation'
 import { useEffect, useRef, useState } from 'react'
-import { findProject, findReadme, getNode, projects, TRASH_DIR } from '../fs'
+import { getNode, projects, TRASH_DIR } from '../fs'
 import type { FsNode } from '../fs/types'
 import Icon from '../apps/Icon'
 import { WindowContent } from '../apps/registry'
@@ -28,16 +31,20 @@ function StatusBar() {
 
 /** Phone UI: a home screen of app icons; every app opens full screen. */
 export default function Phone() {
-  // /projects/<name> opens that project's folder (and its README on top).
   const [stack, setStack] = useState<OpenSpec[]>(() => {
-    const cv = getNode('/cv.md')
-    if (cv && /^\/(cv|contact)\/?$/i.test(location.pathname)) return [specFor(cv)]
-    const match = location.pathname.match(/^\/projects\/([^/]+)/)
-    const project = match && findProject(decodeURIComponent(match[1]))
-    if (!project) return []
-    const readme = findReadme(project)
-    return readme ? [specFor(project), specFor(readme)] : [specFor(project)]
+    const spec = specFromUrl()
+    return spec ? [spec] : []
   })
+
+  useEffect(() => {
+    initialiseHistory()
+    const restore = () => {
+      const spec = specFromUrl()
+      setStack(spec ? [spec] : [])
+    }
+    window.addEventListener('popstate', restore)
+    return () => window.removeEventListener('popstate', restore)
+  }, [])
 
   useEffect(() => {
     registerOpener(
@@ -67,8 +74,9 @@ export default function Phone() {
     titleRef.current?.focus({ preventScroll: true })
   }, [depth])
 
-  const back = () => setStack((s) => s.slice(0, -1))
+  const back = () => history.state?.paperosIndex > 0 ? history.back() : setStack((s) => s.slice(0, -1))
   const current = stack[stack.length - 1]
+  useEffect(() => { syncNavigation(current) }, [current])
   const about = getNode('/about.md')
   const now = getNode('/now.md')
   const cv = getNode('/cv.md')
@@ -91,9 +99,9 @@ export default function Phone() {
             <h1 className="ph-app-title" ref={titleRef} tabIndex={-1}>
               {current.title}
             </h1>
-            <button type="button" className="ph-home-btn" onClick={() => setStack([])}>
+            <div className="ph-app-actions"><CopyLink spec={current} /><button type="button" className="ph-home-btn" onClick={() => setStack([])}>
               Home
-            </button>
+            </button></div>
           </header>
           <div className="ph-app-body">
             <WindowContent
@@ -111,15 +119,7 @@ export default function Phone() {
         </main>
       ) : (
         <main className="ph-home">
-          <div className="ph-hello">
-            <div className="ph-kicker">dev/portfolio</div>
-            <h1 ref={titleRef} tabIndex={-1}>
-              Hi, I&apos;m
-              <br />
-              Danish
-            </h1>
-            <p>Apps, games and the odd homelab tool</p>
-          </div>
+          <Introduction />
           <ul className="ph-grid">
             {projects().map((p) => (
               <Draggable as="li" key={p.path} id={`app:${p.name}`} stack>

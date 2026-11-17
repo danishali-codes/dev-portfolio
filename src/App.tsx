@@ -1,10 +1,6 @@
 import { useEffect, useState } from 'react'
-import { findProject, findReadme, getNode } from './fs'
-import { specFor } from './apps/spec'
 import Desktop from './desktop/Desktop'
 import Phone from './phone/Phone'
-import { usePower } from './shell/power'
-import { useWindows } from './store/windows'
 import Notepad, { AchievementToast } from './achievements/Notepad'
 import TakeoverLayer from './achievements/Takeover'
 
@@ -21,27 +17,8 @@ function usePhone() {
   return phone
 }
 
-/** First visit (and after a restart): terminal open. /projects/<name>: that project's folder and README open too; /cv or /contact: the CV window. */
-function openStartupWindows() {
-  const { windows, open } = useWindows.getState()
-  if (windows.length === 0) open({ kind: 'terminal', title: 'Terminal' })
-  const cv = getNode('/cv.md')
-  if (cv && /^\/(cv|contact)\/?$/i.test(location.pathname)) open(specFor(cv))
-  const match = location.pathname.match(/^\/projects\/([^/]+)/)
-  const project = match && findProject(decodeURIComponent(match[1]))
-  if (project) {
-    open(specFor(project))
-    const readme = findReadme(project)
-    if (readme) open(specFor(readme))
-  }
-}
-
 export default function App() {
   const phone = usePhone()
-  const boots = usePower((s) => s.boots)
-  useEffect(() => {
-    if (!phone) openStartupWindows()
-  }, [phone, boots])
   return (
     <>
       {phone ? <Phone /> : <Desktop />}

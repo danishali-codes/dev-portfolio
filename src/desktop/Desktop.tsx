@@ -1,5 +1,7 @@
+import Introduction from '../apps/Introduction'
+import DesktopNavigation from '../shell/DesktopNavigation'
 import { useCallback, useEffect, useRef, useState } from 'react'
-import { getNode, projects, TRASH_DIR } from '../fs'
+import { allProjects, getNode, projects, TRASH_DIR } from '../fs'
 import type { DirNode, FsNode } from '../fs/types'
 import { WindowContent } from '../apps/registry'
 import { specFor } from '../apps/spec'
@@ -140,7 +142,7 @@ function StartMenu({ onClose }: { onClose: () => void }) {
 function Search() {
   const [q, setQ] = useState('')
   const hits = q.trim()
-    ? projects().filter((p) =>
+    ? allProjects().filter((p) =>
         [p.name, p.meta?.name, p.meta?.tagline, ...(p.meta?.stack ?? [])].join(' ').toLowerCase().includes(q.trim().toLowerCase()),
       )
     : []
@@ -413,6 +415,7 @@ export default function Desktop() {
 
   return (
     <div className="desktop">
+      <DesktopNavigation />
       <Wallpaper />
       <SkyStar />
       <main
@@ -424,7 +427,7 @@ export default function Desktop() {
           setMenu({ x: e.clientX, y: e.clientY })
         }}
       >
-        <h1 className="sr-only">Danish Ali, dev portfolio</h1>
+        <Introduction />
         <ul
           className={`desk-icons${refreshing ? ' refreshing' : ''}`}
           key={refreshing}

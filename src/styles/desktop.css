@@ -1012,3 +1012,17 @@
   z-index: 99991;
 }
 
+
+/* Introduction stays visible until a visitor opens a window. */
+.portfolio-intro { position: relative; background: var(--paper); color: var(--ink); padding: 22px; border: var(--stroke) solid var(--ink); border-radius: var(--radius-lg); box-shadow: var(--shadow-sm); }
+.desktop .portfolio-intro { position: absolute; top: 28px; left: 260px; width: min(460px, calc(100% - 290px)); max-height: calc(100% - 100px); overflow: auto; }
+.intro-kicker { margin: 0 0 8px; font-size: 12px; color: var(--muted); }
+.portfolio-intro h1 { margin: 0; font-size: clamp(26px, 3vw, 38px); line-height: 1.15; }
+.portfolio-intro > p:not(.intro-kicker) { font-size: 15px; line-height: 1.6; }
+.intro-actions { display: flex; flex-wrap: wrap; gap: 8px; }
+.intro-selected { display: grid; gap: 8px; margin-top: 18px; }
+.intro-selected button { display: grid; text-align: left; gap: 3px; padding: 10px 12px; border: 1px solid var(--ink); border-radius: 12px; }
+.intro-selected button:hover { background: var(--chip); }
+.intro-selected button > span { font-size: 12px; color: var(--muted); }
+.win-buttons .copy-link { width: auto; height: auto; background: var(--paper); border-radius: 999px; padding: 3px 9px; font-size: 11px; white-space: nowrap; }
+@media (max-width: 1220px) { .desktop .now-note { display: none; } }
