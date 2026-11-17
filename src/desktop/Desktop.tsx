@@ -1,21 +1,25 @@
+import Introduction from '../apps/Introduction'
+import DesktopNavigation from '../shell/DesktopNavigation'
 import { useCallback, useEffect, useRef, useState } from 'react'
-import { getNode, projects, TRASH_DIR } from '../fs'
+import { allProjects, getNode, projects, TRASH_DIR } from '../fs'
 import type { DirNode, FsNode } from '../fs/types'
 import { WindowContent } from '../apps/registry'
 import { specFor } from '../apps/spec'
 import Icon from '../apps/Icon'
 import { formatUpdated, NOW_PATH, readNow } from '../apps/now'
-import { hasWallpaperPicker, openGuestbook, openNode, openStats, openTerminal, openUpdates, openWallpaperPicker, registerOpener, registerWallpaperPicker, viewSource, WALLPAPER_SPEC } from '../shell/opener'
+import { hasWallpaperPicker, openAsk, openGuestbook, openNode, openStats, openTerminal, openUpdates, openWallpaperPicker, registerOpener, registerWallpaperPicker, viewSource, WALLPAPER_SPEC } from '../shell/opener'
 import { useTheme } from '../shell/theme'
 import { topWindowId, useWindows, type Win } from '../store/windows'
 import { useLayout } from '../store/layout'
 import Boot from './Boot'
+import GuestNotes from './GuestNotes'
 import Draggable from './Draggable'
 import Screensaver from './Screensaver'
 import Wallpaper from './Wallpaper'
 import { Star } from '../achievements/Notepad'
 import { SkyStar } from '../achievements/SkyStar'
 import { restart, shutdown } from '../achievements/effects'
+import { setResume } from '../shell/plain'
 import Window from './Window'
 
 const GITHUB = 'https://github.com/danishali-codes'
@@ -121,6 +125,9 @@ function StartMenu({ onClose }: { onClose: () => void }) {
         <button type="button" className="pill" onClick={() => (openGuestbook(), onClose())}>
           Guestbook
         </button>
+        <button type="button" className="pill" onClick={() => (openAsk(), onClose())}>
+          Ask Danish
+        </button>
         <a className="pill" href={GITHUB} target="_blank" rel="noreferrer">
           GitHub
         </a>
@@ -140,7 +147,7 @@ function StartMenu({ onClose }: { onClose: () => void }) {
 function Search() {
   const [q, setQ] = useState('')
   const hits = q.trim()
-    ? projects().filter((p) =>
+    ? allProjects().filter((p) =>
         [p.name, p.meta?.name, p.meta?.tagline, ...(p.meta?.stack ?? [])].join(' ').toLowerCase().includes(q.trim().toLowerCase()),
       )
     : []
@@ -247,6 +254,9 @@ function Taskbar({ windows }: { windows: Win[] }) {
             </button>
           ))}
         </div>
+        <button type="button" className="tb-resume" onClick={() => setResume(true)}>
+          Résumé
+        </button>
         <button
           type="button"
           className="tb-theme"
@@ -413,6 +423,7 @@ export default function Desktop() {
 
   return (
     <div className="desktop">
+      <DesktopNavigation />
       <Wallpaper />
       <SkyStar />
       <main
@@ -424,7 +435,7 @@ export default function Desktop() {
           setMenu({ x: e.clientX, y: e.clientY })
         }}
       >
-        <h1 className="sr-only">Danish Ali, dev portfolio</h1>
+        <Introduction />
         <ul
           className={`desk-icons${refreshing ? ' refreshing' : ''}`}
           key={refreshing}
@@ -442,6 +453,7 @@ export default function Desktop() {
           {trash && <DeskIcon node={trash} label="trash" onOpen={() => openNode(trash)} />}
         </ul>
         <NowNote />
+        <GuestNotes />
         {windows.length === 0 && <p className="desk-hint">Double-click a folder (or select it and press Enter) to open it. The dev/portfolio button opens the start menu.</p>}
         {windows.map((w) => (
           <Window key={w.id} win={w} active={w.id === top}>
@@ -489,4 +501,5 @@ export default function Desktop() {
     </div>
   )
 }
+
 

@@ -37,19 +37,20 @@ describe('sitemap', () => {
   it('lists the routes that open windows and skips trash', () => {
     expect(locs).toEqual([
       'https://danishali.dev/',
-      'https://danishali.dev/cv',
+      'https://danishali.dev/projects',
+      'https://danishali.dev/about',
       'https://danishali.dev/contact',
       'https://danishali.dev/now',
       'https://danishali.dev/uses',
+      'https://danishali.dev/resume',
       'https://danishali.dev/projects/fuloos',
       'https://danishali.dev/projects/university',
-      'https://danishali.dev/projects/ledger',
-      'https://danishali.dev/projects/bank%20%26%20sms',
+      'https://danishali.dev/projects/university/ledger',
     ])
     expect(xml).not.toContain('/trash')
     expect(xml).not.toContain('/api/')
     expect(xml).toContain('<lastmod>2026-05-01T00:00:00Z</lastmod>')
-    expect(xml.match(/<lastmod>/g)).toHaveLength(2)
+    expect(xml.match(/<lastmod>/g)).toHaveLength(1)
   })
 })
 
@@ -61,10 +62,10 @@ describe('static seo files', () => {
     const robots = readFileSync('public/robots.txt', 'utf8')
     expect(robots).toBe('User-agent: *\nAllow: /\nDisallow: /api/\n\nSitemap: https://danishali.dev/sitemap.xml\n')
     expect(robots).not.toMatch(/<html/i)
-    for (const path of ['/robots.txt', '/sitemap.xml', '/api/guestbook', '/fs/a', '/assets/a', '/favicon.svg', '/stats.json']) {
+    for (const path of ['/robots.txt', '/sitemap.xml', '/api/guestbook', '/fs/a', '/assets/a', '/favicon.svg', '/stats.json', '/cv', '/contact', '/now', '/uses', '/resume', '/simple', '/projects/ledger', '/about', '/og/home.png']) {
       expect(rewrite.test(path)).toBe(false)
     }
-    for (const path of ['/', '/cv', '/contact', '/now', '/uses', '/projects/ledger']) {
+    for (const path of ['/', '/files/about.md', '/found/headers', '/wp-admin']) {
       expect(rewrite.test(path)).toBe(true)
     }
   })

@@ -1,4 +1,5 @@
 import { useEffect, useRef, type PointerEvent as RPointerEvent, type ReactNode } from 'react'
+import CopyLink from '../apps/CopyLink'
 import { focusTopWindow } from '../shell/focus'
 import { useWindows, type Win } from '../store/windows'
 
@@ -91,6 +92,7 @@ export default function Window({ win, active, children }: { win: Win; active: bo
           {win.title}
         </span>
         <div className="win-buttons">
+          <CopyLink spec={win} />
           <button type="button" className="b-min" onClick={() => handOff(() => minimize(win.id))} aria-label={`Minimise ${win.title}`} title="Minimise">
             –
           </button>

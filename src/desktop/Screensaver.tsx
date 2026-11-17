@@ -7,6 +7,8 @@ const reducedMotion = () => window.matchMedia?.('(prefers-reduced-motion: reduce
 
 /** Things that count as someone still being here even with no input on the page. */
 function busy() {
+  // Reading takes time without pointer or keyboard input.
+  if (document.querySelector('.win.active:not([hidden]) article, .win.active:not([hidden]) .pdfview, .ph-app article, .ph-app .pdfview')) return true
   // Typing or clicking inside a live demo happens in its iframe, where the page can't see it.
   if (document.activeElement?.tagName === 'IFRAME') return true
   // Nobody wants a screensaver over the video they are watching.

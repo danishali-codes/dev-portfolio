@@ -85,6 +85,46 @@
   background: var(--peach);
   transition: width 400ms ease;
 }
+.np-badge {
+  display: grid;
+  gap: 6px;
+  margin: 8px 0;
+}
+.np-badge label {
+  display: grid;
+  gap: 2px;
+  font-size: 11px;
+  font-weight: 800;
+}
+.np-badge input {
+  font: inherit;
+  font-weight: 600;
+  padding: 4px 6px;
+  border: var(--stroke) solid var(--ink);
+  border-radius: 8px;
+  background: #fff;
+  color: inherit;
+}
+.np-badge-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+}
+.np-badge-row button {
+  font-size: 11px;
+  font-weight: 800;
+  padding: 3px 8px;
+  border-radius: 999px;
+  background: var(--ink);
+  color: var(--paper);
+}
+.np-badge-note {
+  margin: 0;
+  font-size: 11px;
+}
+.np-found .np-badge {
+  margin-top: 4px;
+}
 .np-done {
   margin: 0 0 8px;
   font-weight: 800;

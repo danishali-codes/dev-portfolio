@@ -2,7 +2,7 @@ import { displayPath, findApp, findProject, getNode, projects, resolvePath, root
 import type { DirNode, FsNode } from '../fs/types'
 import { ago, duration, level, loadStats, loadVisits, weeks } from '../apps/stats'
 import { formatUpdated, NOW_PATH, readNow } from '../apps/now'
-import { openGuestbook, openNode, openStats, openUpdates, openWallpaperPicker, SOURCE_URL } from '../shell/opener'
+import { openAsk, openGuestbook, openNode, openStats, openUpdates, openWallpaperPicker, SOURCE_URL } from '../shell/opener'
 import { setTheme } from '../shell/theme'
 import { contact, CV_PATH, localTime } from '../shell/contact'
 import { startScreensaver } from '../shell/screensaver'
@@ -40,7 +40,7 @@ const SHADES = ['·', '░', '▒', '▓', '█']
 
 /** GitHub and site numbers, drawn in text. The same data as the Stats window. */
 async function printStats(print: Ctx['print']) {
-  const [stats, visits] = await Promise.all([loadStats(), loadVisits()])
+  const [stats, visits] = await Promise.all([loadStats(true), loadVisits()])
   const gh = stats?.github
   const c = gh?.contributions
   if (c) {
@@ -270,6 +270,14 @@ export const COMMANDS: Record<string, Command> = {
     desc: "this site's source code",
     run: (_a, { print }) => print([txt('Source: ', 'dim'), { t: SOURCE_URL.replace('https://', ''), href: SOURCE_URL }]),
   },
+  ask: {
+    desc: 'ask about the projects',
+    usage: 'ask [question]',
+    run: (args, { print }) => {
+      openAsk(args.join(' ').trim() || undefined)
+      print([txt('opening Ask Danish', 'dim')])
+    },
+  },
   guestbook: {
     desc: 'leave me a note',
     run: (_a, { print }) => {
@@ -385,3 +393,4 @@ export function complete(input: string, cwd: string): string {
 export { WELCOME } from './lines'
 
 export { root }
+

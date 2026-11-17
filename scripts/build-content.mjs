@@ -266,7 +266,7 @@ writeFileSync(OUT_JSON, JSON.stringify(tree, null, 2))
 
 const sitemap = sitemapXml(sitemapUrls(tree, gitLastmod()))
 const locs = [...sitemap.matchAll(/<loc>([^<]*)<\/loc>/g)].map((match) => match[1])
-if (!locs.includes('https://danishali.dev/projects/ledger') || locs.some((loc) => loc.includes('/trash') || loc.includes('/api/'))) {
+if (!locs.includes('https://danishali.dev/projects/university/nlp-and-llms/ledger') || locs.some((loc) => loc.includes('/trash') || loc.includes('/api/'))) {
   throw new Error(`sitemap: unexpected urls (${locs.length})`)
 }
 writeFileSync(join(ROOT, 'public/sitemap.xml'), sitemap)
