@@ -102,8 +102,8 @@
   padding: 4px 6px;
   border: var(--stroke) solid var(--ink);
   border-radius: 8px;
-  background: #fff;
-  color: inherit;
+  background: var(--paper);
+  color: var(--ink);
 }
 .np-badge-row {
   display: flex;
