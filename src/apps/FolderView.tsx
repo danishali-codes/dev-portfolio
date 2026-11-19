@@ -64,7 +64,7 @@ export default function FolderView({ path, onNavigate, singleClick = false }: Pr
         </p>
       )}
       <ul className="folder-grid" ref={gridRef} aria-label={`Files in ${parts[parts.length - 1] ?? 'home'}`}>
-        {node.children.map((c) => (
+        {node.children.filter((c) => c.name !== 'project.json').map((c) => (
           <li key={c.path}>
             <button
               type="button"

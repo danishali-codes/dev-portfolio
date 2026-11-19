@@ -67,14 +67,25 @@ const SINGLETONS = new Set<WindowKind>(['terminal', 'guestbook', 'stats', 'updat
 
 const TASKBAR = 54
 const STEP = 32
+/** Width of the two columns of desktop icons on the left. */
+const ICON_ZONE = 240
+/** Narrowest a window gets to stay clear of the icons. */
+const MIN_CLEAR_WIDTH = 460
 
 /** Centred, or cascaded down and right from the window on top so its title bar stays visible. */
 function place(w: number, h: number, below?: Win) {
   const vw = window.innerWidth
   const vh = window.innerHeight - TASKBAR
-  const width = Math.min(w, vw - 24)
+  // On small laptops and tablets, keep new windows clear of the desktop icons when there is room,
+  // so the desktop stays visible behind the first window instead of being covered.
+  const left = vw >= 760 ? ICON_ZONE : 12
+  let width = Math.min(w, vw - 24)
+  if ((vw - width) / 2 < left) width = Math.min(width, Math.max(vw - left - 12, Math.min(w, MIN_CLEAR_WIDTH)))
   const height = Math.min(h, vh - 24)
-  const centred = { x: Math.max(12, Math.round((vw - width) / 2)), y: Math.max(12, Math.round((vh - height) / 2)) }
+  const centred = {
+    x: Math.max(12, Math.round((vw - width) / 2), Math.min(left, vw - width - 12)),
+    y: Math.max(12, Math.round((vh - height) / 2)),
+  }
   if (below) {
     const x = below.x + STEP
     const y = below.y + STEP

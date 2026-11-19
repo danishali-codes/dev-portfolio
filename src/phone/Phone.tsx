@@ -1,8 +1,8 @@
 import CopyLink from '../apps/CopyLink'
 import { initialiseHistory, notFoundSpec, specFromUrl, syncNavigation } from '../shell/navigation'
 import { useEffect, useRef, useState } from 'react'
-import { getNode, projects, TRASH_DIR } from '../fs'
-import type { FsNode } from '../fs/types'
+import { findReadme, getNode, projects, TRASH_DIR } from '../fs'
+import type { DirNode, FsNode } from '../fs/types'
 import Icon from '../apps/Icon'
 import { WindowContent } from '../apps/registry'
 import { specFor } from '../apps/spec'
@@ -11,6 +11,7 @@ import Boot from '../desktop/Boot'
 import Draggable from '../desktop/Draggable'
 import Wallpaper from '../desktop/Wallpaper'
 import type { OpenSpec } from '../store/windows'
+import { useLayout } from '../store/layout'
 import { SkyStar } from '../achievements/SkyStar'
 import { Star } from '../achievements/Notepad'
 
@@ -26,6 +27,12 @@ function StatusBar() {
       <span>danishali.dev</span>
     </div>
   )
+}
+
+/** A tapped project opens its write-up; a collection (Games, University) opens its folder of projects. */
+function landingFor(p: DirNode): FsNode {
+  const collection = p.children.some((c) => c.type === 'dir' && c.meta)
+  return collection ? p : findReadme(p) ?? p
 }
 
 /** Phone UI: a home screen of app icons; every app opens full screen. */
@@ -82,6 +89,11 @@ export default function Phone() {
   const files = getNode('/projects')
   const trash = getNode(TRASH_DIR)
   const open = (spec: OpenSpec) => setStack((s) => [...s, spec])
+  const moved = useLayout((s) => Object.keys(s.offsets).some((id) => id.startsWith('app:')))
+  const resetIcons = () => {
+    const { offsets, setOffset } = useLayout.getState()
+    for (const id of Object.keys(offsets)) if (id.startsWith('app:')) setOffset(id, { x: 0, y: 0 })
+  }
 
   return (
     <div className="phone">
@@ -122,6 +134,11 @@ export default function Phone() {
             <div className="ph-kicker">dev/portfolio</div>
             <h1 ref={titleRef} tabIndex={-1}>Hi, I’m Danish.</h1>
             <p>Apps, games and the odd homelab tool</p>
+            {moved && (
+              <button type="button" className="pill ph-reset" onClick={resetIcons}>
+                Put icons back
+              </button>
+            )}
           </div>
           <ul className="ph-grid">
             <Draggable as="li" id="app:welcome" stack>
@@ -132,7 +149,7 @@ export default function Phone() {
             </Draggable>
             {projects().map((p) => (
               <Draggable as="li" key={p.path} id={`app:${p.name}`} stack>
-                <button type="button" onClick={() => open(specFor(p))}>
+                <button type="button" onClick={() => open(specFor(landingFor(p)))}>
                   <span className="ic ic-xl ic-tile ic-app" style={{ ['--ic-color' as string]: p.meta?.color }} aria-hidden="true">
                     {(p.meta?.name ?? p.name).slice(0, 1).toUpperCase()}
                   </span>
