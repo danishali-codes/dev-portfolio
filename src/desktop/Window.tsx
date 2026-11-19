@@ -1,12 +1,27 @@
+import { createPortal } from 'react-dom'
 import { useEffect, useRef, useState, type PointerEvent as RPointerEvent, type ReactNode } from 'react'
 import CopyLink from '../apps/CopyLink'
 import { focusTopWindow } from '../shell/focus'
 import { useWindows, type Win } from '../store/windows'
 
 type Edge = 'move' | 'e' | 's' | 'se' | 'w' | 'sw'
+type SnapZone = 'left' | 'right' | 'max' | null
+
+/** How close to a screen edge the pointer has to be to snap. */
+const EDGE = 8
+
+function zoneAt(x: number, y: number): SnapZone {
+  if (window.innerWidth < 760) return null
+  if (x <= EDGE) return 'left'
+  if (x >= window.innerWidth - EDGE) return 'right'
+  if (y <= EDGE / 2) return 'max'
+  return null
+}
 
 export default function Window({ win, active, children }: { win: Win; active: boolean; children: ReactNode }) {
-  const { focus, close, minimize, toggleMaximize, setBounds } = useWindows()
+  const { focus, close, minimize, toggleMaximize, setBounds, snap, unsnap } = useWindows()
+  // Where a dragged window would land if let go now: a screen edge snaps it.
+  const [zone, setZone] = useState<SnapZone>(null)
   const ref = useRef<HTMLElement>(null)
   const drag = useRef<{ edge: Edge; sx: number; sy: number; x: number; y: number; w: number; h: number } | null>(null)
   // A live app restored minimised from the last visit waits until it is first shown before loading.
@@ -53,6 +68,15 @@ export default function Window({ win, active, children }: { win: Win; active: bo
     const minW = 320
     const minH = 200
     if (d.edge === 'move') {
+      // Dragging a snapped window away from its edge gives it back its old size, under the pointer.
+      if (win.restore && Math.hypot(dx, dy) > 6) {
+        const r = win.restore
+        const x = e.clientX - (r.w * (e.clientX - d.x)) / d.w
+        drag.current = { ...d, x, w: r.w, h: r.h }
+        unsnap(win.id)
+        return setBounds(win.id, { x, y: d.y + dy })
+      }
+      setZone(zoneAt(e.clientX, e.clientY))
       const maxX = window.innerWidth - 80
       const maxY = window.innerHeight - 54 - 60
       return setBounds(win.id, { x: Math.min(maxX, Math.max(-d.w + 80, d.x + dx)), y: Math.min(maxY, Math.max(0, d.y + dy)) })
@@ -68,7 +92,14 @@ export default function Window({ win, active, children }: { win: Win; active: bo
     setBounds(win.id, b)
   }
 
-  const end = () => (drag.current = null)
+  const end = () => {
+    if (drag.current?.edge === 'move' && zone) {
+      if (zone === 'max') toggleMaximize(win.id)
+      else snap(win.id, zone)
+    }
+    drag.current = null
+    setZone(null)
+  }
   const handle = (edge: Edge) => ({ onPointerDown: start(edge), onPointerMove: move, onPointerUp: end, onPointerCancel: end })
 
   const style = win.maximized
@@ -90,6 +121,17 @@ export default function Window({ win, active, children }: { win: Win; active: bo
         if (e.altKey && (e.key === 'w' || e.key === 'W')) {
           e.preventDefault()
           handOff(() => close(win.id))
+        }
+        // Ctrl+Alt+arrows: snap left or right, maximise, or go back to the old size.
+        if (e.ctrlKey && e.altKey && e.key.startsWith('Arrow')) {
+          e.preventDefault()
+          if (e.key === 'ArrowLeft') snap(win.id, 'left')
+          if (e.key === 'ArrowRight') snap(win.id, 'right')
+          if (e.key === 'ArrowUp' && !win.maximized) toggleMaximize(win.id)
+          if (e.key === 'ArrowDown') {
+            if (win.maximized) toggleMaximize(win.id)
+            else unsnap(win.id)
+          }
         }
       }}
       aria-labelledby={`${win.id}-title`}
@@ -114,6 +156,7 @@ export default function Window({ win, active, children }: { win: Win; active: bo
           </button>
         </div>
       </header>
+      {zone && createPortal(<div className={`snap-preview snap-${zone}`} aria-hidden="true" />, document.body)}
       <div className="win-body">{shown || win.kind !== 'app' ? children : null}</div>
       {!win.maximized && (
         <>

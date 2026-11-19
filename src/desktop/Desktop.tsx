@@ -17,6 +17,8 @@ import Window from './Window'
 import Taskbar from './Taskbar'
 import ContextMenu from './ContextMenu'
 import { DeskIcon, NowNote } from './DeskIcons'
+import Spotlight from './Spotlight'
+import WindowSwitcher from './WindowSwitcher'
 
 export default function Desktop() {
   const { windows, open, close, update, fitAll, resetLayout } = useWindows()
@@ -123,6 +125,8 @@ export default function Desktop() {
         />
       )}
       <Taskbar windows={windows} />
+      <Spotlight />
+      <WindowSwitcher />
       <Screensaver />
       <Boot />
     </div>

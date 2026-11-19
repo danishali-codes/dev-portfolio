@@ -21,6 +21,8 @@ export interface Win {
   z: number
   minimized: boolean
   maximized: boolean
+  /** Set while snapped to half the screen: the size to go back to. */
+  restore?: { w: number; h: number }
 }
 
 export type OpenSpec = Pick<Win, 'kind' | 'title'> & Partial<Pick<Win, 'path' | 'url' | 'color' | 'w' | 'h'>>
@@ -35,6 +37,10 @@ interface WindowState {
   toggleMaximize: (id: string) => void
   setBounds: (id: string, b: Partial<Pick<Win, 'x' | 'y' | 'w' | 'h'>>) => void
   update: (id: string, patch: Partial<Win>) => void
+  /** Fill the left or right half of the screen. */
+  snap: (id: string, side: 'left' | 'right') => void
+  /** Leave a half-screen snap, back to the size from before. */
+  unsnap: (id: string) => void
   /** Put every window back at its default size, cascaded from the centre, in its current stacking order. */
   resetLayout: () => void
   /** Keep every window reachable after the viewport changes size. */
@@ -159,6 +165,22 @@ export const useWindows = create<WindowState>()(
       setBounds: (id, b) => set({ windows: get().windows.map((w) => (w.id === id ? { ...w, ...b } : w)) }),
 
       update: (id, patch) => set({ windows: get().windows.map((w) => (w.id === id ? { ...w, ...patch } : w)) }),
+
+      snap: (id, side) =>
+        set({
+          windows: get().windows.map((w) => {
+            if (w.id !== id) return w
+            const vw = window.innerWidth
+            const h = window.innerHeight - TASKBAR
+            const width = Math.round(vw / 2)
+            return { ...w, x: side === 'left' ? 0 : vw - width, y: 0, w: width, h, maximized: false, minimized: false, restore: w.restore ?? { w: w.w, h: w.h } }
+          }),
+        }),
+
+      unsnap: (id) =>
+        set({
+          windows: get().windows.map((w) => (w.id === id && w.restore ? { ...w, ...fit({ ...w, ...w.restore }), restore: undefined } : w)),
+        }),
 
       resetLayout: () => {
         const placed: Win[] = []

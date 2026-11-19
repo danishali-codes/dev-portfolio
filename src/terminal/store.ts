@@ -23,6 +23,8 @@ interface TermState {
   handler: InputHandler | null
   program: Program | null
   skin: Skin
+  /** A command another part of the desktop (Spotlight) asked the terminal to run when it opens. */
+  queued: string | null
   push: (...l: Line[]) => void
   clear: () => void
   setCwd: (p: string) => void
@@ -30,6 +32,7 @@ interface TermState {
   capture: (h: InputHandler | null) => void
   launch: (p: Program | null) => void
   setSkin: (s: Skin) => void
+  queue: (cmd: string | null) => void
 }
 
 // Lives outside the window so closing and reopening the terminal keeps its scrollback.
@@ -40,6 +43,7 @@ export const useTerm = create<TermState>()((set) => ({
   handler: null,
   program: null,
   skin: 'green',
+  queued: null,
   push: (...l) => set((s) => ({ lines: [...s.lines, ...l].slice(-500) })),
   clear: () => set({ lines: [] }),
   setCwd: (cwd) => set({ cwd }),
@@ -47,6 +51,7 @@ export const useTerm = create<TermState>()((set) => ({
   capture: (handler) => set({ handler }),
   launch: (program) => set({ program }),
   setSkin: (skin) => set({ skin }),
+  queue: (queued) => set({ queued }),
 }))
 
 /** Print from a timer, after the command that started it has returned. */

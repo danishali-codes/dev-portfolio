@@ -1111,3 +1111,336 @@
 .notfound h1 { margin: 0 0 6px; font-size: 24px; }
 .notfound p { margin: 0 0 16px; color: var(--muted); line-height: 1.55; }
 .notfound-actions { display: flex; flex-wrap: wrap; gap: 8px; }
+
+/* ---------- Spotlight (Ctrl+K) ---------- */
+.tb-kbd {
+  flex: none;
+  padding: 2px 7px;
+  border-radius: 7px;
+  border: 1px solid var(--chip-line);
+  background: var(--paper);
+  color: var(--muted);
+  font-size: 11px;
+  font-weight: 700;
+  white-space: nowrap;
+}
+.tb-kbd:hover {
+  color: var(--ink);
+}
+.spotlight-scrim {
+  position: fixed;
+  inset: 0;
+  z-index: 100003;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  padding: 12vh 16px 16px;
+  background: rgb(42 38 34 / 0.18);
+}
+.spotlight {
+  width: min(600px, 100%);
+  background: var(--paper);
+  border: var(--stroke) solid var(--ink);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow);
+  overflow: hidden;
+  animation: win-open 120ms ease-out;
+}
+.spotlight-field {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 14px 18px;
+  font-size: 18px;
+  color: var(--muted);
+  border-bottom: var(--stroke) solid var(--chip-line);
+}
+.spotlight-field input {
+  flex: 1;
+  min-width: 0;
+  border: 0;
+  background: transparent;
+  font: inherit;
+  font-weight: 700;
+  color: var(--ink);
+  outline: none;
+}
+.spotlight-field kbd {
+  font: 700 11px var(--font-ui);
+  padding: 2px 7px;
+  border-radius: 7px;
+  border: 1px solid var(--chip-line);
+}
+.spotlight-list {
+  list-style: none;
+  margin: 0;
+  padding: 6px;
+  max-height: min(420px, 55vh);
+  overflow: auto;
+}
+.spotlight-list li[role='option'] {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 9px 12px;
+  border-radius: 12px;
+  cursor: pointer;
+}
+.spotlight-list li.on {
+  background: var(--chip);
+  outline: 2px solid var(--ink);
+  outline-offset: -2px;
+}
+.spot-glyph {
+  font: 700 12px var(--font-mono);
+  width: 22px;
+  text-align: center;
+}
+.spot-label {
+  font-weight: 800;
+  white-space: nowrap;
+}
+.spot-detail {
+  flex: 1;
+  min-width: 0;
+  color: var(--muted);
+  font-size: 12px;
+  font-weight: 600;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.spot-kind {
+  margin-left: auto;
+  flex: none;
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--muted);
+}
+.spotlight-none,
+.spotlight-hint {
+  margin: 0;
+  padding: 12px 18px;
+  color: var(--muted);
+  font-size: 13px;
+}
+
+/* ---------- Calendar (behind the clock) ---------- */
+button.tb-clock {
+  border-radius: 12px;
+  padding: 4px 8px;
+}
+button.tb-clock:hover {
+  background: var(--chip);
+}
+.calendar {
+  position: absolute;
+  right: 12px;
+  bottom: calc(var(--taskbar-h) + 10px);
+  z-index: 100001;
+  width: 320px;
+  max-height: calc(100vh - var(--taskbar-h) - 24px);
+  overflow: auto;
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  background: var(--paper);
+  border: var(--stroke) solid var(--ink);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow);
+  animation: win-open 140ms ease-out;
+}
+.cal-nav {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-weight: 800;
+}
+.cal-grid {
+  width: 100%;
+  border-collapse: collapse;
+  text-align: center;
+  font-size: 13px;
+}
+.cal-grid th {
+  padding-bottom: 4px;
+  font-size: 11px;
+  color: var(--muted);
+}
+.cal-grid td {
+  padding: 1px;
+}
+.cal-grid td > * {
+  width: 34px;
+  height: 30px;
+  margin: 0 auto;
+  display: grid;
+  place-items: center;
+  border-radius: 10px;
+  font-weight: 700;
+}
+.cal-grid button:hover {
+  background: var(--chip);
+}
+.cal-today {
+  background: var(--ink);
+  color: var(--paper);
+}
+.cal-grid button.cal-today:hover {
+  background: var(--ink);
+}
+.cal-update {
+  box-shadow: inset 0 -3px 0 var(--mint);
+}
+.cal-jam {
+  box-shadow: inset 0 -3px 0 var(--peach);
+}
+.cal-picked {
+  outline: 2px solid var(--ink);
+}
+.cal-events {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+.cal-events button,
+.cal-year button {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 8px;
+  border-radius: 10px;
+  text-align: left;
+  font-size: 13px;
+  font-weight: 700;
+}
+.cal-events button:hover,
+.cal-year button:hover {
+  background: var(--chip);
+}
+.cal-dot {
+  flex: none;
+  display: inline-block;
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  vertical-align: middle;
+}
+.cal-dot-jam {
+  background: var(--peach);
+}
+.cal-dot-update {
+  background: var(--mint);
+}
+.cal-legend {
+  margin: 0;
+  display: flex;
+  gap: 14px;
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--muted);
+}
+.cal-timeline {
+  border-top: var(--stroke) solid var(--chip-line);
+  padding-top: 8px;
+}
+.cal-year {
+  display: grid;
+  grid-template-columns: 44px 1fr;
+  align-items: start;
+}
+.cal-year-n {
+  padding-top: 6px;
+  font-weight: 800;
+  font-size: 13px;
+}
+.cal-year ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+.cal-jam-name {
+  margin-left: auto;
+  font-size: 11px;
+  color: var(--muted);
+  font-weight: 600;
+  text-align: right;
+}
+
+/* ---------- Window snapping and the Alt+` switcher ---------- */
+.snap-preview {
+  position: fixed;
+  z-index: 99999;
+  top: 6px;
+  bottom: calc(var(--taskbar-h) + 6px);
+  border: 2px dashed var(--ink);
+  border-radius: var(--radius);
+  background: rgb(124 201 160 / 0.18);
+  pointer-events: none;
+}
+.snap-left {
+  left: 6px;
+  right: calc(50% + 3px);
+}
+.snap-right {
+  left: calc(50% + 3px);
+  right: 6px;
+}
+.snap-max {
+  left: 6px;
+  right: 6px;
+}
+.switcher {
+  position: fixed;
+  z-index: 100003;
+  top: 50%;
+  left: 50%;
+  translate: -50% -50%;
+  width: min(420px, calc(100vw - 32px));
+  padding: 10px;
+  background: var(--paper);
+  border: var(--stroke) solid var(--ink);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow);
+}
+.switcher-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 9px 12px;
+  border-radius: 12px;
+  font-weight: 700;
+}
+.switcher-item.on {
+  background: var(--ic-color, var(--chip));
+  color: var(--on-pastel);
+  outline: 2px solid var(--ink);
+  outline-offset: -2px;
+}
+.switcher-title {
+  flex: 1;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.switcher-min {
+  font-size: 11px;
+  opacity: 0.75;
+}
+.switcher-hint {
+  margin: 6px 12px 2px;
+  font-size: 11px;
+  color: var(--muted);
+}
+.cal-year .sm-swatch,
+.cal-events .sm-swatch {
+  width: 12px;
+  height: 12px;
+  border-radius: 4px;
+}

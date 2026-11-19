@@ -69,4 +69,20 @@ describe('windows store', () => {
     const ids = useWindows.getState().windows.map((w) => w.id)
     expect(ids).toEqual(['w1', 'w2'])
   })
+
+  it('snaps to half the screen and goes back to the old size', () => {
+    const id = useWindows.getState().open({ kind: 'markdown', path: '/about.md', title: 'about.md' })
+    const before = useWindows.getState().windows[0]
+    useWindows.getState().snap(id, 'right')
+    let w = useWindows.getState().windows[0]
+    expect(w).toMatchObject({ x: 640, y: 0, w: 640, h: 800 - 54, restore: { w: before.w, h: before.h } })
+    // Snapping again to the other side keeps the original size to go back to.
+    useWindows.getState().snap(id, 'left')
+    w = useWindows.getState().windows[0]
+    expect(w).toMatchObject({ x: 0, restore: { w: before.w, h: before.h } })
+    useWindows.getState().unsnap(id)
+    w = useWindows.getState().windows[0]
+    expect(w.restore).toBeUndefined()
+    expect([w.w, w.h]).toEqual([before.w, before.h])
+  })
 })

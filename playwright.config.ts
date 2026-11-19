@@ -9,7 +9,7 @@ export default defineConfig({
   use: { baseURL: 'http://localhost:4173', trace: 'off' },
   webServer: { command: 'npx vite preview --port 4173 --strictPort', url: 'http://localhost:4173', reuseExistingServer: !process.env.CI },
   projects: [
-    { name: 'desktop', use: { ...devices['Desktop Chrome'], viewport: { width: 1280, height: 800 } }, testMatch: /desktop\.spec/ },
+    { name: 'desktop', use: { ...devices['Desktop Chrome'], viewport: { width: 1280, height: 800 } }, testMatch: /(desktop|features)\.spec/ },
     { name: 'phone', use: { ...devices['Pixel 7'] }, testMatch: /phone\.spec/ },
   ],
 })
