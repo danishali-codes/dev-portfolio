@@ -29,3 +29,5 @@ public/fs/
 public/stats.json
 public/sitemap.xml
 api/_generated/
+test-results/
+playwright-report/
