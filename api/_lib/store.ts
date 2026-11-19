@@ -40,6 +40,8 @@ const pbDate = (ms: number) => new Date(ms).toISOString().replace('T', ' ')
 async function pb<T>(collection: string, path = '', init: RequestInit = {}): Promise<{ ok: boolean; status: number; body: T }> {
   const res = await fetch(`${PB}/api/collections/${collection}/records${path}`, {
     ...init,
+    // A slow PocketBase should fail the request, not hang it until Vercel's limit.
+    signal: init.signal ?? AbortSignal.timeout(5000),
     headers: { 'Content-Type': 'application/json', 'X-Leaderboard-Key': KEY, ...(init.headers ?? {}) },
   })
   const body = (await res.json().catch(() => ({}))) as T
