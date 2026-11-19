@@ -293,6 +293,13 @@ export default function Taskbar({ windows }: { windows: Win[] }) {
           ))}
         </div>
         <Online />
+        <button type="button" className="tb-resume tb-ask" onClick={() => openAsk()} title={t('desktop.taskbar.ask-title')} aria-label={t('desktop.taskbar.ask')}>
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+            <path d="M4 5h16v11H10l-4 4v-4H4z" />
+            <path d="M9.5 9a2.5 2.5 0 1 1 3.2 2.4c-.5.2-.7.5-.7 1M12 14.2v.1" />
+          </svg>
+          <span className="tb-ask-label">{t('desktop.taskbar.ask')}</span>
+        </button>
         <button type="button" className="tb-resume" onClick={() => setResume(true)}>
           {t('desktop.taskbar.resume')}
         </button>

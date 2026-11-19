@@ -625,6 +625,14 @@
     "list": false,
     "vars": []
   },
+  "desktop.taskbar.ask": {
+    "list": false,
+    "vars": []
+  },
+  "desktop.taskbar.ask-title": {
+    "list": false,
+    "vars": []
+  },
   "desktop.taskbar.clock-label": {
     "list": false,
     "vars": [

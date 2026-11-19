@@ -100,3 +100,22 @@ test('sounds are off until the speaker is pressed', async ({ page }) => {
   await expect(page.getByRole('button', { name: 'Turn sounds off' })).toBeVisible()
   noErrors()
 })
+
+test('every desktop icon stays above the taskbar on a short screen', async ({ page }) => {
+  await page.setViewportSize({ width: 1280, height: 600 })
+  const { noErrors } = await boot(page)
+  const bar = await page.locator('.taskbar').boundingBox()
+  const icons = page.locator('.desk-icons li')
+  expect(await icons.count()).toBeGreaterThan(8)
+  for (const box of await icons.evaluateAll((els) => els.map((e) => e.getBoundingClientRect().bottom))) {
+    expect(box).toBeLessThanOrEqual(bar!.y)
+  }
+  noErrors()
+})
+
+test('the taskbar Ask Danish button opens Ask Danish', async ({ page }) => {
+  const { noErrors } = await boot(page)
+  await page.locator('.taskbar').getByRole('button', { name: 'Ask Danish' }).click()
+  await expect(page.locator('.win.active')).toContainText('Ask Danish')
+  noErrors()
+})

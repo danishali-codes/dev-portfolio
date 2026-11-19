@@ -18,7 +18,7 @@ export default function Introduction() {
         <button className="pill" type="button" onClick={() => go('/cv.md')}>{t('windows.welcome.contact')}</button>
       </nav>
       <div className="intro-selected" aria-label={t('windows.welcome.featured')}>
-        {['/projects/fuloos', '/projects/lockout', '/projects/games'].map((path) => {
+        {['/projects/fuloos', '/projects/lockout', '/projects/sabr', '/projects/games'].map((path) => {
           const node = getNode(path)
           if (node?.type !== 'dir') return null
           return <button type="button" key={path} onClick={() => openNode(findReadme(node) ?? node)}>
