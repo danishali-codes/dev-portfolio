@@ -2,9 +2,8 @@
 //
 // POST /api/ask  { question: string }  -> { answer: string }
 //
-// GEMINI_API_KEY is read from the environment, and GEMINI_MODEL can pick another model.
-// The default is Google's "latest Flash" alias, so a retired model can't break the
-// route again (gemini-2.5-flash now 404s for new keys). Without it the route says so
+// GEMINI_API_KEY is read from the environment. Models are Google's "latest" aliases
+// with fallbacks (see MODELS), so a retired or overloaded model doesn't break the route. Without it the route says so
 // instead of inventing an answer. Questions are capped, and each IP gets a
 // handful per ten minutes on this server instance.
 
@@ -14,7 +13,11 @@ import { makeLimiter } from './_lib/askLimit.js'
 
 declare const process: { env: Record<string, string | undefined> }
 
-const MODEL = process.env.GEMINI_MODEL || 'gemini-flash-latest'
+// Tried in order until one answers. GEMINI_MODEL (comma-separated) replaces the list.
+const MODELS = (process.env.GEMINI_MODEL || 'gemini-flash-latest,gemini-flash-lite-latest,gemini-3.6-flash')
+  .split(',')
+  .map((m) => m.trim())
+  .filter(Boolean)
 const MAX_IN = 500
 // Newer Flash models think before answering and that counts against this limit,
 // so leave room; the instructions ask for short answers.
@@ -51,31 +54,40 @@ export async function POST(request: Request) {
   const question = typeof body.question === 'string' ? body.question.trim().slice(0, MAX_IN) : ''
   if (!question) return json({ error: st('server.ask.no-question') }, 400)
 
-  let res: Response
-  try {
-    res = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/${MODEL}:generateContent`, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json', 'x-goog-api-key': key },
-      signal: AbortSignal.timeout(20000),
-      body: JSON.stringify({
-        systemInstruction: { parts: [{ text: SYSTEM }] },
-        contents: [{ role: 'user', parts: [{ text: question }] }],
-        generationConfig: {
-          maxOutputTokens: MAX_TOKENS,
-          temperature: 0.2,
-          thinkingConfig: { thinkingLevel: 'low' },
-        },
-      }),
-    })
-  } catch (err) {
-    console.error(`ask: ${MODEL} request failed`, err)
-    return json({ error: st('server.ask.failed') }, 502)
+  // Try each model in turn: the free tier often answers 503 ("high demand") or 429
+  // for one model while another still has room. Every refusal is logged.
+  let res: Response | null = null
+  let quota = false
+  for (const model of MODELS) {
+    try {
+      const r = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', 'x-goog-api-key': key },
+        signal: AbortSignal.timeout(15000),
+        body: JSON.stringify({
+          systemInstruction: { parts: [{ text: SYSTEM }] },
+          contents: [{ role: 'user', parts: [{ text: question }] }],
+          generationConfig: {
+            maxOutputTokens: MAX_TOKENS,
+            temperature: 0.2,
+            thinkingConfig: { thinkingLevel: 'low' },
+          },
+        }),
+      })
+      if (r.ok) {
+        res = r
+        break
+      }
+      if (r.status === 429) quota = true
+      console.error(`ask: ${model} answered ${r.status}`, (await r.text()).slice(0, 500))
+    } catch (err) {
+      console.error(`ask: ${model} request failed`, err)
+    }
   }
-  if (res.status === 429) return json({ error: st('server.ask.out-of-quota') }, 429)
-  if (!res.ok) {
-    // Logged so a wrong key or a retired model shows up in the Vercel logs.
-    console.error(`ask: ${MODEL} answered ${res.status}`, (await res.text()).slice(0, 500))
-    return json({ error: st('server.ask.failed') }, 502)
+  if (!res) {
+    return quota
+      ? json({ error: st('server.ask.out-of-quota') }, 429)
+      : json({ error: st('server.ask.failed') }, 502)
   }
   const data = (await res.json()) as { candidates?: { content?: { parts?: { text?: string }[] } }[] }
   const answer = data.candidates?.[0]?.content?.parts?.map((p) => p.text ?? '').join('').trim()
