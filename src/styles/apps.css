@@ -885,6 +885,13 @@
   background: var(--chip);
   line-height: 1.4;
 }
+.ask-model {
+  display: block;
+  margin-top: 4px;
+  font-size: 0.75em;
+  opacity: 0.6;
+  font-family: var(--font-mono);
+}
 .ask-you {
   align-self: flex-end;
   background: var(--peach-soft);

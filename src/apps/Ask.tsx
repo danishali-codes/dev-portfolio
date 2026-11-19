@@ -5,6 +5,8 @@ import { takeAsk } from '../shell/askQueue'
 interface Msg {
   role: 'you' | 'danish'
   text: string
+  /** The model that wrote this answer, shown under it. */
+  model?: string
 }
 
 const MAX = 500
@@ -35,11 +37,11 @@ export default function Ask() {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ question: q }),
       })
-      const data = (await res.json().catch(() => ({}))) as { answer?: string; error?: string }
-      const reply = data.answer || data.error || "I don't know."
-      setMessages((m) => [...m, { role: 'danish', text: reply }])
+      const data = (await res.json().catch(() => ({}))) as { answer?: string; error?: string; model?: string }
+      const reply = data.answer || data.error || t('windows.ask.dont-know')
+      setMessages((m) => [...m, { role: 'danish', text: reply, model: data.answer ? data.model : undefined }])
     } catch {
-      setMessages((m) => [...m, { role: 'danish', text: "I couldn't get an answer just now." }])
+      setMessages((m) => [...m, { role: 'danish', text: t('windows.ask.failed') }])
     } finally {
       busyRef.current = false
       setBusy(false)
@@ -68,6 +70,7 @@ export default function Ask() {
         {messages.map((m, i) => (
           <p key={i} className={m.role === 'you' ? 'ask-you' : 'ask-danish'}>
             <b>{m.role === 'you' ? t('windows.ask.you') : t('windows.ask.danish')}</b> {m.text}
+            {m.model && <small className="ask-model">{t('windows.ask.model', { model: m.model })}</small>}
           </p>
         ))}
         {busy && <p className="ask-danish">{t('windows.ask.thinking')}</p>}
