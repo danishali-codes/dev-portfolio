@@ -1,0 +1,20 @@
+{
+  "name": "Sabr",
+  "tagline": "A medicine reminder for Android that remembers what you took",
+  "year": 2026,
+  "stack": [
+    "TypeScript",
+    "React Native",
+    "Expo",
+    "SQLite"
+  ],
+  "status": "live",
+  "color": "#B7A3F0",
+  "order": 3,
+  "repo": "danishali-codes/sabr-med-tracker",
+  "media": "docs/screenshots/latest",
+  "aliases": [
+    "sabr-med-tracker",
+    "med-tracker"
+  ]
+}
