@@ -49,8 +49,16 @@ export async function GET() {
   if (!KEY) return empty()
   try {
     const res = await pb(`${TOTALS}?perPage=1`)
-    if (!res.ok) return empty()
+    if (!res.ok) {
+      console.error(`visit: PocketBase answered ${res.status} for site_visit_totals`)
+      return empty()
+    }
     const row = ((await res.json()) as { items: { visits: number; seconds: number; since: string }[] }).items[0]
+    // The totals view always has exactly one row. None means PocketBase's rule hid it: VISITS_KEY doesn't match.
+    if (!row) {
+      console.error('visit: site_visit_totals returned no rows; VISITS_KEY in Vercel does not match the key on PocketBase (re-run scripts/setup-visits.mjs --new-key)')
+      return empty()
+    }
     const visits = Number(row?.visits ?? 0)
     const body = { visits, avgSeconds: visits ? Math.round(Number(row.seconds ?? 0) / visits) : 0, since: row?.since ? String(row.since).replace(' ', 'T') : null }
     return Response.json(body, { headers: { 'Cache-Control': 'public, s-maxage=300, stale-while-revalidate=3600' } })
@@ -79,18 +87,20 @@ export async function POST(request: Request) {
       const recent = await pb(`${ROWS}?perPage=1&skipTotal=0&fields=id&filter=${filter}`)
       if (!recent.ok) throw new Error(`PocketBase ${recent.status}`)
       if (((await recent.json()) as { totalItems: number }).totalItems >= PER_VISITOR_HOUR) return empty()
-      await pb(ROWS, { method: 'POST', body: JSON.stringify({ id, seconds, visitor }) })
+      const created = await pb(ROWS, { method: 'POST', body: JSON.stringify({ id, seconds, visitor }) })
+      if (!created.ok) throw new Error(`PocketBase ${created.status} creating a visit: ${(await created.text()).slice(0, 200)}`)
     } else if (seconds) {
       // Later reports from the same page load add to its row, up to the cap.
       const res = await pb(`${ROWS}/${id}?fields=seconds`)
-      if (!res.ok) return empty()
+      if (!res.ok) throw new Error(`PocketBase ${res.status} reading visit ${id}`)
       const current = Number(((await res.json()) as { seconds: number }).seconds) || 0
       if (current < MAX_SECONDS) {
         await pb(`${ROWS}/${id}`, { method: 'PATCH', body: JSON.stringify({ seconds: Math.min(MAX_SECONDS, current + seconds) }) })
       }
     }
-  } catch {
-    // Counting is best effort; never show the visitor an error for it.
+  } catch (err) {
+    // Counting is best effort; never show the visitor an error for it, but leave a trace in the logs.
+    console.error(`visit: ${(err as Error).message}`)
   }
   return empty()
 }

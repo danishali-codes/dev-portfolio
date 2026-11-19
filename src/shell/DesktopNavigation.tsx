@@ -1,7 +1,7 @@
 import { useEffect } from 'react'
 import { INTRODUCTION } from './opener'
 import { topWindowId, useWindows } from '../store/windows'
-import { initialiseHistory, specFromUrl, syncNavigation, updateMetadata } from './navigation'
+import { initialiseHistory, notFoundSpec, specFromUrl, syncNavigation, updateMetadata } from './navigation'
 
 export default function DesktopNavigation() {
   useEffect(() => {
@@ -9,7 +9,7 @@ export default function DesktopNavigation() {
     let applying = false
     const restore = (initial = false) => {
       applying = true
-      const spec = specFromUrl()
+      const spec = specFromUrl() ?? notFoundSpec()
       if (spec) useWindows.getState().open(spec)
       else useWindows.setState((s) => ({ windows: s.windows.map((w) => ({ ...w, minimized: true })) }))
       if (initial && !spec && location.pathname === '/') useWindows.getState().open(INTRODUCTION)

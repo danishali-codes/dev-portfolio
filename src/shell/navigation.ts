@@ -20,6 +20,7 @@ function shareableProjects() {
 
 export function routeFor(spec?: OpenSpec): string {
   if (!spec) return '/'
+  if (spec.kind === 'notfound') return spec.url ?? '/'
   if (spec.kind === 'cv') return '/contact'
   for (const [route, path] of Object.entries(DOCUMENTS)) if (path === spec.path) return route
   if (!spec.path) return Object.entries(SPECIAL).find(([, s]) => s.kind === spec.kind)?.[0] ?? '/'
@@ -52,6 +53,14 @@ export function specFromUrl(input = location.href): OpenSpec | undefined {
   return undefined
 }
 
+/** A "not found" window for an address that opens nothing (a typo, an old link). */
+export function notFoundSpec(input = location.href): OpenSpec | undefined {
+  const url = new URL(input, location.origin)
+  const path = url.pathname.replace(/\/+$/, '') || '/'
+  if (path === '/' || specFromUrl(input)) return undefined
+  return { kind: 'notfound', title: 'Not found', url: path, color: 'var(--peach)' }
+}
+
 export function initialiseHistory() {
   if (typeof history.state?.paperosIndex !== 'number') history.replaceState({ ...history.state, paperosIndex: 0 }, '')
 }
@@ -66,9 +75,9 @@ export function syncNavigation(spec?: OpenSpec) {
 }
 
 export function updateMetadata(spec?: OpenSpec) {
-  const route = routeFor(spec).split('?')[0]
+  const route = spec?.kind === 'notfound' ? '/' : routeFor(spec).split('?')[0]
   const project = shareableProjects().find((p) => p.path === route)
-  const title = spec ? (project?.meta?.name ?? spec.title.replace(' · README', '')) + ' · Danish Ali' : 'Danish Ali · Dev portfolio'
+  const title = spec?.kind === 'notfound' ? 'Not found · Danish Ali' : spec ? (project?.meta?.name ?? spec.title.replace(' · README', '')) + ' · Danish Ali' : 'Danish Ali · Dev portfolio'
   const description = project?.meta?.tagline ?? "Danish Ali, a developer in Dubai building apps, games and tools for his homelab."
   const set = (selector: string, content: string) => document.querySelector<HTMLMetaElement>(selector)?.setAttribute('content', content)
   document.title = title

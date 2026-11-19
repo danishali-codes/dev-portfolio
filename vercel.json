@@ -4,7 +4,35 @@
   "outputDirectory": "dist",
   "rewrites": [
     {
-      "source": "/((?!fs/|assets/|favicon|api/|stats\\.json|robots\\.txt|sitemap\\.xml|og/|projects(?:/|$)|trash(?:/|$)|about(?:/|$)|contact(?:/|$)|cv(?:/|$)|now(?:/|$)|uses(?:/|$)|resume(?:/|$)|simple(?:/|$)|ask(?:/|$)|welcome(?:/|$)|stats(?:/|$)|terminal(?:/|$)|guestbook(?:/|$)|updates(?:/|$)|wallpaper(?:/|$)).*)",
+      "source": "/found/:path*",
+      "destination": "/"
+    },
+    {
+      "source": "/files/:path*",
+      "destination": "/"
+    },
+    {
+      "source": "/wp-admin/:path*",
+      "destination": "/"
+    },
+    {
+      "source": "/wp-admin.php",
+      "destination": "/"
+    },
+    {
+      "source": "/wp-login.php",
+      "destination": "/"
+    },
+    {
+      "source": "/wp-login",
+      "destination": "/"
+    },
+    {
+      "source": "/wordpress/wp-admin/:path*",
+      "destination": "/"
+    },
+    {
+      "source": "/xmlrpc.php",
       "destination": "/"
     }
   ],
