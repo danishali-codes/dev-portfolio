@@ -1,5 +1,6 @@
 // Compact notes for /api/ask, from the public content. cv.md is left out: it is
-// still a draft, and the commented guesses in it are not facts.
+// still a draft, and the commented guesses in it are not facts. The caps are only a
+// guard against a runaway file: today all of content/ (about 23k chars) fits whole.
 import { mkdirSync, readdirSync, readFileSync, statSync, writeFileSync } from 'node:fs'
 import { join } from 'node:path'
 import { fileURLToPath } from 'node:url'
@@ -7,7 +8,7 @@ import { fileURLToPath } from 'node:url'
 const ROOT = fileURLToPath(new URL('..', import.meta.url))
 const CONTENT = join(ROOT, 'content')
 const OUT = join(ROOT, 'api/_generated/context.ts')
-const CAP = 12_000
+const CAP = 60_000
 
 function walk(dir, out = []) {
   for (const name of readdirSync(dir)) {
@@ -28,7 +29,7 @@ const parts = walk(CONTENT).map((path) => {
     .replace(/[^.]*\bhomelab\b[^.]*\.?/gi, '')
     .replace(/\s+/g, ' ')
     .trim()
-    .slice(0, 1800)
+    .slice(0, 8000)
   return text ? `## ${rel}\n${text}` : ''
 })
 const body = parts.filter(Boolean).join('\n\n').slice(0, CAP)
