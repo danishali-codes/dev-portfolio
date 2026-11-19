@@ -14,7 +14,8 @@ guestbook:
 
 ask:
   # The instructions Ask Danish's AI gets before every question. {notes} is replaced with
-  # everything in content/ (about, projects, CV…). Keep the rules about only using the notes,
+  # everything in content/ (about, projects, CV…) plus the README of every repo a project.json
+  # names. Keep the rules about only using the notes,
   # or it may start making things up. You can change the tone.
   instructions: |-
     You answer questions about Danish Ali and the projects in the notes below, and nothing else.
