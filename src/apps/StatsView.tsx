@@ -1,8 +1,8 @@
 import { useEffect, useState, type CSSProperties, type ReactNode } from 'react'
+import { lines, t } from '../text'
 import { projects } from '../fs'
 import { ago, duration, LANG_COLORS, level, loadStats, loadVisits, weeks, type Contributions, type Stats, type Visits } from './stats'
 
-const WEEKDAYS = ['Sundays', 'Mondays', 'Tuesdays', 'Wednesdays', 'Thursdays', 'Fridays', 'Saturdays']
 
 /** A label ........ value row, like a system monitor readout. */
 function Row({ label, children }: { label: string; children: ReactNode }) {
@@ -36,7 +36,7 @@ function Heatmap({ c }: { c: Contributions }) {
   const [sel, setSel] = useState<[number, number] | null>(null)
   const [w, d] = sel ?? [lastWeek, lastDay]
   const day = cols[w]?.[d]
-  const describe = (x: NonNullable<typeof day>) => c.exact ? `${x.count} contribution${x.count === 1 ? '' : 's'} on ${fmt(x.date)}` : fmt(x.date)
+  const describe = (x: NonNullable<typeof day>) => c.exact ? t('windows.stats.day', { count: x.count, date: fmt(x.date) }) : fmt(x.date)
   const move = (dw: number, dd: number) => {
     let nw = w + dw
     let nd = d + dd
@@ -52,7 +52,7 @@ function Heatmap({ c }: { c: Contributions }) {
           className="st-heat"
           role="group"
           tabIndex={0}
-          aria-label={`${c.total} contributions in the last year. Use the arrow keys to read each day.`}
+          aria-label={t('windows.stats.heatmap-label', { total: c.total })}
           aria-describedby="st-heat-day"
           onKeyDown={(e) => {
             const step = { ArrowLeft: [-1, 0], ArrowRight: [1, 0], ArrowUp: [0, -1], ArrowDown: [0, 1] }[e.key]
@@ -124,7 +124,7 @@ export default function StatsView() {
     return () => { active = false; clearInterval(timer) }
   }, [])
 
-  if (stats === undefined) return <div className="stats st-loading">reading counters…</div>
+  if (stats === undefined) return <div className="stats st-loading">{t('windows.stats.loading')}</div>
 
   const refresh = async () => {
     setRefreshing(true)
@@ -132,7 +132,7 @@ export default function StatsView() {
   }
   const fetched = (section: 'profile' | 'contributions' | 'languages' | 'commits') => {
     const date = stats?.github.fetchedAt?.[section]
-    return date ? <time dateTime={date} title={new Date(date).toLocaleString()}>fetched {ago(date)}</time> : 'fetch date unavailable'
+    return date ? <time dateTime={date} title={new Date(date).toLocaleString()}>{t('windows.stats.fetched', { ago: ago(date) })}</time> : t('windows.stats.no-date')
   }
   const gh = stats?.github
   const c = gh?.contributions
@@ -144,35 +144,35 @@ export default function StatsView() {
     <div className="stats">
       <p className="st-prompt">
         <span>danish@dev</span> ~ $ stats{' '}
-        {stats?.builtAt && <span className="st-note">site snapshot {ago(stats.builtAt)}</span>}
-        <button type="button" className="pill" onClick={refresh} disabled={refreshing}>{refreshing ? 'Refreshing…' : 'Refresh stats'}</button>
+        {stats?.builtAt && <span className="st-note">{t('windows.stats.snapshot', { ago: ago(stats.builtAt) })}</span>}
+        <button type="button" className="pill" onClick={refresh} disabled={refreshing}>{refreshing ? t('windows.stats.refreshing') : t('windows.stats.refresh')}</button>
       </p>
 
       {c ? (
-        <Section title="Contributions" note={<>{c.exact ? `${c.total.toLocaleString()} in the last year` : 'the last year'} · {fetched('contributions')}</>}>
+        <Section title={t('windows.stats.contributions')} note={<>{c.exact ? t('windows.stats.in-last-year', { total: c.total.toLocaleString() }) : t('windows.stats.last-year')} · {fetched('contributions')}</>}>
           <Heatmap c={c} />
           <dl className="st-rows">
-            <Row label="current streak">{c.currentStreak ? `${c.currentStreak} day${c.currentStreak === 1 ? '' : 's'}` : 'resting'}</Row>
-            <Row label="longest streak">{c.longestStreak} days</Row>
-            <Row label="days with commits">{c.activeDays} of {Math.min(365, c.days.length)}</Row>
+            <Row label={t('windows.stats.current-streak')}>{c.currentStreak ? t('windows.stats.streak-days', { count: c.currentStreak }) : t('windows.stats.resting')}</Row>
+            <Row label={t('windows.stats.longest-streak')}>{t('windows.stats.longest-days', { count: c.longestStreak })}</Row>
+            <Row label={t('windows.stats.days-with-commits')}>{t('windows.stats.of', { count: c.activeDays, total: Math.min(365, c.days.length) })}</Row>
             {c.exact && c.busiestDay && (
-              <Row label="busiest day">
-                {c.busiestDay.count} on {new Date(`${c.busiestDay.date}T00:00:00Z`).toLocaleDateString(undefined, { day: 'numeric', month: 'long', timeZone: 'UTC' })}
+              <Row label={t('windows.stats.busiest-day')}>
+                {t('windows.stats.busiest', { count: c.busiestDay.count, date: new Date(`${c.busiestDay.date}T00:00:00Z`).toLocaleDateString(undefined, { day: 'numeric', month: 'long', timeZone: 'UTC' }) })}
               </Row>
             )}
-            {fav >= 0 && <Row label="most active on">{WEEKDAYS[fav]}</Row>}
+            {fav >= 0 && <Row label={t('windows.stats.most-active')}>{lines('windows.stats.weekdays')[fav]}</Row>}
           </dl>
         </Section>
       ) : null}
 
       {gh?.languages?.length ? (
-        <Section title="Languages" note={<>by bytes, notebooks left out · {fetched('languages')}</>}>
+        <Section title={t('windows.stats.languages')} note={<>{t('windows.stats.languages-note')} · {fetched('languages')}</>}>
           <Languages langs={gh.languages} />
         </Section>
       ) : null}
 
       {gh?.commits?.length ? (
-        <Section title="Recent commits" note={fetched('commits')}>
+        <Section title={t('windows.stats.commits')} note={fetched('commits')}>
           <ol className="st-log">
             {gh.commits.map((cm) => (
               <li key={cm.sha + cm.repo}>
@@ -189,7 +189,7 @@ export default function StatsView() {
       ) : null}
 
       {games?.length ? (
-        <Section title="Games on itch.io" note="views">
+        <Section title={t('windows.stats.games')} note={t('windows.stats.views')}>
           <ul className="st-games">
             {games.map((g) => (
               <li key={g.url}>
@@ -204,31 +204,31 @@ export default function StatsView() {
         </Section>
       ) : null}
 
-      <Section title="This site">
+      <Section title={t('windows.stats.site')}>
         <dl className="st-rows">
           {visits && visits.visits > 0 && (
             <>
-              <Row label="visits">
+              <Row label={t('windows.stats.visits')}>
                 {visits.visits.toLocaleString()}
-                {visits.since && <span className="st-note"> since {new Date(visits.since).toLocaleDateString(undefined, { day: 'numeric', month: 'short', year: 'numeric' })}</span>}
+                {visits.since && <span className="st-note">{t('windows.stats.since', { date: new Date(visits.since).toLocaleDateString(undefined, { day: 'numeric', month: 'short', year: 'numeric' }) })}</span>}
               </Row>
-              <Row label="average time here">{duration(visits.avgSeconds)}</Row>
+              <Row label={t('windows.stats.average')}>{duration(visits.avgSeconds)}</Row>
             </>
           )}
-          <Row label="projects">{projects().length}</Row>
-          {stats?.site.files ? <Row label="files on this disk">{stats.site.files}</Row> : null}
-          {stats?.site.commits ? <Row label="commits to build it">{stats.site.commits}</Row> : null}
+          <Row label={t('windows.stats.projects')}>{projects().length}</Row>
+          {stats?.site.files ? <Row label={t('windows.stats.files')}>{stats.site.files}</Row> : null}
+          {stats?.site.commits ? <Row label={t('windows.stats.site-commits')}>{stats.site.commits}</Row> : null}
           {gh?.profile && (
             <>
-              <Row label="public repos">{gh.profile.publicRepos} <span className="st-note">{fetched('profile')}</span></Row>
-              <Row label="on GitHub since">{new Date(gh.profile.since).getFullYear()}</Row>
+              <Row label={t('windows.stats.repos')}>{gh.profile.publicRepos} <span className="st-note">{fetched('profile')}</span></Row>
+              <Row label={t('windows.stats.github-since')}>{new Date(gh.profile.since).getFullYear()}</Row>
             </>
           )}
         </dl>
-        {visits && visits.visits > 0 && <p className="st-fine">Visits are counted without cookies or tracking: each page load only sends how long the tab was open.</p>}
+        {visits && visits.visits > 0 && <p className="st-fine">{t('windows.stats.privacy')}</p>}
       </Section>
 
-      {!c && !gh?.commits?.length && <p className="st-fine">GitHub is temporarily unavailable. Try refreshing the stats in a few minutes.</p>}
+      {!c && !gh?.commits?.length && <p className="st-fine">{t('windows.stats.github-down')}</p>}
     </div>
   )
 }

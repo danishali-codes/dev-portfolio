@@ -1,4 +1,5 @@
 import { useCallback, useEffect, useRef, useState } from 'react'
+import { t } from '../text'
 import Calendar from './Calendar'
 import { allProjects, getNode, projects } from '../fs'
 import type { DirNode, FsNode } from '../fs/types'
@@ -29,7 +30,7 @@ function Clock() {
   return (
     <>
       {cal && <Calendar onClose={close} />}
-      <button type="button" className="tb-clock" onClick={() => setCal(!cal)} aria-expanded={cal} aria-haspopup="dialog" aria-label={`${now.toLocaleString(undefined, { dateStyle: 'full', timeStyle: 'short' })}. Open calendar`}>
+      <button type="button" className="tb-clock" onClick={() => setCal(!cal)} aria-expanded={cal} aria-haspopup="dialog" aria-label={t('desktop.taskbar.clock-label', { date: now.toLocaleString(undefined, { dateStyle: 'full', timeStyle: 'short' }) })}>
         <time dateTime={now.toISOString()}>{now.toLocaleTimeString(undefined, { hour: '2-digit', minute: '2-digit' })}</time>
         <span className="tb-date">{now.toLocaleDateString(undefined, { weekday: 'short', day: 'numeric', month: 'short' })}</span>
       </button>
@@ -52,9 +53,9 @@ function Online() {
   }, [])
   if (n == null || n < 2) return null
   return (
-    <span className="tb-online" title="Tabs open on this site in the last two minutes">
+    <span className="tb-online" title={t('desktop.taskbar.online-title')}>
       <span className="tb-online-dot" aria-hidden="true" />
-      {n} here now
+      {t('desktop.taskbar.online', { count: n })}
     </span>
   )
 }
@@ -62,7 +63,7 @@ function Online() {
 function SoundToggle() {
   const [on, setOn] = useSound()
   return (
-    <button type="button" className="tb-theme tb-sound" onClick={() => setOn(!on)} aria-pressed={on} aria-label={on ? 'Turn sounds off' : 'Turn sounds on'} title={on ? 'Sounds on' : 'Sounds off'}>
+    <button type="button" className="tb-theme tb-sound" onClick={() => setOn(!on)} aria-pressed={on} aria-label={on ? t('desktop.taskbar.sounds-off') : t('desktop.taskbar.sounds-on')} title={on ? t('desktop.taskbar.sounds-are-on') : t('desktop.taskbar.sounds-are-off')}>
       <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
         <path d="M4 9h4l5-4v14l-5-4H4z" fill="currentColor" />
         {on ? <path d="M16.5 8.5a5 5 0 0 1 0 7M19 6a8.5 8.5 0 0 1 0 12" /> : <path d="M17 9l5 6M22 9l-5 6" />}
@@ -112,18 +113,18 @@ function StartMenu({ onClose }: { onClose: () => void }) {
     onClose()
   }
   return (
-    <div className="start-menu" id="start-menu" ref={ref} role="dialog" aria-label="Start menu">
+    <div className="start-menu" id="start-menu" ref={ref} role="dialog" aria-label={t('desktop.start.label')}>
       <div className="sm-profile">
         <span className="sm-avatar" aria-hidden="true">
-          da
+          {t('desktop.initials')}
         </span>
         <div>
-          <div className="sm-name">Danish Ali</div>
-          <div className="sm-sub">Apps, games and the odd homelab tool</div>
+          <div className="sm-name">{t('desktop.start.name')}</div>
+          <div className="sm-sub">{t('desktop.start.tagline')}</div>
         </div>
         <Star id="star-menu" className="star-menu" />
       </div>
-      <div className="sm-label">PROJECTS</div>
+      <div className="sm-label">{t('desktop.start.projects')}</div>
       <ul className="sm-list">
         {projects().map((p) => (
           <li key={p.path}>
@@ -136,42 +137,42 @@ function StartMenu({ onClose }: { onClose: () => void }) {
         ))}
       </ul>
       <div className="sm-actions">
-        <button type="button" className="pill" onClick={() => (openIntroduction(), onClose())}>Welcome</button>
+        <button type="button" className="pill" onClick={() => (openIntroduction(), onClose())}>{t('desktop.start.welcome')}</button>
         {about && (
           <button type="button" className="pill pill-dark" onClick={() => go(about)}>
-            About me
+            {t('desktop.start.about')}
           </button>
         )}
         {cv && (
           <button type="button" className="pill" onClick={() => go(cv)}>
-            CV & contact
+            {t('desktop.start.cv')}
           </button>
         )}
         <button type="button" className="pill" onClick={() => (openTerminal(), onClose())}>
-          Terminal
+          {t('desktop.start.terminal')}
         </button>
         <button type="button" className="pill" onClick={() => (openWallpaperPicker(), onClose())}>
-          Wallpaper
+          {t('desktop.start.wallpaper')}
         </button>
         <button type="button" className="pill" onClick={() => (openStats(), onClose())}>
-          Stats
+          {t('desktop.start.stats')}
         </button>
         <button type="button" className="pill" onClick={() => (openGuestbook(), onClose())}>
-          Guestbook
+          {t('desktop.start.guestbook')}
         </button>
         <button type="button" className="pill" onClick={() => (openAsk(), onClose())}>
-          Ask Danish
+          {t('desktop.start.ask')}
         </button>
         <a className="pill" href={GITHUB} target="_blank" rel="noreferrer">
-          GitHub
+          {t('desktop.start.github')}
         </a>
       </div>
       <div className="sm-power">
         <button type="button" onClick={() => (onClose(), restart())}>
-          <span aria-hidden="true">↻</span> Restart
+          <span aria-hidden="true">↻</span> {t('desktop.start.restart')}
         </button>
         <button type="button" onClick={() => (onClose(), shutdown())}>
-          <span aria-hidden="true">⏻</span> Shut down
+          <span aria-hidden="true">⏻</span> {t('desktop.start.shutdown')}
         </button>
       </div>
     </div>
@@ -196,8 +197,8 @@ function Search() {
         <input
           id="tb-search"
           type="search"
-          placeholder="Search projects"
-          aria-label="Search projects"
+          placeholder={t('desktop.taskbar.search')}
+          aria-label={t('desktop.taskbar.search')}
           aria-controls={q.trim() ? 'tb-results' : undefined}
           value={q}
           onChange={(e) => setQ(e.target.value)}
@@ -211,7 +212,7 @@ function Search() {
           }}
           autoComplete="off"
         />
-        <button type="button" className="tb-kbd" onClick={() => window.dispatchEvent(new Event('paperos:spotlight'))} title="Search everything (Ctrl+K)" aria-label="Search everything (Ctrl+K)">
+        <button type="button" className="tb-kbd" onClick={() => window.dispatchEvent(new Event('paperos:spotlight'))} title={t('desktop.taskbar.search-everything')} aria-label={t('desktop.taskbar.search-everything')}>
           {/Mac|iPhone|iPad/.test(navigator.platform) ? '⌘K' : 'Ctrl K'}
         </button>
       </label>
@@ -219,7 +220,7 @@ function Search() {
         <ul
           className="tb-results"
           id="tb-results"
-          aria-label="Matching projects"
+          aria-label={t('desktop.taskbar.search-results')}
           onKeyDown={(e) => {
             const items = [...e.currentTarget.querySelectorAll<HTMLElement>('button')]
             const at = items.indexOf(document.activeElement as HTMLElement)
@@ -258,7 +259,7 @@ export default function Taskbar({ windows }: { windows: Win[] }) {
   return (
     <>
       {start && <StartMenu onClose={() => setStart(false)} />}
-      <nav className="taskbar" aria-label="Taskbar">
+      <nav className="taskbar" aria-label={t('desktop.taskbar.label')}>
         <button
           type="button"
           className="tb-start"
@@ -268,22 +269,22 @@ export default function Taskbar({ windows }: { windows: Win[] }) {
           onClick={() => setStart(!start)}
         >
           <span className="sm-avatar sm-avatar-sm" aria-hidden="true">
-            da
+            {t('desktop.initials')}
           </span>
-          dev/portfolio
+          {t('desktop.brand')}
         </button>
         <Search />
         <span className="tb-sep" aria-hidden="true" />
-        <div className="tb-windows" role="group" aria-label="Open windows">
+        <div className="tb-windows" role="group" aria-label={t('desktop.taskbar.open-windows')}>
           {windows.map((w) => (
             <button
               key={w.id}
               type="button"
               className={`tb-win${w.minimized ? ' min' : ''}${w.id === top ? ' on' : ''}`}
               onClick={() => (w.id === top && !w.minimized ? minimize(w.id) : focus(w.id))}
-              title={w.minimized ? `${w.title} (minimised)` : w.title}
+              title={w.minimized ? t('desktop.taskbar.minimised-title', { title: w.title }) : w.title}
               aria-pressed={w.id === top && !w.minimized}
-              aria-label={w.minimized ? `${w.title}, minimised` : w.title}
+              aria-label={w.minimized ? t('desktop.taskbar.minimised-label', { title: w.title }) : w.title}
               style={{ ['--ic-color' as string]: w.color }}
             >
               <span className={`win-glyph win-glyph-${w.kind}`} aria-hidden="true" />
@@ -293,13 +294,13 @@ export default function Taskbar({ windows }: { windows: Win[] }) {
         </div>
         <Online />
         <button type="button" className="tb-resume" onClick={() => setResume(true)}>
-          Resume
+          {t('desktop.taskbar.resume')}
         </button>
         <button
           type="button"
           className="tb-theme"
           onClick={() => setTheme(theme === 'dark' ? 'light' : 'dark')}
-          aria-label={theme === 'dark' ? 'Switch to light theme' : 'Switch to dark theme'}
+          aria-label={theme === 'dark' ? t('desktop.taskbar.to-light') : t('desktop.taskbar.to-dark')}
         >
           {theme === 'dark' ? '☀' : '☾'}
         </button>

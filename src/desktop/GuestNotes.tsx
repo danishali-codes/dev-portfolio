@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react'
+import { t } from '../text'
 import Draggable from './Draggable'
 import { pickNotes } from './guestNotes'
 
@@ -51,8 +52,8 @@ export default function GuestNotes() {
   return (
     <>
       {shown.map((note, i) => (
-        <Draggable key={note.id} as="aside" id={`guest-note-${note.id}`} className={`guest-note guest-note-${i}`} aria-label={`Note from ${note.name}`}>
-          <button type="button" className="guest-note-x" onClick={() => close(note.id)} aria-label={`Close note from ${note.name}`}>
+        <Draggable key={note.id} as="aside" id={`guest-note-${note.id}`} className={`guest-note guest-note-${i}`} aria-label={t('desktop.guest-note.label', { name: note.name })}>
+          <button type="button" className="guest-note-x" onClick={() => close(note.id)} aria-label={t('desktop.guest-note.close', { name: note.name })}>
             ×
           </button>
           <p>{note.message}</p>

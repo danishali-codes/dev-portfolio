@@ -1,4 +1,5 @@
 import { createPortal } from 'react-dom'
+import { t } from '../text'
 import { useEffect, useRef, useState, type PointerEvent as RPointerEvent, type ReactNode } from 'react'
 import CopyLink from '../apps/CopyLink'
 import { focusTopWindow } from '../shell/focus'
@@ -144,14 +145,14 @@ export default function Window({ win, active, children }: { win: Win; active: bo
         </span>
         <div className="win-buttons">
           <CopyLink spec={win} />
-          <button type="button" className="b-min" onClick={() => handOff(() => minimize(win.id))} aria-label={`Minimise ${win.title}`} title="Minimise">
+          <button type="button" className="b-min" onClick={() => handOff(() => minimize(win.id))} aria-label={t('desktop.window.minimise-label', { title: win.title })} title={t('desktop.window.minimise')}>
             –
           </button>
-          <button type="button" className="b-max" onClick={() => toggleMaximize(win.id)} aria-label={win.maximized ? `Restore ${win.title}` : `Maximise ${win.title}`}
-            title={win.maximized ? 'Restore' : 'Maximise'}>
+          <button type="button" className="b-max" onClick={() => toggleMaximize(win.id)} aria-label={win.maximized ? t('desktop.window.restore-label', { title: win.title }) : t('desktop.window.maximise-label', { title: win.title })}
+            title={win.maximized ? t('desktop.window.restore') : t('desktop.window.maximise')}>
             +
           </button>
-          <button type="button" className="b-close" onClick={() => handOff(() => close(win.id))} aria-label={`Close ${win.title}`} title="Close">
+          <button type="button" className="b-close" onClick={() => handOff(() => close(win.id))} aria-label={t('desktop.window.close-label', { title: win.title })} title={t('desktop.window.close')}>
             ×
           </button>
         </div>

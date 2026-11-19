@@ -1,4 +1,5 @@
 import { useTheme } from '../shell/theme'
+import { t } from '../text'
 import { setWallpaper, thumbFor, useWallpaper, WALLPAPERS, type WallpaperDef } from '../shell/wallpaper'
 
 function Credits({ wp }: { wp: WallpaperDef }) {
@@ -18,7 +19,7 @@ function Credits({ wp }: { wp: WallpaperDef }) {
       ))}
       {wp.via && (
         <li>
-          <span className="wpp-role">Via</span>{' '}
+          <span className="wpp-role">{t('windows.wallpaper.via')}</span>{' '}
           <a href={wp.via.href} target="_blank" rel="noreferrer">
             {wp.via.name}
           </a>
@@ -35,16 +36,16 @@ export default function WallpaperPicker() {
   return (
     <div className="wpp">
       <div className="wpp-top">
-        <p>Every wallpaper has a day and a night version, and follows the theme.</p>
-        <div className="wpp-theme" role="group" aria-label="Theme">
-          {(['light', 'dark'] as const).map((t) => (
-            <button key={t} type="button" aria-pressed={theme === t} onClick={() => setTheme(t)}>
-              {t === 'light' ? '☀ Day' : '☾ Night'}
+        <p>{t('windows.wallpaper.intro')}</p>
+        <div className="wpp-theme" role="group" aria-label={t('windows.wallpaper.theme')}>
+          {(['light', 'dark'] as const).map((mode) => (
+            <button key={mode} type="button" aria-pressed={theme === mode} onClick={() => setTheme(mode)}>
+              {mode === 'light' ? t('windows.wallpaper.day') : t('windows.wallpaper.night')}
             </button>
           ))}
         </div>
       </div>
-      <div className="wpp-grid" role="radiogroup" aria-label="Wallpaper">
+      <div className="wpp-grid" role="radiogroup" aria-label={t('windows.wallpaper.label')}>
         {WALLPAPERS.map((w) => (
           <button
             key={w.id}
@@ -62,19 +63,19 @@ export default function WallpaperPicker() {
           </button>
         ))}
       </div>
-      <section className="wpp-about" aria-label={`Credits for ${current.name}`}>
+      <section className="wpp-about" aria-label={t('windows.wallpaper.credits-for', { name: current.name })}>
         <h2>{current.name}</h2>
         <Credits wp={current} />
       </section>
       <details className="wpp-all">
-        <summary>All wallpaper credits</summary>
+        <summary>{t('windows.wallpaper.all-credits')}</summary>
         {WALLPAPERS.filter((w) => w.id !== 'hills').map((w) => (
           <div key={w.id}>
             <h3>{w.name}</h3>
             <Credits wp={w} />
           </div>
         ))}
-        <p className="wpp-note">Images were resized and converted to WebP. The CC BY-SA ones stay under their original licence.</p>
+        <p className="wpp-note">{t('windows.wallpaper.note')}</p>
       </details>
     </div>
   )

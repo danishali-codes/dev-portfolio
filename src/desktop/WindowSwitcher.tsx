@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from 'react'
+import { t } from '../text'
 import { focusTopWindow } from '../shell/focus'
 import { useWindows } from '../store/windows'
 
@@ -46,7 +47,7 @@ export default function WindowSwitcher() {
   if (!state) return null
   const byId = new Map(windows.map((w) => [w.id, w]))
   return (
-    <div className="switcher" role="listbox" aria-label="Switch window">
+    <div className="switcher" role="listbox" aria-label={t('desktop.switcher.label')}>
       {state.order.map((id, i) => {
         const w = byId.get(id)
         if (!w) return null
@@ -54,11 +55,11 @@ export default function WindowSwitcher() {
           <div key={id} role="option" aria-selected={i === state.at} className={`switcher-item${i === state.at ? ' on' : ''}`} style={{ ['--ic-color' as string]: w.color }}>
             <span className={`win-glyph win-glyph-${w.kind}`} aria-hidden="true" />
             <span className="switcher-title">{w.title}</span>
-            {w.minimized && <span className="switcher-min">minimised</span>}
+            {w.minimized && <span className="switcher-min">{t('desktop.switcher.minimised')}</span>}
           </div>
         )
       })}
-      <p className="switcher-hint">Keep holding Alt, press ` to move on</p>
+      <p className="switcher-hint">{t('desktop.switcher.hint')}</p>
     </div>
   )
 }

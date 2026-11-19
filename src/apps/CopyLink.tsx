@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react'
+import { t } from '../text'
 import type { OpenSpec } from '../store/windows'
 import { routeFor } from '../shell/navigation'
 
@@ -13,12 +14,12 @@ export default function CopyLink({ spec }: { spec: OpenSpec }) {
     const url = new URL(routeFor(spec), location.origin).href
     try {
       await navigator.clipboard.writeText(url)
-      setStatus('Copied')
+      setStatus(t('windows.copy-link.copied'))
     } catch {
-      setStatus('Copy unavailable')
-      window.prompt('Copy this link', url)
+      setStatus(t('windows.copy-link.unavailable'))
+      window.prompt(t('windows.copy-link.prompt'), url)
     }
   }
   if (spec.kind === 'notfound') return null
-  return <button type="button" className="pill copy-link" onClick={copy} aria-live="polite">{status || 'Copy link'}</button>
+  return <button type="button" className="pill copy-link" onClick={copy} aria-live="polite">{status || t('windows.copy-link.copy')}</button>
 }

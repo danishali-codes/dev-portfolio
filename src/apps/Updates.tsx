@@ -1,4 +1,5 @@
 import changelog from '../generated/changelog.json'
+import { t } from '../text'
 
 interface Entry {
   n: number
@@ -30,22 +31,20 @@ export default function Updates() {
           ✓
         </span>
         <div>
-          <h2>danishali.dev is up to date</h2>
+          <h2>{t('windows.updates.up-to-date')}</h2>
           <p>
             {latest ? (
-              <>
-                Build {latest.n}, installed {new Date(latest.date).toLocaleString(undefined, { day: 'numeric', month: 'short', hour: '2-digit', minute: '2-digit' })}
-              </>
+              t('windows.updates.build', { n: latest.n, date: new Date(latest.date).toLocaleString(undefined, { day: 'numeric', month: 'short', hour: '2-digit', minute: '2-digit' }) })
             ) : (
-              'No update history on this build.'
+              t('windows.updates.no-history')
             )}
           </p>
         </div>
       </header>
-      <h3 className="up-label">Update history</h3>
+      <h3 className="up-label">{t('windows.updates.history')}</h3>
       {groups.length === 0 && (
         <p className="up-empty">
-          The changelog couldn't be fetched when this build was made. <a href={`${REPO}/pulls?q=is%3Amerged`} target="_blank" rel="noreferrer">See it on GitHub ↗</a>
+          {t('windows.updates.no-changelog')} <a href={`${REPO}/pulls?q=is%3Amerged`} target="_blank" rel="noreferrer">{t('windows.updates.see-on-github')}</a>
         </p>
       )}
       {groups.map(([d, list]) => (
@@ -55,7 +54,7 @@ export default function Updates() {
             {list.map((e) => (
               <li key={e.n}>
                 <span className="up-title">{e.title}</span>
-                <a className="up-build" href={`${REPO}/pull/${e.n}`} target="_blank" rel="noreferrer" aria-label={`Build ${e.n} on GitHub`}>
+                <a className="up-build" href={`${REPO}/pull/${e.n}`} target="_blank" rel="noreferrer" aria-label={t('windows.updates.build-label', { n: e.n })}>
                   #{e.n}
                 </a>
               </li>
@@ -64,7 +63,7 @@ export default function Updates() {
         </section>
       ))}
       <a className="pill up-source" href={REPO} target="_blank" rel="noreferrer">
-        View source ↗
+        {t('windows.updates.source')}
       </a>
     </div>
   )

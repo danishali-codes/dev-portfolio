@@ -1,4 +1,5 @@
 import { marked } from 'marked'
+import { t } from '../text'
 import { useEffect, useMemo, useRef, useState } from 'react'
 import { findApp, getNode, projectAt } from '../fs'
 import type { DirNode, FileNode } from '../fs/types'
@@ -26,13 +27,13 @@ function LedgerTry() {
   return (
     <section className="case-try">
       <div className="doc">
-        <h2>Try it</h2>
-        <p>The public prototype runs the whole pipeline in your browser: upload a bank SMS export and nothing leaves your device.</p>
+        <h2>{t('windows.ledger.title')}</h2>
+        <p>{t('windows.ledger.body')}</p>
       </div>
-      <iframe src={LEDGER_TRY} title="Try Ledger" loading="lazy" />
+      <iframe src={LEDGER_TRY} title={t('windows.ledger.frame')} loading="lazy" />
       <div className="doc">
         <a className="pill pill-dark" href={LEDGER_TRY} target="_blank" rel="noreferrer">
-          Open the demo ↗
+          {t('windows.ledger.open')}
         </a>
       </div>
     </section>
@@ -68,23 +69,23 @@ function ProjectHeader({ dir }: { dir: DirNode }) {
         {meta.year && <span className="chip">{meta.year}</span>}
         {meta.stack?.length ? <span className="chip">{meta.stack.join(' · ')}</span> : null}
         {meta.jam && <span className="chip">{meta.jam}</span>}
-        {live && <span className="chip chip-live">● live at {live}</span>}
-        {game && <span className="chip chip-live">▶ playable on itch.io</span>}
+        {live && <span className="chip chip-live">{t('windows.project.live', { host: live })}</span>}
+        {game && <span className="chip chip-live">{t('windows.project.playable')}</span>}
       </div>
       <div className="proj-actions">
         {app && (
           <button type="button" className="pill pill-dark" onClick={() => openNode(app)}>
-            Open {meta.name}
+            {t('windows.project.open', { name: meta.name })}
           </button>
         )}
         {itch && (
           <a className="pill pill-dark" href={itch.url} target="_blank" rel="noreferrer">
-            {game ? `Play ${meta.name}` : 'itch.io'} ↗
+            {game ? t('windows.project.play', { name: meta.name }) : t('windows.project.itch')}
           </a>
         )}
         {dir.children.some((c) => c.type === 'dir' || (c.type === 'file' && (c.kind === 'image' || c.kind === 'video' || c.kind === 'pdf'))) && (
           <button type="button" className="pill" onClick={() => openNode(dir)}>
-            {dir.children.some((c) => c.name === 'media') ? 'Screenshots & files' : 'Files'}
+            {dir.children.some((c) => c.name === 'media') ? t('windows.project.screenshots') : t('windows.project.files')}
           </button>
         )}
         {links
@@ -216,7 +217,7 @@ export function ImageView({ path }: { path?: string }) {
       {(n > 1 || current.full) && (
         <div className="imgview-bar">
           {n > 1 && (
-            <button type="button" onClick={() => setI((i - 1 + n) % n)} aria-label="Previous image">
+            <button type="button" onClick={() => setI((i - 1 + n) % n)} aria-label={t('windows.viewer.previous')}>
               ←
             </button>
           )}
@@ -225,18 +226,18 @@ export function ImageView({ path }: { path?: string }) {
             {n > 1 && ` · ${i + 1}/${n}`}
           </span>
           {n > 1 && (
-            <button type="button" onClick={() => setI((i + 1) % n)} aria-label="Next image">
+            <button type="button" onClick={() => setI((i + 1) % n)} aria-label={t('windows.viewer.next')}>
               →
             </button>
           )}
           {n > 1 && (
-            <button type="button" onClick={() => setPlaying(!playing)} aria-pressed={playing} aria-label={playing ? 'Pause slideshow' : 'Play slideshow'} title={playing ? 'Pause (Space)' : 'Slideshow (Space)'}>
+            <button type="button" onClick={() => setPlaying(!playing)} aria-pressed={playing} aria-label={playing ? t('windows.viewer.pause') : t('windows.viewer.play')} title={playing ? t('windows.viewer.pause-title') : t('windows.viewer.play-title')}>
               {playing ? '❚❚' : '▶'}
             </button>
           )}
           {current.full && (
             <a className="imgview-full" href={current.full} target="_blank" rel="noreferrer">
-              Full size ↗
+              {t('windows.viewer.full-size')}
             </a>
           )}
         </div>
@@ -270,13 +271,13 @@ export function AppFrame({ url, title }: { url?: string; title: string }) {
   if (!url) return <Missing />
   return (
     <div className="appframe">
-      {!loaded && <div className="appframe-loading">Starting {title}…</div>}
+      {!loaded && <div className="appframe-loading">{t('windows.viewer.starting', { name: title })}</div>}
       <iframe src={url} title={title} onLoad={() => setLoaded(true)} allow="fullscreen; clipboard-write" />
-      <a className="appframe-out" href={url} target="_blank" rel="noreferrer">Open in a new tab ↗</a>
+      <a className="appframe-out" href={url} target="_blank" rel="noreferrer">{t('windows.viewer.new-tab')}</a>
     </div>
   )
 }
 
 function Missing() {
-  return <p className="missing">This file has moved or no longer exists.</p>
+  return <p className="missing">{t('windows.viewer.missing')}</p>
 }

@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from 'react'
+import { t } from '../text'
 
 interface MenuItem {
   label: string
@@ -49,7 +50,7 @@ export default function ContextMenu({ x, y, items, onClose }: { x: number; y: nu
     }
   }, [onClose])
   return (
-    <ul className="ctx-menu" role="menu" aria-label="Desktop" ref={ref} style={{ left: pos.x, top: pos.y }}>
+    <ul className="ctx-menu" role="menu" aria-label={t('desktop.menu.label')} ref={ref} style={{ left: pos.x, top: pos.y }}>
       {items.map((it, i) =>
         it === 'sep' ? (
           <li key={i} className="ctx-sep" role="separator" />

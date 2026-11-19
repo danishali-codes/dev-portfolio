@@ -8,6 +8,9 @@ Everything the site says lives in these files. Edit one on GitHub (the pencil ic
 | `eggs.yaml` | Easter eggs: fortunes, neofetch, sudo, vim, hack, coffee, snake and the rest |
 | `achievements.yaml` | The 20 achievements, the notepad and the shareable badge |
 | `gags.yaml` | Start-up screen, screensaver, blue screen, hack, shutdown, fake WordPress login, browser console |
+| `desktop.yaml` | Taskbar, start menu, desktop icons, right-click menu, window buttons and titles, Ctrl+K search, calendar, the Now note |
+| `windows.yaml` | Welcome, 404, folders and trash, project pages, image viewer, Stats, Guestbook, Ask, CV & contact, System Updates, wallpaper picker, leaderboards |
+| `phone.yaml` | The phone home screen and dock |
 
 The About page, Now note, CV, résumé, Uses, contact card and project write-ups are still where they were, one folder up in `content/`.
 
@@ -55,7 +58,7 @@ In the terminal files (`terminal.yaml`, `eggs.yaml`):
 | `` `help` `` | a command people can click to run |
 | `[label](https://…)` | a link |
 
-In `achievements.yaml` and `gags.yaml` only `**bold**`, `*italic*` and `[label](https://…)` work, and only on lines that already use them (like the notepad score). Elsewhere the characters show up as typed.
+In the other files only `**bold**`, `*italic*` and `[label](https://…)` work, and only on lines that already use them (like the notepad score). Elsewhere the characters show up as typed.
 
 To show a literal `*`, `_` or backtick where it would be read as styling, put a backslash before it: `\*`.
 

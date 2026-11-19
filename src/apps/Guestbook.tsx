@@ -1,4 +1,6 @@
 import { useEffect, useRef, useState, type FormEvent } from 'react'
+import { t } from '../text'
+import { Rich } from '../text/Rich'
 
 interface Note {
   id: string
@@ -49,35 +51,35 @@ export default function Guestbook() {
         body: JSON.stringify({ name, message, website, elapsed: Date.now() - shownAt.current }),
       })
       const data = (await res.json().catch(() => ({}))) as { error?: string }
-      if (!res.ok) return setStatus({ kind: 'error', text: data.error ?? 'Something went wrong. Try again in a bit.' })
+      if (!res.ok) return setStatus({ kind: 'error', text: data.error ?? t('windows.guestbook.failed') })
       setStatus({ kind: 'sent' })
       setMessage('')
     } catch {
-      setStatus({ kind: 'error', text: 'Could not reach the guestbook. Are you offline?' })
+      setStatus({ kind: 'error', text: t('windows.guestbook.offline') })
     }
   }
 
   return (
     <div className="gb">
       <section className="gb-sign" aria-labelledby="gb-sign-title">
-        <h2 id="gb-sign-title">Sign the guestbook</h2>
-        <p className="gb-sub">Notes come to me first. I read every one, and the nice ones get pinned below.</p>
+        <h2 id="gb-sign-title">{t('windows.guestbook.title')}</h2>
+        <p className="gb-sub">{t('windows.guestbook.sub')}</p>
         {status.kind === 'sent' ? (
           <div className="gb-thanks" role="status">
-            <strong>Thanks, {name.trim() || 'friend'}!</strong> Your note is on its way to me. It shows up here once I&apos;ve read it.
+            <Rich k="windows.guestbook.thanks" vars={{ name: name.trim() || t('windows.guestbook.friend') }} />
             <button type="button" className="pill" onClick={() => ((shownAt.current = Date.now()), setStatus({ kind: 'idle' }))}>
-              Write another
+              {t('windows.guestbook.again')}
             </button>
           </div>
         ) : (
           <form className="gb-form" onSubmit={submit}>
             <label>
-              <span>Name</span>
-              <input value={name} onChange={(e) => setName(e.target.value)} maxLength={NAME_MAX} required autoComplete="nickname" placeholder="Ada" />
+              <span>{t('windows.guestbook.name')}</span>
+              <input value={name} onChange={(e) => setName(e.target.value)} maxLength={NAME_MAX} required autoComplete="nickname" placeholder={t('windows.guestbook.name-placeholder')} />
             </label>
             <label>
-              <span>Note</span>
-              <textarea value={message} onChange={(e) => setMessage(e.target.value)} maxLength={MESSAGE_MAX} required rows={4} placeholder="Say hi, leave a tip, tell me what broke…" />
+              <span>{t('windows.guestbook.note')}</span>
+              <textarea value={message} onChange={(e) => setMessage(e.target.value)} maxLength={MESSAGE_MAX} required rows={4} placeholder={t('windows.guestbook.note-placeholder')} />
               <span className="gb-count" aria-hidden="true">
                 {message.length}/{MESSAGE_MAX}
               </span>
@@ -89,7 +91,7 @@ export default function Guestbook() {
             </label>
             <div className="gb-row">
               <button type="submit" className="pill pill-dark" disabled={status.kind === 'sending'}>
-                {status.kind === 'sending' ? 'Sending…' : 'Send note'}
+                {status.kind === 'sending' ? t('windows.guestbook.sending') : t('windows.guestbook.send')}
               </button>
               {status.kind === 'error' && (
                 <p className="gb-error" role="alert">
@@ -102,13 +104,13 @@ export default function Guestbook() {
       </section>
 
       <section className="gb-notes" aria-labelledby="gb-notes-title">
-        <h2 id="gb-notes-title">Pinned notes</h2>
+        <h2 id="gb-notes-title">{t('windows.guestbook.pinned')}</h2>
         {loadError ? (
-          <p className="gb-empty">The notes didn&apos;t load. They&apos;ll be back.</p>
+          <p className="gb-empty">{t('windows.guestbook.load-failed')}</p>
         ) : notes === null ? (
-          <p className="gb-empty">Loading…</p>
+          <p className="gb-empty">{t('windows.loading')}</p>
         ) : notes.length === 0 ? (
-          <p className="gb-empty">Nothing pinned yet. Be the first.</p>
+          <p className="gb-empty">{t('windows.guestbook.empty')}</p>
         ) : (
           <ul>
             {notes.map((n, i) => (

@@ -1,4 +1,5 @@
 import { marked } from 'marked'
+import { t } from '../text'
 import { useEffect, useMemo, useState } from 'react'
 import { createPortal } from 'react-dom'
 import { getNode } from '../fs'
@@ -20,7 +21,7 @@ function Clock({ timezone, city }: { timezone: string; city: string }) {
   return (
     <span className="chip cv-clock">
       <span className="cv-dot" aria-hidden="true" />
-      {time} in {city} <span className="cv-gap">· {gap}</span>
+      {t('windows.cv.local-time', { time, city })} <span className="cv-gap">· {gap}</span>
     </span>
   )
 }
@@ -39,7 +40,7 @@ function CopyEmail({ email }: { email: string }) {
       onClick={() => navigator.clipboard?.writeText(email).then(() => setCopied(true), () => {})}
       aria-live="polite"
     >
-      {copied ? 'Copied ✓' : 'Copy address'}
+      {copied ? t('windows.cv.copied') : t('windows.cv.copy')}
     </button>
   )
 }
@@ -68,9 +69,9 @@ export default function CvView() {
 
   return (
     <div className="cv-wrap">
-      <section className="cv-card" aria-label="Contact">
+      <section className="cv-card" aria-label={t('windows.cv.label')}>
         <span className="cv-avatar" aria-hidden="true">
-          da
+          {t('desktop.initials')}
         </span>
         <div className="cv-who">
           <h1>{c.name}</h1>
@@ -100,11 +101,11 @@ export default function CvView() {
             <span className="cv-file">cv.md</span>
             {pdfUrl ? (
               <a className="pill" href={pdfUrl} download="Danish-Ali-CV.pdf">
-                Download PDF
+                {t('windows.cv.download')}
               </a>
             ) : cvComingSoon() ? null : (
               <button type="button" className="pill" onClick={() => setPrinting(true)}>
-                Print or save as PDF
+                {t('windows.cv.print')}
               </button>
             )}
           </div>
