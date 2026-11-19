@@ -143,7 +143,7 @@ tree:
   missing: 'tree: {path}: no such folder'
   folded-media: '  ({count} screenshots and videos)'
   folded: '  ({count} files)'
-  summary: '{dirs} {dirs|folder|folders}, {files} {files|file|files}'
+  summary: '{dirs} folders, {files} files'
 
 grep:
   what: 'grep: what should I look for? Try `grep pocketbase`'
