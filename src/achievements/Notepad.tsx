@@ -89,7 +89,7 @@ export default function Notepad() {
           <span>
             <b>{count}</b> of {ACHIEVEMENTS.length} found
           </span>
-          <span className="np-time" title="Time with the site open during this run">
+          <span className="np-time" title="Time with the site open since your first find">
             {finishedAt ? '⏱ ' : ''}
             {formatDuration(ms)}
           </span>

@@ -19,7 +19,7 @@ export interface Progress {
   total: number
   /** Set once every achievement in this run is found. */
   finishedAt: number | null
-  /** Time spent with the site open and visible during this run. */
+  /** Time spent with the site open and visible during this run, counted from the first find. */
   activeMs: number
   /** How many times this visitor has reset. */
   resets: number
@@ -170,7 +170,7 @@ export function resetAchievements() {
   window.dispatchEvent(new CustomEvent('achievements:reset', { detail: next }))
 }
 
-/* ---------- active time: only counts while the tab is visible ---------- */
+/* ---------- active time: starts at the first find, and only counts while the tab is visible ---------- */
 
 let lastTick = performance.now()
 
@@ -180,7 +180,8 @@ function tick() {
   // Gaps over 30s mean the machine slept or the timer was throttled; don't count them.
   const delta = now - lastTick
   lastTick = now
-  if (s.finishedAt || document.visibilityState !== 'visible' || delta > 30_000) return
+  // The clock starts at the first find, so reading around before the hunt begins is free.
+  if (s.finishedAt || Object.keys(s.found).length === 0 || document.visibilityState !== 'visible' || delta > 30_000) return
   useAchievements.setState({ activeMs: s.activeMs + delta })
 }
 

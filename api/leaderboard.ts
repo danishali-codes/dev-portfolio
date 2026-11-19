@@ -142,7 +142,7 @@ async function achFinish(req: Request, body: Record<string, unknown>) {
   if (ids.length !== ACHIEVEMENT_IDS.size || !ids.every((id) => ACHIEVEMENT_IDS.has(id))) return fail('not everything is found yet')
   if (!ids.every((id) => Number.isFinite(found[id]))) return fail('bad run')
 
-  // Rank on time with the tab open when the browser reports it, but never on
+  // Rank on time with the tab open since the first find when the browser reports it, but never on
   // less than the slowest unlock or more than the server's own clock allows.
   const span = Math.max(...ids.map((id) => found[id])) - Math.min(...ids.map((id) => found[id]))
   const active = Number(body.activeMs)
