@@ -1,0 +1,206 @@
+# The windows: welcome, 404, folders, project pages, viewers, stats, guestbook, Ask,
+# CV & contact, system updates, wallpaper picker and the leaderboards.
+# Text here is plain unless a comment says **bold** works.
+
+loading: Loading…
+
+welcome:
+  kicker: Technical Lead · Dubai, UAE
+  title: Hi, I’m Danish.
+  body: I’m a Technical Lead and software developer in Dubai. I build workplace apps, games and interactive experiences, and I’m studying applied AI.
+  label: Introduction
+  work: Selected work
+  about: About
+  contact: Contact
+  featured: Featured projects
+
+not-found:
+  prompt: 'danish@paperos:~$'
+  error: 'cd: no such file or directory: {path}'
+  title: '404: nothing lives here'
+  body: The link may be old, or a letter slipped. Everything that does exist is one click away.
+  did-you-mean: Did you mean {name}?
+  work: Selected work
+  terminal: Open the terminal
+
+folder:
+  missing: This folder no longer exists.
+  path: Folder path
+  back: Back
+  home: home
+  show-icons: Show as icons
+  show-pictures: Show pictures
+  files-in: Files in {folder}
+  pictures-in: Pictures in {folder}
+  play: Play {name}
+  open: Open {name}
+  app: '{name} app'
+
+trash:
+  empty: Empty trash
+  note: Abandoned projects. Restore one to put it back on the desktop for this visit.
+  restore: Restore
+  restore-label: Restore {name} to the desktop
+  # A different excuse each time someone presses Empty trash.
+  excuses:
+    - 'The trash can’t be emptied: these projects still have feelings.'
+    - Emptying… 3%… Danish has stopped the operation. He might finish one of them one day.
+    - Permission denied. The owner of this computer is a digital hoarder.
+    - Are you sure? These took whole weekends. (The answer is no.)
+
+project:
+  live: ● live at {host}
+  playable: ▶ playable on itch.io
+  open: Open {name}
+  play: Play {name} ↗
+  itch: itch.io ↗
+  screenshots: Screenshots & files
+  files: Files
+
+ledger:
+  title: Try it
+  body: 'The public prototype runs the whole pipeline in your browser: upload a bank SMS export and nothing leaves your device.'
+  frame: Try Ledger
+  open: Open the demo ↗
+
+viewer:
+  previous: Previous image
+  next: Next image
+  pause: Pause slideshow
+  play: Play slideshow
+  pause-title: Pause (Space)
+  play-title: Slideshow (Space)
+  full-size: Full size ↗
+  starting: Starting {name}…
+  new-tab: Open in a new tab ↗
+  missing: This file has moved or no longer exists.
+
+stats:
+  loading: reading counters…
+  snapshot: site snapshot {ago}
+  refresh: Refresh stats
+  refreshing: Refreshing…
+  fetched: fetched {ago}
+  no-date: fetch date unavailable
+  contributions: Contributions
+  in-last-year: '{total} in the last year'
+  last-year: the last year
+  heatmap-label: '{total} contributions in the last year. Use the arrow keys to read each day.'
+  day: '{count} {count|contribution|contributions} on {date}'
+  current-streak: current streak
+  streak-days: '{count} {count|day|days}'
+  resting: resting
+  longest-streak: longest streak
+  longest-days: '{count} days'
+  days-with-commits: days with commits
+  of: '{count} of {total}'
+  busiest-day: busiest day
+  busiest: '{count} on {date}'
+  most-active: most active on
+  weekdays: [Sundays, Mondays, Tuesdays, Wednesdays, Thursdays, Fridays, Saturdays]
+  languages: Languages
+  languages-note: by bytes, notebooks left out
+  commits: Recent commits
+  games: Games on itch.io
+  views: views
+  site: This site
+  visits: visits
+  since: ' since {date}'
+  average: average time here
+  projects: projects
+  files: files on this disk
+  site-commits: commits to build it
+  repos: public repos
+  github-since: on GitHub since
+  privacy: 'Visits are counted without cookies or tracking: each page load only sends how long the tab was open.'
+  github-down: GitHub is temporarily unavailable. Try refreshing the stats in a few minutes.
+  # Short time words used all over the stats.
+  minutes-ago: '{n}m ago'
+  hours-ago: '{n}h ago'
+  days-ago: '{n}d ago'
+  minutes-seconds: '{m}m {s}s'
+  seconds: '{s}s'
+
+guestbook:
+  title: Sign the guestbook
+  sub: Notes come to me first. I read every one, and the nice ones get pinned below.
+  # **bold** works here.
+  thanks: "**Thanks, {name}!** Your note is on its way to me. It shows up here once I've read it."
+  friend: friend
+  again: Write another
+  name: Name
+  name-placeholder: Ada
+  note: Note
+  note-placeholder: Say hi, leave a tip, tell me what broke…
+  send: Send note
+  sending: Sending…
+  failed: Something went wrong. Try again in a bit.
+  offline: Could not reach the guestbook. Are you offline?
+  pinned: Pinned notes
+  load-failed: The notes didn't load. They'll be back.
+  empty: Nothing pinned yet. Be the first.
+
+ask:
+  lead: Questions about the projects. If it isn't in the notes, the answer is "I don't know."
+  you: You
+  danish: Danish
+  thinking: Thinking…
+  question: Question
+  placeholder: What is Fuloos?
+  ask: Ask
+
+cv:
+  label: Contact
+  local-time: '{time} in {city}'
+  copy: Copy address
+  copied: Copied ✓
+  download: Download PDF
+  print: Print or save as PDF
+
+# The plain page you get from the Resume button.
+resume:
+  back: Back to the desktop
+  pdf: CV (PDF)
+
+copy-link:
+  copy: Copy link
+  copied: Copied
+  unavailable: Copy unavailable
+  prompt: Copy this link
+
+updates:
+  up-to-date: danishali.dev is up to date
+  build: Build {n}, installed {date}
+  no-history: No update history on this build.
+  history: Update history
+  no-changelog: The changelog couldn't be fetched when this build was made.
+  see-on-github: See it on GitHub ↗
+  build-label: Build {n} on GitHub
+  source: View source ↗
+
+wallpaper:
+  intro: Every wallpaper has a day and a night version, and follows the theme.
+  theme: Theme
+  day: ☀ Day
+  night: ☾ Night
+  label: Wallpaper
+  credits-for: Credits for {name}
+  all-credits: All wallpaper credits
+  via: Via
+  note: Images were resized and converted to WebP. The CC BY-SA ones stay under their original licence.
+
+leaderboard:
+  snake-name: High score! Name for the board
+  save: save
+  rank: "You're #{rank}{earlier}."
+  earlier-higher: ' (your earlier score was higher)'
+  saved: Saved.
+  offline-game: This game started offline, so it can't go on the board.
+  not-timed: This run wasn't timed for the leaderboard. Reset to start a timed one.
+  record-failed: "Couldn't record your time ({error}). "
+  recording: 'Recording your time… '
+  try-again: try again
+  # **bold** works here.
+  your-rank: "You're **#{rank}** on the board. "
+  see-it: see it
+  your-time: 'Your time: **{time}**. Name for the leaderboard'

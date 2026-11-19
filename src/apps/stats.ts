@@ -1,4 +1,5 @@
 /** The numbers behind the Stats window and the `stats` command. */
+import { t } from '../text'
 
 export interface Day {
   date: string
@@ -74,16 +75,16 @@ export function loadVisits() {
 /** "3h ago", "2d ago", "5 Mar" */
 export function ago(iso: string, now = Date.now()) {
   const mins = Math.round((now - new Date(iso).getTime()) / 60_000)
-  if (mins < 60) return `${Math.max(1, mins)}m ago`
-  if (mins < 60 * 24) return `${Math.round(mins / 60)}h ago`
-  if (mins < 60 * 24 * 30) return `${Math.round(mins / 60 / 24)}d ago`
+  if (mins < 60) return t('windows.stats.minutes-ago', { n: Math.max(1, mins) })
+  if (mins < 60 * 24) return t('windows.stats.hours-ago', { n: Math.round(mins / 60) })
+  if (mins < 60 * 24 * 30) return t('windows.stats.days-ago', { n: Math.round(mins / 60 / 24) })
   return new Date(iso).toLocaleDateString(undefined, { day: 'numeric', month: 'short' })
 }
 
 export function duration(seconds: number) {
   const m = Math.floor(seconds / 60)
   const s = seconds % 60
-  return m ? `${m}m ${String(s).padStart(2, '0')}s` : `${s}s`
+  return m ? t('windows.stats.minutes-seconds', { m, s: String(s).padStart(2, '0') }) : t('windows.stats.seconds', { s })
 }
 
 /** 0 to 4, like GitHub's own colour levels, scaled to the busiest day. */

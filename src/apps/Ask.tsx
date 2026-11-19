@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState, type FormEvent } from 'react'
+import { t } from '../text'
 import { takeAsk } from '../shell/askQueue'
 
 interface Msg {
@@ -62,23 +63,23 @@ export default function Ask() {
 
   return (
     <div className="ask">
-      <p className="ask-lead">Questions about the projects. If it isn't in the notes, the answer is "I don't know."</p>
+      <p className="ask-lead">{t('windows.ask.lead')}</p>
       <div className="ask-log" role="log" aria-live="polite">
         {messages.map((m, i) => (
           <p key={i} className={m.role === 'you' ? 'ask-you' : 'ask-danish'}>
-            <b>{m.role === 'you' ? 'You' : 'Danish'}</b> {m.text}
+            <b>{m.role === 'you' ? t('windows.ask.you') : t('windows.ask.danish')}</b> {m.text}
           </p>
         ))}
-        {busy && <p className="ask-danish">Thinking…</p>}
+        {busy && <p className="ask-danish">{t('windows.ask.thinking')}</p>}
         <div ref={end} />
       </div>
       <form className="ask-form" onSubmit={onSubmit}>
         <label className="sr-only" htmlFor="ask-q">
-          Question
+          {t('windows.ask.question')}
         </label>
-        <input id="ask-q" value={question} onChange={(e) => setQuestion(e.target.value)} maxLength={MAX} placeholder="What is Fuloos?" disabled={busy} />
+        <input id="ask-q" value={question} onChange={(e) => setQuestion(e.target.value)} maxLength={MAX} placeholder={t('windows.ask.placeholder')} disabled={busy} />
         <button type="submit" className="pill pill-dark" disabled={busy || !question.trim()}>
-          Ask
+          {t('windows.ask.ask')}
         </button>
       </form>
     </div>

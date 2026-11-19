@@ -1,4 +1,5 @@
 import CopyLink from '../apps/CopyLink'
+import { t } from '../text'
 import { initialiseHistory, notFoundSpec, specFromUrl, syncNavigation } from '../shell/navigation'
 import { useEffect, useRef, useState } from 'react'
 import { findReadme, getNode, projects, TRASH_DIR } from '../fs'
@@ -24,7 +25,7 @@ function StatusBar() {
   return (
     <div className="ph-status" aria-hidden="true">
       <span>{now.toLocaleTimeString(undefined, { hour: '2-digit', minute: '2-digit' })}</span>
-      <span>danishali.dev</span>
+      <span>{t('phone.status')}</span>
     </div>
   )
 }
@@ -55,7 +56,7 @@ export default function Phone() {
   useEffect(() => {
     registerOpener(
       (node: FsNode) => setStack((s) => [...s, specFor(node)]),
-      () => setStack((s) => [...s, { kind: 'terminal', title: 'Terminal' }]),
+      () => setStack((s) => [...s, { kind: 'terminal', title: t('desktop.titles.terminal') }]),
       (spec) => setStack((s) => [...s, spec]),
     )
     registerWallpaperPicker(() => setStack((s) => [...s, WALLPAPER_SPEC]))
@@ -104,14 +105,14 @@ export default function Phone() {
       {current ? (
         <main className="ph-app">
           <header className="ph-app-bar" style={{ ['--ic-color' as string]: current.color }}>
-            <button type="button" className="round-btn" onClick={back} aria-label="Back">
+            <button type="button" className="round-btn" onClick={back} aria-label={t('phone.back')}>
               ‹
             </button>
             <h1 className="ph-app-title" ref={titleRef} tabIndex={-1}>
               {current.title}
             </h1>
             <div className="ph-app-actions"><CopyLink spec={current} /><button type="button" className="ph-home-btn" onClick={() => setStack([])}>
-              Home
+              {t('phone.home')}
             </button></div>
           </header>
           <div className="ph-app-body">
@@ -131,12 +132,12 @@ export default function Phone() {
       ) : (
         <main className="ph-home">
           <div className="ph-hello">
-            <div className="ph-kicker">dev/portfolio</div>
-            <h1 ref={titleRef} tabIndex={-1}>Hi, I’m Danish.</h1>
-            <p>Apps, games and the odd homelab tool</p>
+            <div className="ph-kicker">{t('phone.kicker')}</div>
+            <h1 ref={titleRef} tabIndex={-1}>{t('phone.title')}</h1>
+            <p>{t('phone.tagline')}</p>
             {moved && (
               <button type="button" className="pill ph-reset" onClick={resetIcons}>
-                Put icons back
+                {t('phone.reset')}
               </button>
             )}
           </div>
@@ -144,7 +145,7 @@ export default function Phone() {
             <Draggable as="li" id="app:welcome" stack>
               <button type="button" onClick={() => open(INTRODUCTION)}>
                 <Icon node="introduction" size="xl" />
-                <span>Welcome</span>
+                <span>{t('phone.apps.welcome')}</span>
               </button>
             </Draggable>
             {projects().map((p) => (
@@ -161,31 +162,31 @@ export default function Phone() {
               <Draggable as="li" id="app:about" stack>
                 <button type="button" onClick={() => open(specFor(about))}>
                   <span className="ic ic-xl ic-tile ic-about" aria-hidden="true">
-                    da
+                    {t('desktop.initials')}
                   </span>
-                  <span>About</span>
+                  <span>{t('phone.apps.about')}</span>
                 </button>
               </Draggable>
             )}
             <Draggable as="li" id="app:wallpaper" stack>
               <button type="button" onClick={() => open(WALLPAPER_SPEC)}>
                 <span className="ic ic-xl ic-tile ic-wallpaper" aria-hidden="true" />
-                <span>Wallpaper</span>
+                <span>{t('phone.apps.wallpaper')}</span>
               </button>
             </Draggable>
             <Draggable as="li" id="app:stats" stack>
               <button type="button" onClick={() => open(STATS)}>
                 <Icon node="stats" size="xl" />
-                <span>Stats</span>
+                <span>{t('phone.apps.stats')}</span>
               </button>
             </Draggable>
             {now && (
               <Draggable as="li" id="app:now" stack>
                 <button type="button" onClick={() => open(specFor(now))}>
                   <span className="ic ic-xl ic-tile ic-now" aria-hidden="true">
-                    now
+                    {t('phone.apps.now-icon')}
                   </span>
-                  <span>Now</span>
+                  <span>{t('phone.apps.now')}</span>
                 </button>
               </Draggable>
             )}
@@ -193,7 +194,7 @@ export default function Phone() {
               <Draggable as="li" id="app:cv" stack>
                 <button type="button" onClick={() => open(specFor(cv))}>
                   <Icon node={cv} size="xl" />
-                  <span>CV</span>
+                  <span>{t('phone.apps.cv')}</span>
                 </button>
               </Draggable>
             )}
@@ -202,35 +203,35 @@ export default function Phone() {
                 <span className="ic ic-xl ic-tile ic-guestbook" aria-hidden="true">
                   ✎
                 </span>
-                <span>Guestbook</span>
+                <span>{t('phone.apps.guestbook')}</span>
               </button>
             </Draggable>
             {trash && (
               <Draggable as="li" id="app:trash" stack>
                 <button type="button" onClick={() => open(specFor(trash))}>
                   <Icon node={trash} size="xl" />
-                  <span>Trash</span>
+                  <span>{t('phone.apps.trash')}</span>
                 </button>
               </Draggable>
             )}
           </ul>
-          <nav className="ph-dock" aria-label="Dock">
+          <nav className="ph-dock" aria-label={t('phone.dock')}>
             <Star id="star-menu" className="star-dock" />
-            <button type="button" onClick={() => open({ kind: 'terminal', title: 'Terminal' })}>
+            <button type="button" onClick={() => open({ kind: 'terminal', title: t('desktop.titles.terminal') })}>
               <Icon node="terminal" size="lg" />
-              <span>Terminal</span>
+              <span>{t('phone.apps.terminal')}</span>
             </button>
             {files && (
               <button type="button" onClick={() => open(specFor(files))}>
                 <Icon node={files} size="lg" color="var(--btn-min)" />
-                <span>Files</span>
+                <span>{t('phone.apps.files')}</span>
               </button>
             )}
             <a href="https://github.com/danishali-codes" target="_blank" rel="noreferrer">
               <span className="ic ic-lg ic-tile ic-contact" aria-hidden="true">
                 @
               </span>
-              <span>GitHub</span>
+              <span>{t('phone.apps.github')}</span>
             </a>
           </nav>
         </main>

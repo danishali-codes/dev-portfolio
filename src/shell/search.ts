@@ -1,4 +1,5 @@
 import { allProjects, root, TRASH_DIR } from '../fs'
+import { t } from '../text'
 import type { FsNode } from '../fs/types'
 
 /** One thing Spotlight can open: a project, a file, an app or a terminal command. */
@@ -25,14 +26,14 @@ export interface AppEntry {
 
 /** Desktop apps that aren't files. The desktop maps each id to how it opens. */
 export const APPS: AppEntry[] = [
-  { id: 'welcome', label: 'Welcome', keywords: 'start here introduction hello' },
-  { id: 'terminal', label: 'Terminal', keywords: 'shell console command line' },
-  { id: 'stats', label: 'Stats', keywords: 'github contributions visits numbers' },
-  { id: 'guestbook', label: 'Guestbook', keywords: 'note sign message' },
-  { id: 'ask', label: 'Ask Danish', keywords: 'question chat' },
-  { id: 'wallpaper', label: 'Wallpaper', keywords: 'background theme' },
-  { id: 'updates', label: 'System Updates', keywords: 'changelog what changed news' },
-  { id: 'calendar', label: 'Calendar', keywords: 'date timeline game jams' },
+  { id: 'welcome', label: t('desktop.titles.welcome'), keywords: t('desktop.search.welcome') },
+  { id: 'terminal', label: t('desktop.titles.terminal'), keywords: t('desktop.search.terminal') },
+  { id: 'stats', label: t('desktop.titles.stats'), keywords: t('desktop.search.stats') },
+  { id: 'guestbook', label: t('desktop.titles.guestbook'), keywords: t('desktop.search.guestbook') },
+  { id: 'ask', label: t('desktop.titles.ask'), keywords: t('desktop.search.ask') },
+  { id: 'wallpaper', label: t('desktop.titles.wallpaper'), keywords: t('desktop.search.wallpaper') },
+  { id: 'updates', label: t('desktop.titles.updates'), keywords: t('desktop.search.updates') },
+  { id: 'calendar', label: t('desktop.search.calendar-title'), keywords: t('desktop.search.calendar') },
 ]
 
 /** Every file worth finding by name. Media folders hold dozens of screenshots, so only their folder is listed. */

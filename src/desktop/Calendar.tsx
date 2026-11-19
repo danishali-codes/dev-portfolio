@@ -1,4 +1,5 @@
 import { useEffect, useMemo, useRef, useState } from 'react'
+import { t } from '../text'
 import { getNode } from '../fs'
 import { openNode, openUpdates } from '../shell/opener'
 import { calendarEvents, dayKey, monthGrid, timeline, type CalEvent } from './calendar'
@@ -53,14 +54,14 @@ export default function Calendar({ onClose }: { onClose: () => void }) {
   }
 
   return (
-    <div className="calendar" ref={ref} role="dialog" aria-label="Calendar">
+    <div className="calendar" ref={ref} role="dialog" aria-label={t('desktop.calendar.label')}>
       <div className="cal-head">
         <strong>{today.toLocaleDateString(undefined, { weekday: 'long', day: 'numeric', month: 'long' })}</strong>
       </div>
       <div className="cal-nav">
-        <button type="button" className="round-btn" onClick={() => shift(-1)} aria-label="Previous month">‹</button>
+        <button type="button" className="round-btn" onClick={() => shift(-1)} aria-label={t('desktop.calendar.previous')}>‹</button>
         <span aria-live="polite">{title}</span>
-        <button type="button" className="round-btn" onClick={() => shift(1)} aria-label="Next month">›</button>
+        <button type="button" className="round-btn" onClick={() => shift(1)} aria-label={t('desktop.calendar.next')}>›</button>
       </div>
       <table className="cal-grid">
         <thead>
@@ -78,7 +79,7 @@ export default function Calendar({ onClose }: { onClose: () => void }) {
                   <td key={j}>
                     {ev ? (
                       <button type="button" className={cls} onClick={() => setPicked(picked === k ? null : k)} aria-pressed={picked === k}
-                        aria-label={`${d.toLocaleDateString(undefined, { day: 'numeric', month: 'long' })}: ${ev.length} ${ev.length === 1 ? 'event' : 'events'}`}>
+                        aria-label={t('desktop.calendar.day-label', { date: d.toLocaleDateString(undefined, { day: 'numeric', month: 'long' }), count: ev.length })}>
                         {d.getDate()}
                       </button>
                     ) : (
@@ -92,7 +93,7 @@ export default function Calendar({ onClose }: { onClose: () => void }) {
         </tbody>
       </table>
       {picked && (
-        <ul className="cal-events" aria-label="On this day">
+        <ul className="cal-events" aria-label={t('desktop.calendar.on-this-day')}>
           {shown.map((e, i) => (
             <li key={i}>
               <button type="button" onClick={() => open(e)} style={{ ['--ic-color' as string]: e.color }}>
@@ -104,10 +105,10 @@ export default function Calendar({ onClose }: { onClose: () => void }) {
         </ul>
       )}
       <p className="cal-legend">
-        <span><span className="cal-dot cal-dot-jam" aria-hidden="true" /> game jam</span>
-        <span><span className="cal-dot cal-dot-update" aria-hidden="true" /> site update</span>
+        <span><span className="cal-dot cal-dot-jam" aria-hidden="true" /> {t('desktop.calendar.jam')}</span>
+        <span><span className="cal-dot cal-dot-update" aria-hidden="true" /> {t('desktop.calendar.update')}</span>
       </p>
-      <div className="cal-timeline" aria-label="Timeline">
+      <div className="cal-timeline" aria-label={t('desktop.calendar.timeline')}>
         {years.map(([y, list]) => (
           <div key={y} className="cal-year">
             <span className="cal-year-n">{y}</span>

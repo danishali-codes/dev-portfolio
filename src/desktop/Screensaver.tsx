@@ -75,7 +75,7 @@ function Drifter() {
   return (
     <div className="ss-card" ref={ref} style={{ ['--ss-colour' as string]: COLOURS[colour] }}>
       <div className="ss-badge" aria-hidden="true">
-        da
+        {t('desktop.initials')}
       </div>
       <div>
         <Clock />

@@ -1,4 +1,5 @@
 import { lazy, Suspense, useEffect, type ReactNode } from 'react'
+import { t } from '../text'
 import { markRead } from '../achievements'
 import type { Win } from '../store/windows'
 import FolderView from './FolderView'
@@ -21,7 +22,7 @@ const WallpaperPicker = lazy(() => import('./WallpaperPicker'))
 const Ask = lazy(() => import('./Ask'))
 
 function Loading({ children }: { children: ReactNode }) {
-  return <Suspense fallback={<div className="appframe-loading">Loading…</div>}>{children}</Suspense>
+  return <Suspense fallback={<div className="appframe-loading">{t('windows.loading')}</div>}>{children}</Suspense>
 }
 
 interface RenderOpts {

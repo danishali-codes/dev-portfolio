@@ -1,4 +1,5 @@
 import { getNode } from '../fs'
+import { t } from '../text'
 import { contact, PDF_PATH } from '../shell/contact'
 import { applyRouteMeta } from '../shell/pages'
 import { setResume } from '../shell/plain'
@@ -21,7 +22,7 @@ export default function Resume() {
     <main className="resume">
       <p className="resume-back">
         <button type="button" onClick={back}>
-          Back to the desktop
+          {t('windows.resume.back')}
         </button>
       </p>
       <header>
@@ -38,7 +39,7 @@ export default function Resume() {
           ))}
           {pdfHref && (
             <a href={pdfHref} download="Danish-Ali-CV.pdf">
-              CV (PDF)
+              {t('windows.resume.pdf')}
             </a>
           )}
         </p>

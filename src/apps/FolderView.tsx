@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from 'react'
+import { t } from '../text'
 import { getNode, TRASH_DIR } from '../fs'
 import { emptyTrashLine, useRestored } from '../shell/restored'
 import type { DirNode, FileNode, FsNode } from '../fs/types'
@@ -19,10 +20,10 @@ function Gallery({ dir }: { dir: DirNode }) {
   const images = media.filter((m) => m.kind === 'image')
   return (
     <>
-      <ul className="gallery" aria-label={`Pictures in ${dir.name}`}>
+      <ul className="gallery" aria-label={t('windows.folder.pictures-in', { folder: dir.name })}>
         {media.map((m) => (
           <li key={m.path}>
-            <button type="button" className="gallery-item" onClick={() => openNode(m)} aria-label={`${m.kind === 'video' ? 'Play' : 'Open'} ${m.name}`}>
+            <button type="button" className="gallery-item" onClick={() => openNode(m)} aria-label={t(m.kind === 'video' ? 'windows.folder.play' : 'windows.folder.open', { name: m.name })}>
               {m.kind === 'image' ? (
                 <img src={m.src} alt="" loading="lazy" decoding="async" width={m.width} height={m.height} />
               ) : m.poster ? (
@@ -80,7 +81,7 @@ export default function FolderView({ path, onNavigate, singleClick = false }: Pr
   const restored = useRestored((s) => s.paths)
   const restore = useRestored((s) => s.restore)
   const [trashNote, setTrashNote] = useState('')
-  if (!node || node.type !== 'dir') return <p className="missing">This folder no longer exists.</p>
+  if (!node || node.type !== 'dir') return <p className="missing">{t('windows.folder.missing')}</p>
   const parent = path === '/' ? null : path.slice(0, path.lastIndexOf('/')) || '/'
   const parts = path.split('/').filter(Boolean)
   const meta = node.meta
@@ -91,8 +92,8 @@ export default function FolderView({ path, onNavigate, singleClick = false }: Pr
 
   return (
     <div className="folder">
-      <nav className="folder-bar" aria-label="Folder path">
-        <button type="button" className="round-btn" disabled={!parent} onClick={() => parent && onNavigate(parent)} aria-label="Back">
+      <nav className="folder-bar" aria-label={t('windows.folder.path')}>
+        <button type="button" className="round-btn" disabled={!parent} onClick={() => parent && onNavigate(parent)} aria-label={t('windows.folder.back')}>
           ‹
         </button>
         <button type="button" className={`crumb${parts.length === 0 ? ' here' : ''}`} onClick={() => onNavigate('/')}>
@@ -121,7 +122,7 @@ export default function FolderView({ path, onNavigate, singleClick = false }: Pr
             onClick={() => setViews({ ...views, [path]: view === 'gallery' ? 'icons' : 'gallery' })}
             aria-pressed={view === 'gallery'}
           >
-            {view === 'gallery' ? 'Show as icons' : 'Show pictures'}
+            {view === 'gallery' ? t('windows.folder.show-icons') : t('windows.folder.show-pictures')}
           </button>
         )}
       </nav>
@@ -133,14 +134,14 @@ export default function FolderView({ path, onNavigate, singleClick = false }: Pr
       {path === TRASH_DIR && (
         <div className="trash-bar">
           <button type="button" className="pill" onClick={() => setTrashNote(emptyTrashLine())}>
-            Empty trash
+            {t('windows.trash.empty')}
           </button>
           <p className="trash-note" aria-live="polite">
-            {trashNote || 'Abandoned projects. Restore one to put it back on the desktop for this visit.'}
+            {trashNote || t('windows.trash.note')}
           </p>
         </div>
       )}
-      {view === 'gallery' ? <Gallery dir={node} /> : <ul className="folder-grid" ref={gridRef} aria-label={`Files in ${parts[parts.length - 1] ?? 'home'}`}>
+      {view === 'gallery' ? <Gallery dir={node} /> : <ul className="folder-grid" ref={gridRef} aria-label={t('windows.folder.files-in', { folder: parts[parts.length - 1] ?? t('windows.folder.home') })}>
         {node.children.filter((c) => c.name !== 'project.json' && !restored.includes(c.path)).map((c) => (
           <li key={c.path}>
             <button
@@ -159,11 +160,11 @@ export default function FolderView({ path, onNavigate, singleClick = false }: Pr
               }}
             >
               <Icon node={c} color={meta?.color} />
-              <span className="file-name">{c.type === 'dir' ? (c.meta?.name ?? c.name) : c.kind === 'app' ? `${c.title ?? c.name} app` : c.name}</span>
+              <span className="file-name">{c.type === 'dir' ? (c.meta?.name ?? c.name) : c.kind === 'app' ? t('windows.folder.app', { name: c.title ?? c.name }) : c.name}</span>
             </button>
             {path === TRASH_DIR && c.type === 'dir' && (
-              <button type="button" className="trash-restore" onClick={() => restore(c.path)} aria-label={`Restore ${c.meta?.name ?? c.name} to the desktop`}>
-                Restore
+              <button type="button" className="trash-restore" onClick={() => restore(c.path)} aria-label={t('windows.trash.restore-label', { name: c.meta?.name ?? c.name })}>
+                {t('windows.trash.restore')}
               </button>
             )}
           </li>

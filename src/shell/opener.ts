@@ -1,4 +1,5 @@
 import type { FsNode } from '../fs/types'
+import { t } from '../text'
 import type { OpenSpec } from '../store/windows'
 import { pushAsk } from './askQueue'
 
@@ -32,7 +33,7 @@ export function openTerminal() {
   terminalOpener()
 }
 
-export const UPDATES: OpenSpec = { kind: 'updates', title: 'System Updates' }
+export const UPDATES: OpenSpec = { kind: 'updates', title: t('desktop.titles.updates') }
 
 export function openUpdates() {
   specOpener(UPDATES)
@@ -59,29 +60,29 @@ export function openWallpaperPicker() {
   wallpaperPicker?.()
 }
 
-export const STATS: OpenSpec = { kind: 'stats', title: 'Stats' }
+export const STATS: OpenSpec = { kind: 'stats', title: t('desktop.titles.stats') }
 
 /** Windows that aren't a file, like Stats. */
 export function openStats() {
   specOpener(STATS)
 }
 
-export const GUESTBOOK: OpenSpec = { kind: 'guestbook', title: 'Guestbook' }
+export const GUESTBOOK: OpenSpec = { kind: 'guestbook', title: t('desktop.titles.guestbook') }
 
 export function openGuestbook() {
   specOpener(GUESTBOOK)
 }
 
 export function openAsk(question?: string) {
-  specOpener({ kind: 'ask', title: 'Ask Danish' })
+  specOpener({ kind: 'ask', title: t('desktop.titles.ask') })
   if (question) pushAsk(question)
 }
 
 /** The wallpaper settings window. */
-export const WALLPAPER_SPEC: OpenSpec = { kind: 'wallpaper', title: 'Wallpaper' }
+export const WALLPAPER_SPEC: OpenSpec = { kind: 'wallpaper', title: t('desktop.titles.wallpaper') }
 
 /** The welcome card uses the same window controls as every other app. */
-export const INTRODUCTION: OpenSpec = { kind: 'introduction', title: 'Welcome', color: 'var(--mint)' }
+export const INTRODUCTION: OpenSpec = { kind: 'introduction', title: t('desktop.titles.welcome'), color: 'var(--mint)' }
 
 export function openIntroduction() {
   specOpener(INTRODUCTION)

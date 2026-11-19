@@ -1,4 +1,5 @@
 import { useEffect, useMemo, useRef, useState } from 'react'
+import { t } from '../text'
 import { buildIndex, search, type SearchItem } from '../shell/search'
 import { COMMANDS } from '../terminal/commands'
 import { useTerm } from '../terminal/store'
@@ -86,7 +87,7 @@ export default function Spotlight() {
 
   return (
     <div className="spotlight-scrim" onPointerDown={(e) => e.target === e.currentTarget && close()}>
-      <div className="spotlight" role="dialog" aria-modal="true" aria-label="Search everything">
+      <div className="spotlight" role="dialog" aria-modal="true" aria-label={t('desktop.spotlight.label')}>
         <label className="spotlight-field">
           <span aria-hidden="true">⌕</span>
           <input
@@ -96,8 +97,8 @@ export default function Spotlight() {
             aria-expanded={hits.length > 0}
             aria-controls="spotlight-list"
             aria-activedescendant={hits[sel] ? `spot-${sel}` : undefined}
-            aria-label="Search projects, files, apps and commands"
-            placeholder="Search projects, files, apps and commands"
+            aria-label={t('desktop.spotlight.placeholder')}
+            placeholder={t('desktop.spotlight.placeholder')}
             value={q}
             autoComplete="off"
             spellCheck={false}
@@ -118,7 +119,7 @@ export default function Spotlight() {
           <kbd>esc</kbd>
         </label>
         {q.trim() && (
-          <ul className="spotlight-list" id="spotlight-list" role="listbox" aria-label="Results">
+          <ul className="spotlight-list" id="spotlight-list" role="listbox" aria-label={t('desktop.spotlight.results')}>
             {hits.length === 0 && <li className="spotlight-none">Nothing matches “{q.trim()}”. Try a project name, a file or a command like “ls”.</li>}
             {hits.map((item, i) => (
               <li
@@ -139,7 +140,7 @@ export default function Spotlight() {
             ))}
           </ul>
         )}
-        {!q.trim() && <p className="spotlight-hint">↑↓ to move, Enter to open. Commands run in the terminal.</p>}
+        {!q.trim() && <p className="spotlight-hint">{t('desktop.spotlight.hint')}</p>}
       </div>
     </div>
   )

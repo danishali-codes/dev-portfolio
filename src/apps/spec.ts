@@ -1,4 +1,5 @@
 import { displayPath, findReadme, projectAt, TRASH_DIR } from '../fs'
+import { t } from '../text'
 import type { FsNode } from '../fs/types'
 import { CV_PATH } from '../shell/contact'
 import type { OpenSpec } from '../store/windows'
@@ -9,9 +10,9 @@ export function specFor(node: FsNode): OpenSpec {
     const title = node.meta?.name ?? (node.path === TRASH_DIR ? 'Trash' : displayPath(node.path))
     return { kind: 'folder', path: node.path, title, color: node.meta?.color }
   }
-  if (node.path === CV_PATH) return { kind: 'cv', path: node.path, title: 'CV & contact' }
-  if (node.path === '/now.md') return { kind: 'markdown', path: node.path, title: 'Now' }
-  if (node.path === '/uses.md') return { kind: 'markdown', path: node.path, title: 'Uses' }
+  if (node.path === CV_PATH) return { kind: 'cv', path: node.path, title: t('desktop.titles.cv') }
+  if (node.path === '/now.md') return { kind: 'markdown', path: node.path, title: t('desktop.titles.now') }
+  if (node.path === '/uses.md') return { kind: 'markdown', path: node.path, title: t('desktop.titles.uses') }
   const color = projectColor(node.path)
   if (node.kind === 'app') {
     const title = node.title ?? node.name.replace(/\.app$/, '')

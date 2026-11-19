@@ -1,4 +1,5 @@
 import DesktopNavigation from '../shell/DesktopNavigation'
+import { t } from '../text'
 import { useCallback, useEffect, useState } from 'react'
 import { getNode, projects, TRASH_DIR } from '../fs'
 import type { FsNode } from '../fs/types'
@@ -39,7 +40,7 @@ export default function Desktop() {
   useEffect(() => {
     registerOpener(
       (node: FsNode) => void open(specFor(node)),
-      () => void open({ kind: 'terminal', title: 'Terminal' }),
+      () => void open({ kind: 'terminal', title: t('desktop.titles.terminal') }),
       (spec) => void open(spec),
     )
     registerWallpaperPicker(() => void open(WALLPAPER_SPEC))
@@ -69,7 +70,7 @@ export default function Desktop() {
         <ul
           className={`desk-icons${refreshing ? ' refreshing' : ''}`}
           key={refreshing}
-          aria-label="Desktop"
+          aria-label={t('desktop.menu.label')}
           onAnimationEnd={() => setRefreshing(0)}
         >
           <DeskIcon node="introduction" label="welcome" onOpen={openIntroduction} />
@@ -78,8 +79,8 @@ export default function Desktop() {
           ))}
           <DeskIcon node="terminal" label="terminal" onOpen={openTerminal} />
           <DeskIcon node="stats" label="stats" onOpen={openStats} />
-          {about && <DeskIcon node={about} label="about me" onOpen={() => openNode(about)} />}
-          {cv && <DeskIcon node={cv} label="cv & contact" onOpen={() => openNode(cv)} />}
+          {about && <DeskIcon node={about} label={t('desktop.icons.about')} onOpen={() => openNode(about)} />}
+          {cv && <DeskIcon node={cv} label={t('desktop.icons.cv')} onOpen={() => openNode(cv)} />}
           <DeskIcon node="guestbook" label="guestbook" onOpen={openGuestbook} />
           {trash && <DeskIcon node={trash} label="trash" onOpen={() => openNode(trash)} />}
           {restored.map((path) => {
@@ -89,7 +90,7 @@ export default function Desktop() {
         </ul>
         <NowNote />
         <GuestNotes />
-        {windows.length === 0 && <p className="desk-hint">Double-click a folder (or select it and press Enter) to open it. The dev/portfolio button opens the start menu.</p>}
+        {windows.length === 0 && <p className="desk-hint">{t('desktop.hint')}</p>}
         {windows.map((w) => (
           <Window key={w.id} win={w} active={w.id === top}>
             <WindowContent
@@ -111,22 +112,22 @@ export default function Desktop() {
           y={menu.y}
           onClose={closeMenu}
           items={[
-            { label: 'Refresh', run: () => setRefreshing(Date.now()) },
+            { label: t('desktop.menu.refresh'), run: () => setRefreshing(Date.now()) },
             ...(windows.length
               ? [
-                  { label: 'Tidy up windows', run: resetLayout },
-                  { label: 'Close all windows', run: () => windows.forEach((w) => close(w.id)) },
+                  { label: t('desktop.menu.tidy'), run: resetLayout },
+                  { label: t('desktop.menu.close-all'), run: () => windows.forEach((w) => close(w.id)) },
                 ]
               : []),
-            ...(moved ? [{ label: 'Put icons and notes back', run: resetIcons }] : []),
+            ...(moved ? [{ label: t('desktop.menu.icons-back'), run: resetIcons }] : []),
             'sep',
-            ...(hasWallpaperPicker() ? [{ label: 'Change wallpaper…', run: openWallpaperPicker }] : []),
-            { label: theme === 'dark' ? 'Switch to light mode' : 'Switch to dark mode', run: () => setTheme(theme === 'dark' ? 'light' : 'dark') },
+            ...(hasWallpaperPicker() ? [{ label: t('desktop.menu.wallpaper'), run: openWallpaperPicker }] : []),
+            { label: theme === 'dark' ? t('desktop.menu.to-light') : t('desktop.menu.to-dark'), run: () => setTheme(theme === 'dark' ? 'light' : 'dark') },
             'sep',
-            { label: 'Open terminal', run: openTerminal },
-            { label: 'Stats', run: openStats },
-            { label: 'System updates', run: openUpdates },
-            { label: 'View source', hint: '↗', run: viewSource },
+            { label: t('desktop.menu.terminal'), run: openTerminal },
+            { label: t('desktop.menu.stats'), run: openStats },
+            { label: t('desktop.menu.updates'), run: openUpdates },
+            { label: t('desktop.menu.source'), hint: '↗', run: viewSource },
           ]}
         />
       )}

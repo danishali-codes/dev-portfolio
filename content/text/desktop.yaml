@@ -1,0 +1,134 @@
+# The desktop: taskbar, start menu, icons, right-click menu, windows, search and calendar.
+# Text here is plain (no *markup*) unless a comment says otherwise.
+
+# The little avatar badge in the taskbar, start menu and screensaver.
+initials: da
+brand: dev/portfolio
+hint: Double-click a folder (or select it and press Enter) to open it. The dev/portfolio button opens the start menu.
+
+icons:
+  about: about me
+  cv: cv & contact
+
+taskbar:
+  label: Taskbar
+  open-windows: Open windows
+  minimised-title: '{title} (minimised)'
+  minimised-label: '{title}, minimised'
+  resume: Resume
+  to-light: Switch to light theme
+  to-dark: Switch to dark theme
+  sounds-off: Turn sounds off
+  sounds-on: Turn sounds on
+  sounds-are-on: Sounds on
+  sounds-are-off: Sounds off
+  clock-label: '{date}. Open calendar'
+  online: '{count} here now'
+  online-title: Tabs open on this site in the last two minutes
+  search: Search projects
+  search-results: Matching projects
+  search-everything: Search everything (Ctrl+K)
+
+start:
+  label: Start menu
+  name: Danish Ali
+  tagline: Apps, games and the odd homelab tool
+  projects: PROJECTS
+  welcome: Welcome
+  about: About me
+  cv: CV & contact
+  terminal: Terminal
+  wallpaper: Wallpaper
+  stats: Stats
+  guestbook: Guestbook
+  ask: Ask Danish
+  github: GitHub
+  restart: Restart
+  shutdown: Shut down
+
+# Right-click on the desktop.
+menu:
+  label: Desktop
+  refresh: Refresh
+  tidy: Tidy up windows
+  close-all: Close all windows
+  icons-back: Put icons and notes back
+  wallpaper: Change wallpaper…
+  to-light: Switch to light mode
+  to-dark: Switch to dark mode
+  terminal: Open terminal
+  stats: Stats
+  updates: System updates
+  source: View source
+
+window:
+  minimise: Minimise
+  maximise: Maximise
+  restore: Restore
+  close: Close
+  minimise-label: Minimise {title}
+  maximise-label: Maximise {title}
+  restore-label: Restore {title}
+  close-label: Close {title}
+
+switcher:
+  label: Switch window
+  minimised: minimised
+  hint: Keep holding Alt, press ` to move on
+
+spotlight:
+  label: Search everything
+  placeholder: Search projects, files, apps and commands
+  results: Results
+  hint: ↑↓ to move, Enter to open. Commands run in the terminal.
+
+calendar:
+  label: Calendar
+  previous: Previous month
+  next: Next month
+  day-label: '{date}: {count} {count|event|events}'
+  on-this-day: On this day
+  jam: game jam
+  update: site update
+  timeline: Timeline
+
+now-note:
+  title: Working on
+  updated: Updated {when} · now.md
+  open: Open note · now.md
+
+guest-note:
+  label: Note from {name}
+  close: Close note from {name}
+
+# Window titles (also used in the taskbar and the phone's top bar).
+titles:
+  welcome: Welcome
+  terminal: Terminal
+  stats: Stats
+  guestbook: Guestbook
+  ask: Ask Danish
+  wallpaper: Wallpaper
+  updates: System Updates
+  cv: CV & contact
+  now: Now
+  uses: Uses
+  not-found: Not found
+
+# Ctrl+K search: the apps it can find, and extra words that find them.
+search:
+  welcome: start here introduction hello
+  terminal: shell console command line
+  stats: github contributions visits numbers
+  guestbook: note sign message
+  ask: question chat
+  wallpaper: background theme
+  updates: changelog what changed news
+  calendar: date timeline game jams
+  calendar-title: Calendar
+
+# The time difference on the contact card and in `contact`.
+time-gap:
+  same: same time as you
+  ahead: '{hours} {hours|hour|hours} ahead of you'
+  behind: '{hours} {hours|hour|hours} behind you'

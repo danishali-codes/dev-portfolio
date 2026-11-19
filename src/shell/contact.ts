@@ -1,4 +1,5 @@
 import { getNode } from '../fs'
+import { t } from '../text'
 
 export const CV_PATH = '/cv.md'
 const CONTACT_PATH = '/contact.json'
@@ -41,8 +42,7 @@ export function localTime(timezone: string, now = new Date()) {
     return Date.UTC(get('year'), get('month') - 1, get('day'), get('hour'), get('minute'))
   }
   const diff = Math.round((offset(timezone) - offset(undefined)) / 36e5 * 2) / 2
-  const hours = Math.abs(diff) === 1 ? 'hour' : 'hours'
-  const gap = diff === 0 ? 'same time as you' : diff > 0 ? `${diff} ${hours} ahead of you` : `${-diff} ${hours} behind you`
+  const gap = diff === 0 ? t('desktop.time-gap.same') : diff > 0 ? t('desktop.time-gap.ahead', { hours: diff }) : t('desktop.time-gap.behind', { hours: -diff })
   return { time, gap }
 }
 

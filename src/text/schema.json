@@ -372,6 +372,435 @@
     "list": false,
     "vars": []
   },
+  "desktop.brand": {
+    "list": false,
+    "vars": []
+  },
+  "desktop.calendar.day-label": {
+    "list": false,
+    "vars": [
+      "count",
+      "date"
+    ]
+  },
+  "desktop.calendar.jam": {
+    "list": false,
+    "vars": []
+  },
+  "desktop.calendar.label": {
+    "list": false,
+    "vars": []
+  },
+  "desktop.calendar.next": {
+    "list": false,
+    "vars": []
+  },
+  "desktop.calendar.on-this-day": {
+    "list": false,
+    "vars": []
+  },
+  "desktop.calendar.previous": {
+    "list": false,
+    "vars": []
+  },
+  "desktop.calendar.timeline": {
+    "list": false,
+    "vars": []
+  },
+  "desktop.calendar.update": {
+    "list": false,
+    "vars": []
+  },
+  "desktop.guest-note.close": {
+    "list": false,
+    "vars": [
+      "name"
+    ]
+  },
+  "desktop.guest-note.label": {
+    "list": false,
+    "vars": [
+      "name"
+    ]
+  },
+  "desktop.hint": {
+    "list": false,
+    "vars": []
+  },
+  "desktop.icons.about": {
+    "list": false,
+    "vars": []
+  },
+  "desktop.icons.cv": {
+    "list": false,
+    "vars": []
+  },
+  "desktop.initials": {
+    "list": false,
+    "vars": []
+  },
+  "desktop.menu.close-all": {
+    "list": false,
+    "vars": []
+  },
+  "desktop.menu.icons-back": {
+    "list": false,
+    "vars": []
+  },
+  "desktop.menu.label": {
+    "list": false,
+    "vars": []
+  },
+  "desktop.menu.refresh": {
+    "list": false,
+    "vars": []
+  },
+  "desktop.menu.source": {
+    "list": false,
+    "vars": []
+  },
+  "desktop.menu.stats": {
+    "list": false,
+    "vars": []
+  },
+  "desktop.menu.terminal": {
+    "list": false,
+    "vars": []
+  },
+  "desktop.menu.tidy": {
+    "list": false,
+    "vars": []
+  },
+  "desktop.menu.to-dark": {
+    "list": false,
+    "vars": []
+  },
+  "desktop.menu.to-light": {
+    "list": false,
+    "vars": []
+  },
+  "desktop.menu.updates": {
+    "list": false,
+    "vars": []
+  },
+  "desktop.menu.wallpaper": {
+    "list": false,
+    "vars": []
+  },
+  "desktop.now-note.open": {
+    "list": false,
+    "vars": []
+  },
+  "desktop.now-note.title": {
+    "list": false,
+    "vars": []
+  },
+  "desktop.now-note.updated": {
+    "list": false,
+    "vars": [
+      "when"
+    ]
+  },
+  "desktop.search.ask": {
+    "list": false,
+    "vars": []
+  },
+  "desktop.search.calendar": {
+    "list": false,
+    "vars": []
+  },
+  "desktop.search.calendar-title": {
+    "list": false,
+    "vars": []
+  },
+  "desktop.search.guestbook": {
+    "list": false,
+    "vars": []
+  },
+  "desktop.search.stats": {
+    "list": false,
+    "vars": []
+  },
+  "desktop.search.terminal": {
+    "list": false,
+    "vars": []
+  },
+  "desktop.search.updates": {
+    "list": false,
+    "vars": []
+  },
+  "desktop.search.wallpaper": {
+    "list": false,
+    "vars": []
+  },
+  "desktop.search.welcome": {
+    "list": false,
+    "vars": []
+  },
+  "desktop.spotlight.hint": {
+    "list": false,
+    "vars": []
+  },
+  "desktop.spotlight.label": {
+    "list": false,
+    "vars": []
+  },
+  "desktop.spotlight.placeholder": {
+    "list": false,
+    "vars": []
+  },
+  "desktop.spotlight.results": {
+    "list": false,
+    "vars": []
+  },
+  "desktop.start.about": {
+    "list": false,
+    "vars": []
+  },
+  "desktop.start.ask": {
+    "list": false,
+    "vars": []
+  },
+  "desktop.start.cv": {
+    "list": false,
+    "vars": []
+  },
+  "desktop.start.github": {
+    "list": false,
+    "vars": []
+  },
+  "desktop.start.guestbook": {
+    "list": false,
+    "vars": []
+  },
+  "desktop.start.label": {
+    "list": false,
+    "vars": []
+  },
+  "desktop.start.name": {
+    "list": false,
+    "vars": []
+  },
+  "desktop.start.projects": {
+    "list": false,
+    "vars": []
+  },
+  "desktop.start.restart": {
+    "list": false,
+    "vars": []
+  },
+  "desktop.start.shutdown": {
+    "list": false,
+    "vars": []
+  },
+  "desktop.start.stats": {
+    "list": false,
+    "vars": []
+  },
+  "desktop.start.tagline": {
+    "list": false,
+    "vars": []
+  },
+  "desktop.start.terminal": {
+    "list": false,
+    "vars": []
+  },
+  "desktop.start.wallpaper": {
+    "list": false,
+    "vars": []
+  },
+  "desktop.start.welcome": {
+    "list": false,
+    "vars": []
+  },
+  "desktop.switcher.hint": {
+    "list": false,
+    "vars": []
+  },
+  "desktop.switcher.label": {
+    "list": false,
+    "vars": []
+  },
+  "desktop.switcher.minimised": {
+    "list": false,
+    "vars": []
+  },
+  "desktop.taskbar.clock-label": {
+    "list": false,
+    "vars": [
+      "date"
+    ]
+  },
+  "desktop.taskbar.label": {
+    "list": false,
+    "vars": []
+  },
+  "desktop.taskbar.minimised-label": {
+    "list": false,
+    "vars": [
+      "title"
+    ]
+  },
+  "desktop.taskbar.minimised-title": {
+    "list": false,
+    "vars": [
+      "title"
+    ]
+  },
+  "desktop.taskbar.online": {
+    "list": false,
+    "vars": [
+      "count"
+    ]
+  },
+  "desktop.taskbar.online-title": {
+    "list": false,
+    "vars": []
+  },
+  "desktop.taskbar.open-windows": {
+    "list": false,
+    "vars": []
+  },
+  "desktop.taskbar.resume": {
+    "list": false,
+    "vars": []
+  },
+  "desktop.taskbar.search": {
+    "list": false,
+    "vars": []
+  },
+  "desktop.taskbar.search-everything": {
+    "list": false,
+    "vars": []
+  },
+  "desktop.taskbar.search-results": {
+    "list": false,
+    "vars": []
+  },
+  "desktop.taskbar.sounds-are-off": {
+    "list": false,
+    "vars": []
+  },
+  "desktop.taskbar.sounds-are-on": {
+    "list": false,
+    "vars": []
+  },
+  "desktop.taskbar.sounds-off": {
+    "list": false,
+    "vars": []
+  },
+  "desktop.taskbar.sounds-on": {
+    "list": false,
+    "vars": []
+  },
+  "desktop.taskbar.to-dark": {
+    "list": false,
+    "vars": []
+  },
+  "desktop.taskbar.to-light": {
+    "list": false,
+    "vars": []
+  },
+  "desktop.time-gap.ahead": {
+    "list": false,
+    "vars": [
+      "hours"
+    ]
+  },
+  "desktop.time-gap.behind": {
+    "list": false,
+    "vars": [
+      "hours"
+    ]
+  },
+  "desktop.time-gap.same": {
+    "list": false,
+    "vars": []
+  },
+  "desktop.titles.ask": {
+    "list": false,
+    "vars": []
+  },
+  "desktop.titles.cv": {
+    "list": false,
+    "vars": []
+  },
+  "desktop.titles.guestbook": {
+    "list": false,
+    "vars": []
+  },
+  "desktop.titles.not-found": {
+    "list": false,
+    "vars": []
+  },
+  "desktop.titles.now": {
+    "list": false,
+    "vars": []
+  },
+  "desktop.titles.stats": {
+    "list": false,
+    "vars": []
+  },
+  "desktop.titles.terminal": {
+    "list": false,
+    "vars": []
+  },
+  "desktop.titles.updates": {
+    "list": false,
+    "vars": []
+  },
+  "desktop.titles.uses": {
+    "list": false,
+    "vars": []
+  },
+  "desktop.titles.wallpaper": {
+    "list": false,
+    "vars": []
+  },
+  "desktop.titles.welcome": {
+    "list": false,
+    "vars": []
+  },
+  "desktop.window.close": {
+    "list": false,
+    "vars": []
+  },
+  "desktop.window.close-label": {
+    "list": false,
+    "vars": [
+      "title"
+    ]
+  },
+  "desktop.window.maximise": {
+    "list": false,
+    "vars": []
+  },
+  "desktop.window.maximise-label": {
+    "list": false,
+    "vars": [
+      "title"
+    ]
+  },
+  "desktop.window.minimise": {
+    "list": false,
+    "vars": []
+  },
+  "desktop.window.minimise-label": {
+    "list": false,
+    "vars": [
+      "title"
+    ]
+  },
+  "desktop.window.restore": {
+    "list": false,
+    "vars": []
+  },
+  "desktop.window.restore-label": {
+    "list": false,
+    "vars": [
+      "title"
+    ]
+  },
   "eggs.answer": {
     "list": false,
     "vars": []
@@ -1019,6 +1448,86 @@
     "list": false,
     "vars": []
   },
+  "phone.apps.about": {
+    "list": false,
+    "vars": []
+  },
+  "phone.apps.cv": {
+    "list": false,
+    "vars": []
+  },
+  "phone.apps.files": {
+    "list": false,
+    "vars": []
+  },
+  "phone.apps.github": {
+    "list": false,
+    "vars": []
+  },
+  "phone.apps.guestbook": {
+    "list": false,
+    "vars": []
+  },
+  "phone.apps.now": {
+    "list": false,
+    "vars": []
+  },
+  "phone.apps.now-icon": {
+    "list": false,
+    "vars": []
+  },
+  "phone.apps.stats": {
+    "list": false,
+    "vars": []
+  },
+  "phone.apps.terminal": {
+    "list": false,
+    "vars": []
+  },
+  "phone.apps.trash": {
+    "list": false,
+    "vars": []
+  },
+  "phone.apps.wallpaper": {
+    "list": false,
+    "vars": []
+  },
+  "phone.apps.welcome": {
+    "list": false,
+    "vars": []
+  },
+  "phone.back": {
+    "list": false,
+    "vars": []
+  },
+  "phone.dock": {
+    "list": false,
+    "vars": []
+  },
+  "phone.home": {
+    "list": false,
+    "vars": []
+  },
+  "phone.kicker": {
+    "list": false,
+    "vars": []
+  },
+  "phone.reset": {
+    "list": false,
+    "vars": []
+  },
+  "phone.status": {
+    "list": false,
+    "vars": []
+  },
+  "phone.tagline": {
+    "list": false,
+    "vars": []
+  },
+  "phone.title": {
+    "list": false,
+    "vars": []
+  },
   "terminal.ask": {
     "list": false,
     "vars": []
@@ -1648,6 +2157,729 @@
     ]
   },
   "terminal.who.you": {
+    "list": false,
+    "vars": []
+  },
+  "windows.ask.ask": {
+    "list": false,
+    "vars": []
+  },
+  "windows.ask.danish": {
+    "list": false,
+    "vars": []
+  },
+  "windows.ask.lead": {
+    "list": false,
+    "vars": []
+  },
+  "windows.ask.placeholder": {
+    "list": false,
+    "vars": []
+  },
+  "windows.ask.question": {
+    "list": false,
+    "vars": []
+  },
+  "windows.ask.thinking": {
+    "list": false,
+    "vars": []
+  },
+  "windows.ask.you": {
+    "list": false,
+    "vars": []
+  },
+  "windows.copy-link.copied": {
+    "list": false,
+    "vars": []
+  },
+  "windows.copy-link.copy": {
+    "list": false,
+    "vars": []
+  },
+  "windows.copy-link.prompt": {
+    "list": false,
+    "vars": []
+  },
+  "windows.copy-link.unavailable": {
+    "list": false,
+    "vars": []
+  },
+  "windows.cv.copied": {
+    "list": false,
+    "vars": []
+  },
+  "windows.cv.copy": {
+    "list": false,
+    "vars": []
+  },
+  "windows.cv.download": {
+    "list": false,
+    "vars": []
+  },
+  "windows.cv.label": {
+    "list": false,
+    "vars": []
+  },
+  "windows.cv.local-time": {
+    "list": false,
+    "vars": [
+      "city",
+      "time"
+    ]
+  },
+  "windows.cv.print": {
+    "list": false,
+    "vars": []
+  },
+  "windows.folder.app": {
+    "list": false,
+    "vars": [
+      "name"
+    ]
+  },
+  "windows.folder.back": {
+    "list": false,
+    "vars": []
+  },
+  "windows.folder.files-in": {
+    "list": false,
+    "vars": [
+      "folder"
+    ]
+  },
+  "windows.folder.home": {
+    "list": false,
+    "vars": []
+  },
+  "windows.folder.missing": {
+    "list": false,
+    "vars": []
+  },
+  "windows.folder.open": {
+    "list": false,
+    "vars": [
+      "name"
+    ]
+  },
+  "windows.folder.path": {
+    "list": false,
+    "vars": []
+  },
+  "windows.folder.pictures-in": {
+    "list": false,
+    "vars": [
+      "folder"
+    ]
+  },
+  "windows.folder.play": {
+    "list": false,
+    "vars": [
+      "name"
+    ]
+  },
+  "windows.folder.show-icons": {
+    "list": false,
+    "vars": []
+  },
+  "windows.folder.show-pictures": {
+    "list": false,
+    "vars": []
+  },
+  "windows.guestbook.again": {
+    "list": false,
+    "vars": []
+  },
+  "windows.guestbook.empty": {
+    "list": false,
+    "vars": []
+  },
+  "windows.guestbook.failed": {
+    "list": false,
+    "vars": []
+  },
+  "windows.guestbook.friend": {
+    "list": false,
+    "vars": []
+  },
+  "windows.guestbook.load-failed": {
+    "list": false,
+    "vars": []
+  },
+  "windows.guestbook.name": {
+    "list": false,
+    "vars": []
+  },
+  "windows.guestbook.name-placeholder": {
+    "list": false,
+    "vars": []
+  },
+  "windows.guestbook.note": {
+    "list": false,
+    "vars": []
+  },
+  "windows.guestbook.note-placeholder": {
+    "list": false,
+    "vars": []
+  },
+  "windows.guestbook.offline": {
+    "list": false,
+    "vars": []
+  },
+  "windows.guestbook.pinned": {
+    "list": false,
+    "vars": []
+  },
+  "windows.guestbook.send": {
+    "list": false,
+    "vars": []
+  },
+  "windows.guestbook.sending": {
+    "list": false,
+    "vars": []
+  },
+  "windows.guestbook.sub": {
+    "list": false,
+    "vars": []
+  },
+  "windows.guestbook.thanks": {
+    "list": false,
+    "vars": [
+      "name"
+    ]
+  },
+  "windows.guestbook.title": {
+    "list": false,
+    "vars": []
+  },
+  "windows.leaderboard.earlier-higher": {
+    "list": false,
+    "vars": []
+  },
+  "windows.leaderboard.not-timed": {
+    "list": false,
+    "vars": []
+  },
+  "windows.leaderboard.offline-game": {
+    "list": false,
+    "vars": []
+  },
+  "windows.leaderboard.rank": {
+    "list": false,
+    "vars": [
+      "earlier",
+      "rank"
+    ]
+  },
+  "windows.leaderboard.record-failed": {
+    "list": false,
+    "vars": [
+      "error"
+    ]
+  },
+  "windows.leaderboard.recording": {
+    "list": false,
+    "vars": []
+  },
+  "windows.leaderboard.save": {
+    "list": false,
+    "vars": []
+  },
+  "windows.leaderboard.saved": {
+    "list": false,
+    "vars": []
+  },
+  "windows.leaderboard.see-it": {
+    "list": false,
+    "vars": []
+  },
+  "windows.leaderboard.snake-name": {
+    "list": false,
+    "vars": []
+  },
+  "windows.leaderboard.try-again": {
+    "list": false,
+    "vars": []
+  },
+  "windows.leaderboard.your-rank": {
+    "list": false,
+    "vars": [
+      "rank"
+    ]
+  },
+  "windows.leaderboard.your-time": {
+    "list": false,
+    "vars": [
+      "time"
+    ]
+  },
+  "windows.ledger.body": {
+    "list": false,
+    "vars": []
+  },
+  "windows.ledger.frame": {
+    "list": false,
+    "vars": []
+  },
+  "windows.ledger.open": {
+    "list": false,
+    "vars": []
+  },
+  "windows.ledger.title": {
+    "list": false,
+    "vars": []
+  },
+  "windows.loading": {
+    "list": false,
+    "vars": []
+  },
+  "windows.not-found.body": {
+    "list": false,
+    "vars": []
+  },
+  "windows.not-found.did-you-mean": {
+    "list": false,
+    "vars": [
+      "name"
+    ]
+  },
+  "windows.not-found.error": {
+    "list": false,
+    "vars": [
+      "path"
+    ]
+  },
+  "windows.not-found.prompt": {
+    "list": false,
+    "vars": []
+  },
+  "windows.not-found.terminal": {
+    "list": false,
+    "vars": []
+  },
+  "windows.not-found.title": {
+    "list": false,
+    "vars": []
+  },
+  "windows.not-found.work": {
+    "list": false,
+    "vars": []
+  },
+  "windows.project.files": {
+    "list": false,
+    "vars": []
+  },
+  "windows.project.itch": {
+    "list": false,
+    "vars": []
+  },
+  "windows.project.live": {
+    "list": false,
+    "vars": [
+      "host"
+    ]
+  },
+  "windows.project.open": {
+    "list": false,
+    "vars": [
+      "name"
+    ]
+  },
+  "windows.project.play": {
+    "list": false,
+    "vars": [
+      "name"
+    ]
+  },
+  "windows.project.playable": {
+    "list": false,
+    "vars": []
+  },
+  "windows.project.screenshots": {
+    "list": false,
+    "vars": []
+  },
+  "windows.resume.back": {
+    "list": false,
+    "vars": []
+  },
+  "windows.resume.pdf": {
+    "list": false,
+    "vars": []
+  },
+  "windows.stats.average": {
+    "list": false,
+    "vars": []
+  },
+  "windows.stats.busiest": {
+    "list": false,
+    "vars": [
+      "count",
+      "date"
+    ]
+  },
+  "windows.stats.busiest-day": {
+    "list": false,
+    "vars": []
+  },
+  "windows.stats.commits": {
+    "list": false,
+    "vars": []
+  },
+  "windows.stats.contributions": {
+    "list": false,
+    "vars": []
+  },
+  "windows.stats.current-streak": {
+    "list": false,
+    "vars": []
+  },
+  "windows.stats.day": {
+    "list": false,
+    "vars": [
+      "count",
+      "date"
+    ]
+  },
+  "windows.stats.days-ago": {
+    "list": false,
+    "vars": [
+      "n"
+    ]
+  },
+  "windows.stats.days-with-commits": {
+    "list": false,
+    "vars": []
+  },
+  "windows.stats.fetched": {
+    "list": false,
+    "vars": [
+      "ago"
+    ]
+  },
+  "windows.stats.files": {
+    "list": false,
+    "vars": []
+  },
+  "windows.stats.games": {
+    "list": false,
+    "vars": []
+  },
+  "windows.stats.github-down": {
+    "list": false,
+    "vars": []
+  },
+  "windows.stats.github-since": {
+    "list": false,
+    "vars": []
+  },
+  "windows.stats.heatmap-label": {
+    "list": false,
+    "vars": [
+      "total"
+    ]
+  },
+  "windows.stats.hours-ago": {
+    "list": false,
+    "vars": [
+      "n"
+    ]
+  },
+  "windows.stats.in-last-year": {
+    "list": false,
+    "vars": [
+      "total"
+    ]
+  },
+  "windows.stats.languages": {
+    "list": false,
+    "vars": []
+  },
+  "windows.stats.languages-note": {
+    "list": false,
+    "vars": []
+  },
+  "windows.stats.last-year": {
+    "list": false,
+    "vars": []
+  },
+  "windows.stats.loading": {
+    "list": false,
+    "vars": []
+  },
+  "windows.stats.longest-days": {
+    "list": false,
+    "vars": [
+      "count"
+    ]
+  },
+  "windows.stats.longest-streak": {
+    "list": false,
+    "vars": []
+  },
+  "windows.stats.minutes-ago": {
+    "list": false,
+    "vars": [
+      "n"
+    ]
+  },
+  "windows.stats.minutes-seconds": {
+    "list": false,
+    "vars": [
+      "m",
+      "s"
+    ]
+  },
+  "windows.stats.most-active": {
+    "list": false,
+    "vars": []
+  },
+  "windows.stats.no-date": {
+    "list": false,
+    "vars": []
+  },
+  "windows.stats.of": {
+    "list": false,
+    "vars": [
+      "count",
+      "total"
+    ]
+  },
+  "windows.stats.privacy": {
+    "list": false,
+    "vars": []
+  },
+  "windows.stats.projects": {
+    "list": false,
+    "vars": []
+  },
+  "windows.stats.refresh": {
+    "list": false,
+    "vars": []
+  },
+  "windows.stats.refreshing": {
+    "list": false,
+    "vars": []
+  },
+  "windows.stats.repos": {
+    "list": false,
+    "vars": []
+  },
+  "windows.stats.resting": {
+    "list": false,
+    "vars": []
+  },
+  "windows.stats.seconds": {
+    "list": false,
+    "vars": [
+      "s"
+    ]
+  },
+  "windows.stats.since": {
+    "list": false,
+    "vars": [
+      "date"
+    ]
+  },
+  "windows.stats.site": {
+    "list": false,
+    "vars": []
+  },
+  "windows.stats.site-commits": {
+    "list": false,
+    "vars": []
+  },
+  "windows.stats.snapshot": {
+    "list": false,
+    "vars": [
+      "ago"
+    ]
+  },
+  "windows.stats.streak-days": {
+    "list": false,
+    "vars": [
+      "count"
+    ]
+  },
+  "windows.stats.views": {
+    "list": false,
+    "vars": []
+  },
+  "windows.stats.visits": {
+    "list": false,
+    "vars": []
+  },
+  "windows.stats.weekdays": {
+    "list": true,
+    "vars": []
+  },
+  "windows.trash.empty": {
+    "list": false,
+    "vars": []
+  },
+  "windows.trash.excuses": {
+    "list": true,
+    "vars": []
+  },
+  "windows.trash.note": {
+    "list": false,
+    "vars": []
+  },
+  "windows.trash.restore": {
+    "list": false,
+    "vars": []
+  },
+  "windows.trash.restore-label": {
+    "list": false,
+    "vars": [
+      "name"
+    ]
+  },
+  "windows.updates.build": {
+    "list": false,
+    "vars": [
+      "date",
+      "n"
+    ]
+  },
+  "windows.updates.build-label": {
+    "list": false,
+    "vars": [
+      "n"
+    ]
+  },
+  "windows.updates.history": {
+    "list": false,
+    "vars": []
+  },
+  "windows.updates.no-changelog": {
+    "list": false,
+    "vars": []
+  },
+  "windows.updates.no-history": {
+    "list": false,
+    "vars": []
+  },
+  "windows.updates.see-on-github": {
+    "list": false,
+    "vars": []
+  },
+  "windows.updates.source": {
+    "list": false,
+    "vars": []
+  },
+  "windows.updates.up-to-date": {
+    "list": false,
+    "vars": []
+  },
+  "windows.viewer.full-size": {
+    "list": false,
+    "vars": []
+  },
+  "windows.viewer.missing": {
+    "list": false,
+    "vars": []
+  },
+  "windows.viewer.new-tab": {
+    "list": false,
+    "vars": []
+  },
+  "windows.viewer.next": {
+    "list": false,
+    "vars": []
+  },
+  "windows.viewer.pause": {
+    "list": false,
+    "vars": []
+  },
+  "windows.viewer.pause-title": {
+    "list": false,
+    "vars": []
+  },
+  "windows.viewer.play": {
+    "list": false,
+    "vars": []
+  },
+  "windows.viewer.play-title": {
+    "list": false,
+    "vars": []
+  },
+  "windows.viewer.previous": {
+    "list": false,
+    "vars": []
+  },
+  "windows.viewer.starting": {
+    "list": false,
+    "vars": [
+      "name"
+    ]
+  },
+  "windows.wallpaper.all-credits": {
+    "list": false,
+    "vars": []
+  },
+  "windows.wallpaper.credits-for": {
+    "list": false,
+    "vars": [
+      "name"
+    ]
+  },
+  "windows.wallpaper.day": {
+    "list": false,
+    "vars": []
+  },
+  "windows.wallpaper.intro": {
+    "list": false,
+    "vars": []
+  },
+  "windows.wallpaper.label": {
+    "list": false,
+    "vars": []
+  },
+  "windows.wallpaper.night": {
+    "list": false,
+    "vars": []
+  },
+  "windows.wallpaper.note": {
+    "list": false,
+    "vars": []
+  },
+  "windows.wallpaper.theme": {
+    "list": false,
+    "vars": []
+  },
+  "windows.wallpaper.via": {
+    "list": false,
+    "vars": []
+  },
+  "windows.welcome.about": {
+    "list": false,
+    "vars": []
+  },
+  "windows.welcome.body": {
+    "list": false,
+    "vars": []
+  },
+  "windows.welcome.contact": {
+    "list": false,
+    "vars": []
+  },
+  "windows.welcome.featured": {
+    "list": false,
+    "vars": []
+  },
+  "windows.welcome.kicker": {
+    "list": false,
+    "vars": []
+  },
+  "windows.welcome.label": {
+    "list": false,
+    "vars": []
+  },
+  "windows.welcome.title": {
+    "list": false,
+    "vars": []
+  },
+  "windows.welcome.work": {
     "list": false,
     "vars": []
   }

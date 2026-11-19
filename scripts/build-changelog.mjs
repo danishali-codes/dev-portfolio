@@ -15,7 +15,12 @@ async function fromGitHub() {
   const entries = []
   for (let page = 1; page <= 5; page++) {
     const res = await fetch(`https://api.github.com/repos/${REPO}/pulls?state=closed&per_page=100&page=${page}`, {
-      headers: { accept: 'application/vnd.github+json', 'user-agent': 'danishali.dev-build' },
+      headers: {
+        accept: 'application/vnd.github+json',
+        'user-agent': 'danishali.dev-build',
+        // Optional. Without it the API allows 60 calls an hour per IP, which shared CI runners often use up.
+        ...(process.env.GITHUB_TOKEN ? { authorization: `Bearer ${process.env.GITHUB_TOKEN}` } : {}),
+      },
       signal: AbortSignal.timeout(8000),
     })
     if (!res.ok) throw new Error(`GitHub API ${res.status}`)

@@ -1,15 +1,16 @@
 import { allProjects, findProject, findReadme, getNode } from '../fs'
+import { t } from '../text'
 import { specFor } from '../apps/spec'
 import type { OpenSpec } from '../store/windows'
 
 const SPECIAL: Record<string, OpenSpec> = {
-  '/welcome': { kind: 'introduction', title: 'Welcome', color: 'var(--mint)' },
-  '/ask': { kind: 'ask', title: 'Ask Danish' },
-  '/terminal': { kind: 'terminal', title: 'Terminal' },
-  '/stats': { kind: 'stats', title: 'Stats' },
-  '/guestbook': { kind: 'guestbook', title: 'Guestbook' },
-  '/updates': { kind: 'updates', title: 'System Updates' },
-  '/wallpaper': { kind: 'wallpaper', title: 'Wallpaper' },
+  '/welcome': { kind: 'introduction', title: t('desktop.titles.welcome'), color: 'var(--mint)' },
+  '/ask': { kind: 'ask', title: t('desktop.titles.ask') },
+  '/terminal': { kind: 'terminal', title: t('desktop.titles.terminal') },
+  '/stats': { kind: 'stats', title: t('desktop.titles.stats') },
+  '/guestbook': { kind: 'guestbook', title: t('desktop.titles.guestbook') },
+  '/updates': { kind: 'updates', title: t('desktop.titles.updates') },
+  '/wallpaper': { kind: 'wallpaper', title: t('desktop.titles.wallpaper') },
 }
 const DOCUMENTS: Record<string, string> = { '/uses': '/uses.md', '/resume': '/resume.md', '/about': '/about.md', '/now': '/now.md', '/cv': '/cv.md', '/contact': '/cv.md' }
 
@@ -58,7 +59,7 @@ export function notFoundSpec(input = location.href): OpenSpec | undefined {
   const url = new URL(input, location.origin)
   const path = url.pathname.replace(/\/+$/, '') || '/'
   if (path === '/' || specFromUrl(input)) return undefined
-  return { kind: 'notfound', title: 'Not found', url: path, color: 'var(--peach)' }
+  return { kind: 'notfound', title: t('desktop.titles.not-found'), url: path, color: 'var(--peach)' }
 }
 
 export function initialiseHistory() {

@@ -1,0 +1,24 @@
+# The phone version of the site: the home screen, app labels and the dock.
+
+status: danishali.dev
+back: Back
+home: Home
+kicker: dev/portfolio
+title: Hi, I’m Danish.
+tagline: Apps, games and the odd homelab tool
+reset: Put icons back
+dock: Dock
+
+apps:
+  welcome: Welcome
+  about: About
+  wallpaper: Wallpaper
+  stats: Stats
+  now-icon: now
+  now: Now
+  cv: CV
+  guestbook: Guestbook
+  trash: Trash
+  terminal: Terminal
+  files: Files
+  github: GitHub

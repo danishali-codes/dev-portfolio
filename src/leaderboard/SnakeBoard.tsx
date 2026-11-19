@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState, type FormEvent } from 'react'
+import { t } from '../text'
 import { fetchBoard, rememberName, savedName, snakeSubmit, type Entry } from './api'
 import { nameProblem, tidyName, NAME_MAX } from './names'
 import type { Move } from './snakeEngine'
@@ -53,7 +54,7 @@ export default function SnakeBoard({ game, onDone }: { game: Finished; onDone: (
     rememberName(clean)
     setMine(clean.toLowerCase())
     setPhase('done')
-    setMsg(r.rank ? `You're #${r.rank}${r.improved ? '' : ' (your earlier score was higher)'}.` : 'Saved.')
+    setMsg(r.rank ? t('windows.leaderboard.rank', { rank: r.rank, earlier: r.improved ? '' : t('windows.leaderboard.earlier-higher') }) : t('windows.leaderboard.saved'))
     const b = await fetchBoard('snake')
     if (b.ok) setEntries(b.entries)
     onDone()
@@ -71,7 +72,7 @@ export default function SnakeBoard({ game, onDone }: { game: Finished; onDone: (
             if (e.key === 'Escape') onDone()
           }}
         >
-          <label htmlFor="lb-name">High score! Name for the board</label>
+          <label htmlFor="lb-name">{t('windows.leaderboard.snake-name')}</label>
           <div className="lb-row">
             <input
               id="lb-name"
@@ -84,7 +85,7 @@ export default function SnakeBoard({ game, onDone }: { game: Finished; onDone: (
               disabled={phase === 'sending'}
             />
             <button type="submit" disabled={phase === 'sending'}>
-              {phase === 'sending' ? '…' : 'save'}
+              {phase === 'sending' ? '…' : t('windows.leaderboard.save')}
             </button>
           </div>
         </form>
@@ -93,7 +94,7 @@ export default function SnakeBoard({ game, onDone }: { game: Finished; onDone: (
       {offline ? (
         <p className="lb-msg lb-dim">{offline}</p>
       ) : !game.token ? (
-        <p className="lb-msg lb-dim">This game started offline, so it can't go on the board.</p>
+        <p className="lb-msg lb-dim">{t('windows.leaderboard.offline-game')}</p>
       ) : null}
       {entries && entries.length > 0 && (
         <ol className="lb-list">

@@ -1,4 +1,5 @@
 import { getNode } from '../fs'
+import { t } from '../text'
 import type { FsNode } from '../fs/types'
 import Icon from '../apps/Icon'
 import { formatUpdated, NOW_PATH, readNow } from '../apps/now'
@@ -15,7 +16,7 @@ export function NowNote() {
     <Draggable as="aside" id="now-note" className="now-note" aria-labelledby="now-note-title">
       <h2 id="now-note-title">
         <span className="now-dot" aria-hidden="true" />
-        Working on
+        {t('desktop.now-note.title')}
       </h2>
       <ul>
         {now.items.slice(0, 4).map((item) => (
@@ -23,7 +24,7 @@ export function NowNote() {
         ))}
       </ul>
       <button type="button" className="now-more" onClick={() => openNode(node)}>
-        {when ? `Updated ${when}` : 'Open note'} · now.md
+        {when ? t('desktop.now-note.updated', { when }) : t('desktop.now-note.open')}
       </button>
     </Draggable>
   )

@@ -1,4 +1,6 @@
 import { useState, type FormEvent } from 'react'
+import { t } from '../text'
+import { Rich } from '../text/Rich'
 import { formatMs, rememberName, savedName } from './api'
 import { NAME_MAX, nameProblem, tidyName } from './names'
 import { retryFinish, submitRun, useRun } from './achievementRun'
@@ -18,15 +20,15 @@ export default function AchBoard() {
   const [sending, setSending] = useState(false)
 
   if (!ranked || !token) {
-    return <p className="lb-ach-note">This run wasn't timed for the leaderboard. Reset to start a timed one.</p>
+    return <p className="lb-ach-note">{t('windows.leaderboard.not-timed')}</p>
   }
   if (!finish) {
     return (
       <p className="lb-ach-note">
-        {error ? `Couldn't record your time (${error}). ` : 'Recording your time… '}
+        {error ? t('windows.leaderboard.record-failed', { error }) : t('windows.leaderboard.recording')}
         {error && (
           <button type="button" className="lb-ach-link" onClick={() => void retryFinish()}>
-            try again
+            {t('windows.leaderboard.try-again')}
           </button>
         )}
       </p>
@@ -35,9 +37,9 @@ export default function AchBoard() {
   if (rank !== null) {
     return (
       <p className="lb-ach-note">
-        You're <b>#{rank}</b> on the board.{' '}
+        <Rich k="windows.leaderboard.your-rank" vars={{ rank }} />
         <button type="button" className="lb-ach-link" onClick={showBoard}>
-          see it
+          {t('windows.leaderboard.see-it')}
         </button>
       </p>
     )
@@ -59,7 +61,7 @@ export default function AchBoard() {
   return (
     <form className="lb-ach" onSubmit={submit}>
       <label htmlFor="lb-ach-name">
-        Your time: <b>{formatMs(ms ?? 0)}</b>. Name for the leaderboard
+        <Rich k="windows.leaderboard.your-time" vars={{ time: formatMs(ms ?? 0) }} />
       </label>
       <div className="lb-ach-row">
         <input
@@ -72,7 +74,7 @@ export default function AchBoard() {
           disabled={sending}
         />
         <button type="submit" disabled={sending}>
-          {sending ? '…' : 'save'}
+          {sending ? '…' : t('windows.leaderboard.save')}
         </button>
       </div>
       {msg && <p className="lb-ach-msg">{msg}</p>}

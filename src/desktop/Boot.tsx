@@ -56,7 +56,7 @@ function Splash({ duration, onDone }: { duration: number; onDone: () => void }) 
   return (
     <div className="boot-splash">
       <div className="boot-logo" aria-hidden="true">
-        da
+        {t('desktop.initials')}
       </div>
       <div className="boot-name">{t('gags.boot.name')}</div>
       <div className="boot-bar" aria-hidden="true">
