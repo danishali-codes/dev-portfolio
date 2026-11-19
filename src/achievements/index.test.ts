@@ -61,4 +61,18 @@ describe('achievements', () => {
     expect(formatDuration(125_000)).toBe('2:05')
     expect(formatDuration(3_660_000)).toBe('1h 01m')
   })
+
+  it('starts the clock at the first find', () => {
+    vi.useFakeTimers()
+    try {
+      resetAchievements()
+      vi.advanceTimersByTime(20_000)
+      expect(getProgress().activeMs).toBe(0)
+      unlock('sudo')
+      vi.advanceTimersByTime(10_000)
+      expect(getProgress().activeMs).toBeGreaterThanOrEqual(9_000)
+    } finally {
+      vi.useRealTimers()
+    }
+  })
 })
