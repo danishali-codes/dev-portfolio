@@ -48,7 +48,10 @@ export function useIconColumns(list: RefObject<HTMLElement | null>, area: RefObj
       const cs = getComputedStyle(ul)
       const pad = parseFloat(cs.paddingTop) + parseFloat(cs.paddingBottom)
       const cols = iconColumns(ul.children.length, box.clientHeight - pad, first.offsetHeight, parseFloat(cs.rowGap) || 0)
+      if (ul.style.getPropertyValue('--desk-cols') === String(cols)) return
       ul.style.setProperty('--desk-cols', String(cols))
+      // Icons that were dragged sit relative to their grid cell, which just moved: let them refit (Draggable listens for resize).
+      requestAnimationFrame(() => window.dispatchEvent(new Event('resize')))
     })
   }, [list, area, key])
 }
