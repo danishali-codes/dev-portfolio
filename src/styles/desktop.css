@@ -1444,3 +1444,28 @@ button.tb-clock:hover {
   height: 12px;
   border-radius: 4px;
 }
+
+/* ---------- Sound toggle and who's online ---------- */
+.tb-sound {
+  display: grid;
+  place-items: center;
+}
+.tb-online {
+  flex: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 0 10px;
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--muted);
+  white-space: nowrap;
+}
+.tb-online-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--mint);
+  box-shadow: 0 0 0 3px var(--mint-soft);
+}
+@media (max-width: 1000px) { .tb-online { display: none; } }

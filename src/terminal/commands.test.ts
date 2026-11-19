@@ -74,4 +74,36 @@ describe('terminal commands', () => {
     expect(complete('cat abou', '/')).toBe('cat about.md ')
     expect(complete('zzz', '/')).toBe('zzz')
   })
+
+  it('draws a tree, folding screenshot folders into a count', () => {
+    const { ctx, text } = makeCtx('/projects')
+    execute('tree fuloos', ctx)
+    expect(text()).toContain('├── ')
+    expect(text()).toContain('README.md')
+    expect(text()).toMatch(/media\/ {2}\(\d+ screenshots and videos\)/)
+    expect(text()).not.toContain('project.json')
+    expect(text()).toMatch(/\d+ folders, \d+ files/)
+  })
+
+  it('greps the write-ups with smartcase and a folder to narrow it', () => {
+    const { ctx, text } = makeCtx('/')
+    execute('grep pocketbase projects/lockout', ctx)
+    expect(text()).toMatch(/projects\/lockout\/README\.md:\d+:/)
+    expect(text()).not.toContain('fuloos/')
+    const quiet = makeCtx('/')
+    execute('grep zzqqxx', quiet.ctx)
+    expect(quiet.text()).toContain('no matches')
+  })
+
+  it('reads git log from the changelog and shows open windows in top', () => {
+    const { ctx, text } = makeCtx('/')
+    execute('git log --oneline -3', ctx)
+    const commits = text().split('\n').filter((l) => l.startsWith('#')).length
+    // The changelog comes from GitHub at build time, so how many entries there are depends on the build.
+    expect(commits).toBeGreaterThan(0)
+    expect(commits).toBeLessThanOrEqual(3)
+    const t = makeCtx('/')
+    execute('top', t.ctx)
+    expect(t.text()).toContain('paperos-wm')
+  })
 })

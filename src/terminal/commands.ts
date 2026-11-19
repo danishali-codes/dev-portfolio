@@ -10,6 +10,7 @@ import { findWallpaper, getWallpaper, setWallpaper, WALLPAPERS } from '../shell/
 import { EGG_COMMANDS, HIDDEN_FILES } from './eggs'
 import { unlock } from '../achievements'
 import { LEADERBOARD_COMMANDS } from '../leaderboard/commands'
+import { UNIX_COMMANDS } from './unix'
 import { cmd, err, txt, type Line, type Seg } from './lines'
 
 export type { Line, Seg } from './lines'
@@ -320,6 +321,7 @@ export const COMMANDS: Record<string, Command> = {
       if (!startScreensaver()) print(err('screensaver: phones lock their own screen'))
     },
   },
+  ...UNIX_COMMANDS,
   echo: {
     desc: 'print some text',
     usage: 'echo <text>',

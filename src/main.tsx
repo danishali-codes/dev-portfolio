@@ -17,12 +17,14 @@ import { handleSecretPath } from './achievements/routes'
 import { applyRouteMeta } from './shell/pages'
 import { startVisitClock } from './shell/visit'
 import { initAchievementRun } from './leaderboard/achievementRun'
+import { wireSounds } from './shell/soundEvents'
 
 handleSecretPath()
 applyRouteMeta()
 greet()
 startVisitClock()
 initAchievementRun()
+wireSounds()
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
