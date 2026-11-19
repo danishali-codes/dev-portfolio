@@ -65,7 +65,8 @@ async function askModel(model: string, key: string, question: string, signal: Ab
         generationConfig: {
           maxOutputTokens: MAX_TOKENS,
           temperature: 0.2,
-          thinkingConfig: { thinkingLevel: 'minimal' },
+          // 'minimal' would be faster, but gemini-flash-latest rejects it with a 400.
+          thinkingConfig: { thinkingLevel: 'low' },
         },
       }),
     })
