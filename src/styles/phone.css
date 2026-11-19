@@ -174,3 +174,5 @@
 .ph-app-bar { grid-template-columns: 28px minmax(0, 1fr) auto; gap: 6px; }
 .ph-app-actions { display: flex; align-items: center; gap: 5px; }
 .ph-app-actions .copy-link, .ph-home-btn { font-size: 11px; padding: 4px 7px; white-space: nowrap; }
+
+.ph-reset { margin-top: 10px; font-size: 13px; padding: 6px 12px; }

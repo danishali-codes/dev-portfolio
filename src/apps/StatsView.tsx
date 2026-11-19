@@ -29,23 +29,63 @@ function Section({ title, note, children }: { title: string; note?: ReactNode; c
 function Heatmap({ c }: { c: Contributions }) {
   const cols = weeks(c.days)
   const max = Math.max(...c.days.map((d) => d.count))
-  const fmt = (date: string) => new Date(`${date}T00:00:00Z`).toLocaleDateString(undefined, { day: 'numeric', month: 'short', timeZone: 'UTC' })
+  const fmt = (date: string) => new Date(`${date}T00:00:00Z`).toLocaleDateString(undefined, { weekday: 'short', day: 'numeric', month: 'short', timeZone: 'UTC' })
+  const lastWeek = cols.length - 1
+  const lastDay = Math.max(0, (cols[lastWeek] ?? []).reduce((last, x, i) => (x ? i : last), 0))
+  // Hover, a tap or the arrow keys pick a day; its count shows in the caption, so the map works without a mouse.
+  const [sel, setSel] = useState<[number, number] | null>(null)
+  const [w, d] = sel ?? [lastWeek, lastDay]
+  const day = cols[w]?.[d]
+  const describe = (x: NonNullable<typeof day>) => c.exact ? `${x.count} contribution${x.count === 1 ? '' : 's'} on ${fmt(x.date)}` : fmt(x.date)
+  const move = (dw: number, dd: number) => {
+    let nw = w + dw
+    let nd = d + dd
+    if (nd < 0) { nd = 6; nw -= 1 }
+    if (nd > 6) { nd = 0; nw += 1 }
+    nw = Math.max(0, Math.min(lastWeek, nw))
+    if (cols[nw]?.[nd]) setSel([nw, nd])
+  }
   return (
-    <div className="st-heat-scroll">
-      <div className="st-heat" role="img" aria-label={`${c.total} contributions in the last year`}>
-        {cols.map((week, i) => (
-          <div className="st-week" key={i}>
-            {week.map((d, j) =>
-              d ? (
-                <span key={j} className={`st-cell l${c.exact ? level(d.count, max) : Math.min(4, d.count)}`} title={c.exact ? `${d.count} on ${fmt(d.date)}` : fmt(d.date)} />
-              ) : (
-                <span key={j} className="st-cell st-empty" />
-              ),
-            )}
-          </div>
-        ))}
+    <>
+      <div className="st-heat-scroll">
+        <div
+          className="st-heat"
+          role="group"
+          tabIndex={0}
+          aria-label={`${c.total} contributions in the last year. Use the arrow keys to read each day.`}
+          aria-describedby="st-heat-day"
+          onKeyDown={(e) => {
+            const step = { ArrowLeft: [-1, 0], ArrowRight: [1, 0], ArrowUp: [0, -1], ArrowDown: [0, 1] }[e.key]
+            if (step) {
+              e.preventDefault()
+              move(step[0], step[1])
+            } else if (e.key === 'Home' || e.key === 'End') {
+              e.preventDefault()
+              setSel(e.key === 'End' ? [lastWeek, lastDay] : [0, cols[0].findIndex(Boolean)])
+            }
+          }}
+        >
+          {cols.map((week, i) => (
+            <div className="st-week" key={i}>
+              {week.map((x, j) =>
+                x ? (
+                  <span
+                    key={j}
+                    className={`st-cell l${c.exact ? level(x.count, max) : Math.min(4, x.count)}${sel && i === w && j === d ? ' st-sel' : ''}`}
+                    title={describe(x)}
+                    onPointerEnter={(e) => e.pointerType === 'mouse' && setSel([i, j])}
+                    onPointerDown={() => setSel([i, j])}
+                  />
+                ) : (
+                  <span key={j} className="st-cell st-empty" />
+                ),
+              )}
+            </div>
+          ))}
+        </div>
       </div>
-    </div>
+      <p className="st-heat-day" id="st-heat-day" aria-live="polite">{day ? describe(day) : ''}</p>
+    </>
   )
 }
 

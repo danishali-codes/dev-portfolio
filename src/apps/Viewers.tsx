@@ -81,6 +81,11 @@ function ProjectHeader({ dir }: { dir: DirNode }) {
             {game ? `Play ${meta.name}` : 'itch.io'} ↗
           </a>
         )}
+        {dir.children.some((c) => c.type === 'dir' || (c.type === 'file' && (c.kind === 'image' || c.kind === 'video' || c.kind === 'pdf'))) && (
+          <button type="button" className="pill" onClick={() => openNode(dir)}>
+            {dir.children.some((c) => c.name === 'media') ? 'Screenshots & files' : 'Files'}
+          </button>
+        )}
         {links
           .filter((l) => l !== itch)
           .map((l) => (
