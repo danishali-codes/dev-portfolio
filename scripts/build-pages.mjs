@@ -13,6 +13,19 @@ const template = readFileSync(join(out, 'index.html'), 'utf8')
   .replace(/<!--portfolio-meta:start-->[\s\S]*?<!--portfolio-meta:end-->/g, '')
   .replace(/<div id="root">[\s\S]*?<\/div>(?=\s*<noscript>)/, '<div id="root"></div>')
 const origin = 'https://danishali.dev'
+const contact = JSON.parse(readFileSync(join(root, 'content/contact.json'), 'utf8'))
+// Structured data so a search for Danish's name can show who he is and where his profiles are.
+const person = {
+  '@context': 'https://schema.org',
+  '@type': 'Person',
+  name: contact.name,
+  url: origin + '/',
+  jobTitle: contact.role,
+  email: contact.email ? 'mailto:' + contact.email : undefined,
+  address: { '@type': 'PostalAddress', addressLocality: 'Dubai', addressCountry: 'AE' },
+  sameAs: (contact.links ?? []).map((l) => l.url).filter((u) => /^https:\/\//.test(u)),
+}
+const personTag = '<script type="application/ld+json">' + JSON.stringify(person).replace(/</g, '\\u003c') + '</script>'
 const font = opentype.parse(readFileSync(join(root, 'node_modules/@fontsource/nunito/files/nunito-latin-800-normal.woff')))
 function label(text, x, y, size, align = 'left') {
   const glyphs = [...text].map((char) => font.charToGlyph(char))
@@ -48,7 +61,9 @@ for (const [route, name, title] of [['/about', 'about.md', 'About'], ['/contact'
 for (const [route, title] of [['/welcome', 'Welcome'], ['/ask', 'Ask Danish'], ['/stats', 'Stats'], ['/terminal', 'Terminal'], ['/guestbook', 'Guestbook'], ['/updates', 'System Updates'], ['/wallpaper', 'Wallpaper']]) {
   pages.push({ route, title: title + ' · Danish Ali', description: title + ' on Danish Ali’s interactive portfolio.', text: '# ' + title })
 }
-pages.find((p) => p.route === '/projects').text += '\n\n' + pages.filter((p) => p.route.startsWith('/projects/')).map((p) => '- [' + p.title.replace(' · Danish Ali', '') + '](' + p.route + ') — ' + p.description).join('\n')
+const projectList = pages.filter((p) => p.route.startsWith('/projects/')).map((p) => '- [' + p.title.replace(' · Danish Ali', '') + '](' + p.route + ') — ' + p.description).join('\n')
+pages.find((p) => p.route === '/').text += '\n\n## Projects\n\n' + projectList
+pages.find((p) => p.route === '/projects').text += '\n\n' + projectList
 
 // Each card is rendered from text and shapes; no external image service is needed.
 function lines(text, limit = 36) {
@@ -87,7 +102,7 @@ for (const page of pages) {
   const tags = '<link rel="canonical" href="' + origin + page.route + '" />\n' +
     '<meta property="og:image" content="' + image + '" /><meta property="og:image:width" content="1200" /><meta property="og:image:height" content="630" />' +
     '<meta property="og:image:alt" content="' + escape(page.title) + '" /><meta name="twitter:image" content="' + image + '" />'
-  html = html.replace('</head>', '<!--portfolio-meta:start-->' + tags + '<!--portfolio-meta:end-->\n</head>')
+  html = html.replace('</head>', '<!--portfolio-meta:start-->' + tags + (page.route === '/' ? personTag : '') + '<!--portfolio-meta:end-->\n</head>')
   html = html.replace('<div id="root"></div>', '<div id="root"><main style="max-width:760px;margin:48px auto;padding:24px;font:18px/1.6 sans-serif">' + marked.parse(page.text.replace(/<!--[\s\S]*?-->/g, '')) + '</main></div>')
   const dest = page.route === '/' ? join(out, 'index.html') : join(out, page.route, 'index.html')
   mkdirSync(dirname(dest), { recursive: true })

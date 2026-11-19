@@ -4,8 +4,10 @@
 //
 // A project.json with "repo": "owner/name" also gets a media/ folder listing the
 // screenshots and videos in that repo's portfolio/ folder (or the folder named
-// by "media"). They load straight from GitHub, so pushing a new screenshot to a
-// project's repo and redeploying this site is enough to show it.
+// by "media"). They are downloaded at build time and go through the same WebP
+// step as local images, so pushing a new screenshot to a project's repo and
+// redeploying this site is enough to show it. A file that fails to download
+// falls back to its GitHub URL.
 import { execFileSync } from 'node:child_process'
 import { cpSync, mkdirSync, readdirSync, readFileSync, rmSync, statSync, writeFileSync } from 'node:fs'
 import { extname, join, posix } from 'node:path'
@@ -88,6 +90,41 @@ function readJson(file) {
   }
 }
 
+/** Copy or download an image's metadata: a smaller WebP for the viewer, and its size. */
+async function describeImage(node, full, dest) {
+  const small = await shrink(full, dest, node.src)
+  if (small) {
+    node.full = node.src
+    node.src = small.src
+  }
+  const size = small ?? (await sizeOf(full))
+  if (size) {
+    node.width = size.width
+    node.height = size.height
+  }
+}
+
+/** demo.gif next to demo.mp4 is the same clip in a heavier format; keep only the video. */
+function dropGifTwins(files) {
+  const videos = new Set(files.filter((f) => /\.(mp4|webm)$/i.test(f.name)).map((f) => f.name.replace(/\.[^.]+$/, '').toLowerCase()))
+  return files.filter((f) => !(/\.gif$/i.test(f.name) && videos.has(f.name.replace(/\.[^.]+$/, '').toLowerCase())))
+}
+
+/** Save a remote file under public/fs at urlPath; returns the local file path, or undefined if it failed. */
+async function download(url, urlPath) {
+  const dest = join(OUT_ASSETS, urlPath)
+  try {
+    const res = await fetch(url, { headers: { 'User-Agent': 'dev-portfolio-build' }, signal: AbortSignal.timeout(30_000) })
+    if (!res.ok) throw new Error(`HTTP ${res.status}`)
+    mkdirSync(join(dest, '..'), { recursive: true })
+    writeFileSync(dest, Buffer.from(await res.arrayBuffer()))
+    return dest
+  } catch (err) {
+    console.warn(`content: kept ${url} remote (${err.message})`)
+    return undefined
+  }
+}
+
 /** demo-poster.jpg next to demo.mp4 becomes the video's poster instead of its own file. */
 function attachPosters(children) {
   for (const video of children.filter((c) => c.kind === 'video')) {
@@ -136,7 +173,8 @@ async function repoMedia(meta, path) {
     return undefined
   }
   const dirPath = posix.join(path, 'media')
-  const nodes = files
+  const listed = dropGifTwins(files)
+  const nodes = listed
     .map((f) => ({ ...f, kind: KINDS[extname(f.name).toLowerCase()] }))
     .filter((f) => MEDIA_KINDS.has(f.kind) && !/-poster\.(jpe?g|png|webp)$/i.test(f.name))
     .sort((a, b) => a.name.localeCompare(b.name))
@@ -144,11 +182,23 @@ async function repoMedia(meta, path) {
       const node = { type: 'file', name: f.name, path: posix.join(dirPath, f.name), kind: f.kind, src: f.url }
       if (f.kind === 'video') {
         const base = f.name.replace(/\.[^.]+$/, '')
-        const poster = files.find((p) => new RegExp(`^${base}-poster\\.(jpe?g|png|webp)$`, 'i').test(p.name))
-        if (poster) node.poster = poster.url
+        const poster = listed.find((p) => new RegExp(`^${base}-poster\\.(jpe?g|png|webp)$`, 'i').test(p.name))
+        if (poster) node.poster = { name: poster.name, url: poster.url }
       }
       return node
     })
+  // Serve the files from this site, so they are cached with it, shrunk like local images and don't depend on GitHub.
+  for (const node of nodes) {
+    const local = await download(node.src, node.path)
+    if (local) {
+      node.src = `/fs${node.path}`
+      if (node.kind === 'image') await describeImage(node, local, local)
+    }
+    if (node.poster) {
+      const posterPath = posix.join(dirPath, node.poster.name)
+      node.poster = (await download(node.poster.url, posterPath)) ? `/fs${posterPath}` : node.poster.url
+    }
+  }
   // Videos first, then screenshots in name order (01-..., 02-...).
   nodes.sort((a, b) => (a.kind === b.kind ? 0 : a.kind === 'video' ? -1 : 1))
   return nodes.length ? { type: 'dir', name: 'media', path: dirPath, children: nodes } : undefined
@@ -161,7 +211,9 @@ async function walk(dir, path) {
   const children = []
   let meta
 
+  const kept = new Set(dropGifTwins(entries.map((name) => ({ name }))).map((f) => f.name))
   for (const name of entries) {
+    if (!kept.has(name)) continue
     const full = join(dir, name)
     const childPath = posix.join(path, name)
     if (statSync(full).isDirectory()) {
@@ -185,18 +237,7 @@ async function walk(dir, path) {
       mkdirSync(join(dest, '..'), { recursive: true })
       cpSync(full, dest)
       node.src = `/fs${childPath}`
-      if (kind === 'image') {
-        const small = await shrink(full, dest, node.src)
-        if (small) {
-          node.full = node.src
-          node.src = small.src
-        }
-        const size = small ?? (await sizeOf(full))
-        if (size) {
-          node.width = size.width
-          node.height = size.height
-        }
-      }
+      if (kind === 'image') await describeImage(node, full, dest)
     }
     children.push(node)
   }
