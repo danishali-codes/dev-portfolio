@@ -26,6 +26,7 @@ In progress.
 
 - **Fuloos** is a personal budgeting app for UAE bank statements and SMS alerts, with category suggestions and recurring payment detection. [Open Fuloos](https://fuloos.danishali.dev)
 - **Lockout** is a quiz night game with a TV board and phone buzzers. [Open Lockout](https://jeopardy.danishali.dev)
+- **Sabr** is a free, open-source medicine reminder for Android that tracks doses, streaks and stock, with everything kept on the phone. [Open Sabr](https://sabr.danishali.dev)
 - **Ledger** categorises UAE bank SMS expenses and answers questions about them. [Open Ledger](https://ledger.danishali.dev)
 - **Game jam projects** include Game Dev Loop, Rolling in Dough and The Feed, built with Unity and C#.
 
