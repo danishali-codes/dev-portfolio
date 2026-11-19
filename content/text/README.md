@@ -11,8 +11,11 @@ Everything the site says lives in these files. Edit one on GitHub (the pencil ic
 | `desktop.yaml` | Taskbar, start menu, desktop icons, right-click menu, window buttons and titles, Ctrl+K search, calendar, the Now note |
 | `windows.yaml` | Welcome, 404, folders and trash, project pages, image viewer, Stats, Guestbook, Ask, CV & contact, System Updates, wallpaper picker, leaderboards |
 | `phone.yaml` | The phone home screen and dock |
+<<<<<<< HEAD
 | `site.yaml` | Page titles and the descriptions shown in link previews and search results |
 | `server.yaml` | Guestbook, Ask Danish and leaderboard messages, and the instructions Ask Danish's AI follows |
+=======
+>>>>>>> d67cdb7eb319b4b8acdef34212123a90cbbaa8c1
 
 The About page, Now note, CV, résumé, Uses, contact card and project write-ups are still where they were, one folder up in `content/`.
 
