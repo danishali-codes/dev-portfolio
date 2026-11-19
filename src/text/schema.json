@@ -1528,6 +1528,278 @@
     "list": false,
     "vars": []
   },
+  "server.ask.dont-know": {
+    "list": false,
+    "vars": []
+  },
+  "server.ask.failed": {
+    "list": false,
+    "vars": []
+  },
+  "server.ask.instructions": {
+    "list": false,
+    "vars": [
+      "notes"
+    ]
+  },
+  "server.ask.no-question": {
+    "list": false,
+    "vars": []
+  },
+  "server.ask.not-set-up": {
+    "list": false,
+    "vars": []
+  },
+  "server.ask.out-of-quota": {
+    "list": false,
+    "vars": []
+  },
+  "server.ask.too-many": {
+    "list": false,
+    "vars": []
+  },
+  "server.github-down": {
+    "list": false,
+    "vars": []
+  },
+  "server.guestbook.busy": {
+    "list": false,
+    "vars": []
+  },
+  "server.guestbook.empty": {
+    "list": false,
+    "vars": []
+  },
+  "server.guestbook.load-failed": {
+    "list": false,
+    "vars": []
+  },
+  "server.guestbook.no-name": {
+    "list": false,
+    "vars": []
+  },
+  "server.guestbook.not-a-note": {
+    "list": false,
+    "vars": []
+  },
+  "server.guestbook.not-set-up": {
+    "list": false,
+    "vars": []
+  },
+  "server.guestbook.one-link": {
+    "list": false,
+    "vars": []
+  },
+  "server.guestbook.save-failed": {
+    "list": false,
+    "vars": []
+  },
+  "server.guestbook.too-soon": {
+    "list": false,
+    "vars": []
+  },
+  "server.leaderboard.eat-first": {
+    "list": false,
+    "vars": []
+  },
+  "server.leaderboard.game-doesnt-add-up": {
+    "list": false,
+    "vars": [
+      "reason"
+    ]
+  },
+  "server.leaderboard.game-submitted": {
+    "list": false,
+    "vars": []
+  },
+  "server.leaderboard.game-too-old": {
+    "list": false,
+    "vars": []
+  },
+  "server.leaderboard.names.characters": {
+    "list": false,
+    "vars": []
+  },
+  "server.leaderboard.names.needs-letter": {
+    "list": false,
+    "vars": []
+  },
+  "server.leaderboard.names.rude": {
+    "list": false,
+    "vars": []
+  },
+  "server.leaderboard.names.taken": {
+    "list": false,
+    "vars": []
+  },
+  "server.leaderboard.names.too-long": {
+    "list": false,
+    "vars": [
+      "max"
+    ]
+  },
+  "server.leaderboard.names.too-short": {
+    "list": false,
+    "vars": [
+      "min"
+    ]
+  },
+  "server.leaderboard.not-everything": {
+    "list": false,
+    "vars": []
+  },
+  "server.leaderboard.not-set-up": {
+    "list": false,
+    "vars": []
+  },
+  "server.leaderboard.nothing-to-submit": {
+    "list": false,
+    "vars": []
+  },
+  "server.leaderboard.offline": {
+    "list": false,
+    "vars": []
+  },
+  "server.leaderboard.run-doesnt-add-up": {
+    "list": false,
+    "vars": []
+  },
+  "server.leaderboard.run-finished": {
+    "list": false,
+    "vars": []
+  },
+  "server.leaderboard.run-on-board": {
+    "list": false,
+    "vars": []
+  },
+  "server.leaderboard.run-too-fast": {
+    "list": false,
+    "vars": []
+  },
+  "server.leaderboard.run-too-old": {
+    "list": false,
+    "vars": []
+  },
+  "server.leaderboard.slow-down": {
+    "list": false,
+    "vars": []
+  },
+  "server.leaderboard.too-fast-snake": {
+    "list": false,
+    "vars": []
+  },
+  "server.leaderboard.too-many-runs": {
+    "list": false,
+    "vars": []
+  },
+  "server.leaderboard.too-many-scores": {
+    "list": false,
+    "vars": []
+  },
+  "server.leaderboard.unavailable": {
+    "list": false,
+    "vars": []
+  },
+  "site.description": {
+    "list": false,
+    "vars": []
+  },
+  "site.home-title": {
+    "list": false,
+    "vars": []
+  },
+  "site.name": {
+    "list": false,
+    "vars": []
+  },
+  "site.noscript": {
+    "list": false,
+    "vars": []
+  },
+  "site.not-found": {
+    "list": false,
+    "vars": []
+  },
+  "site.page-title": {
+    "list": false,
+    "vars": [
+      "page"
+    ]
+  },
+  "site.pages.about": {
+    "list": false,
+    "vars": []
+  },
+  "site.pages.app-description": {
+    "list": false,
+    "vars": [
+      "page"
+    ]
+  },
+  "site.pages.contact": {
+    "list": false,
+    "vars": []
+  },
+  "site.pages.home.description": {
+    "list": false,
+    "vars": []
+  },
+  "site.pages.home.projects-heading": {
+    "list": false,
+    "vars": []
+  },
+  "site.pages.home.text": {
+    "list": false,
+    "vars": []
+  },
+  "site.pages.not-found-body": {
+    "list": false,
+    "vars": []
+  },
+  "site.pages.now.description": {
+    "list": false,
+    "vars": []
+  },
+  "site.pages.now.title": {
+    "list": false,
+    "vars": []
+  },
+  "site.pages.projects.description": {
+    "list": false,
+    "vars": []
+  },
+  "site.pages.projects.title": {
+    "list": false,
+    "vars": []
+  },
+  "site.pages.resume.description": {
+    "list": false,
+    "vars": []
+  },
+  "site.pages.resume.title": {
+    "list": false,
+    "vars": []
+  },
+  "site.pages.trash.description": {
+    "list": false,
+    "vars": []
+  },
+  "site.pages.trash.title": {
+    "list": false,
+    "vars": []
+  },
+  "site.pages.uses.description": {
+    "list": false,
+    "vars": []
+  },
+  "site.pages.uses.title": {
+    "list": false,
+    "vars": []
+  },
+  "site.window-description": {
+    "list": false,
+    "vars": []
+  },
   "terminal.ask": {
     "list": false,
     "vars": []

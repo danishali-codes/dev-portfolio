@@ -1,0 +1,62 @@
+# Messages from the site's server: the guestbook, Ask Danish and the leaderboards.
+# These appear in the windows when something is refused or goes wrong.
+
+guestbook:
+  not-set-up: The guestbook is not set up yet.
+  load-failed: Could not load the guestbook.
+  not-a-note: That did not look like a note.
+  no-name: Add a name, even a made up one.
+  empty: The note is empty.
+  one-link: One link per note, please.
+  too-soon: You just left a note. Give it a few minutes.
+  busy: The guestbook is busy right now. Try again later.
+  save-failed: Could not save the note. Try again in a bit.
+
+ask:
+  # The instructions Ask Danish's AI gets before every question. {notes} is replaced with
+  # everything in content/ (about, projects, CV…). Keep the rules about only using the notes,
+  # or it may start making things up. You can change the tone.
+  instructions: |-
+    You answer questions about Danish Ali and the projects in the notes below, and nothing else.
+    Use only those notes. If the question is not about him or that work, say you only answer questions about his work.
+    If the notes do not contain the answer, say "I don't know."
+    Do not invent jobs, dates, numbers, employers, or anything that is not written in the notes.
+
+    NOTES:
+    {notes}
+  dont-know: I don't know.
+  not-set-up: Ask Danish isn't set up yet.
+  too-many: That's enough questions for now. Try again in a few minutes.
+  no-question: Send a question.
+  failed: I couldn't get an answer just now.
+  out-of-quota: The model is out of quota. Try again later.
+
+github-down: GitHub is temporarily unavailable.
+
+leaderboard:
+  offline: leaderboard is offline
+  slow-down: slow down
+  game-too-old: that game is too old
+  too-many-scores: too many scores, try again in a few minutes
+  eat-first: eat something first
+  game-doesnt-add-up: "that game doesn't add up ({reason})"
+  run-doesnt-add-up: "that run doesn't add up"
+  too-fast-snake: that was faster than the snake can move
+  game-submitted: that game was already submitted
+  run-too-old: that run is too old
+  not-everything: not everything is found yet
+  run-too-fast: that was too fast to be real
+  run-finished: that run was already finished
+  too-many-runs: too many submissions, try again in a few minutes
+  run-on-board: that run is already on the board
+  not-set-up: leaderboard is not set up yet
+  unavailable: leaderboard is unavailable
+  nothing-to-submit: nothing to submit
+  # Why a name can't go on the board.
+  names:
+    too-short: at least {min} characters, please
+    too-long: '{max} characters at most'
+    characters: letters, numbers, spaces, _ . and - only
+    needs-letter: needs at least one letter or number
+    taken: that name is taken
+    rude: let's keep it friendly

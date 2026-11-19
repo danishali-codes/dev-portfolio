@@ -5,6 +5,7 @@
 // gets round to it.
 
 import { create } from 'zustand'
+import { st } from '../generated/server-text'
 import { getProgress, onAllFound, type Progress } from '../achievements'
 import { achFinish, achStart, achSubmit } from './api'
 
@@ -64,7 +65,7 @@ async function finish(p: Progress) {
 /** Puts this run on the board under `name`. */
 export async function submitRun(name: string) {
   const s = useRun.getState()
-  if (!s.finish) return { ok: false as const, error: 'nothing to submit' }
+  if (!s.finish) return { ok: false as const, error: st('server.leaderboard.nothing-to-submit') }
   const r = await achSubmit(s.finish, name)
   if (r.ok) useRun.setState({ rank: r.rank, error: '' })
   return r

@@ -7,6 +7,7 @@
 // handful per ten minutes on this server instance.
 
 import { ASK_CONTEXT } from './_generated/context.js'
+import { st } from '../src/generated/server-text.js'
 import { makeLimiter } from './_lib/askLimit.js'
 
 declare const process: { env: Record<string, string | undefined> }
@@ -16,13 +17,8 @@ const MAX_IN = 500
 const MAX_TOKENS = 180
 const allow = makeLimiter(8, 10 * 60 * 1000)
 
-const SYSTEM = `You answer questions about Danish Ali and the projects in the notes below, and nothing else.
-Use only those notes. If the question is not about him or that work, say you only answer questions about his work.
-If the notes do not contain the answer, say "I don't know."
-Do not invent jobs, dates, numbers, employers, or anything that is not written in the notes.
-
-NOTES:
-${ASK_CONTEXT}`
+// The instructions live in content/text/server.yaml so the tone can be edited there.
+const SYSTEM = st('server.ask.instructions', { notes: ASK_CONTEXT })
 
 function json(body: unknown, status = 200) {
   return new Response(JSON.stringify(body), {
@@ -39,17 +35,17 @@ async function caller(request: Request) {
 
 export async function POST(request: Request) {
   const key = process.env.GEMINI_API_KEY
-  if (!key) return json({ error: "Ask Danish isn't set up yet." }, 503)
-  if (!allow(await caller(request))) return json({ error: "That's enough questions for now. Try again in a few minutes." }, 429)
+  if (!key) return json({ error: st('server.ask.not-set-up') }, 503)
+  if (!allow(await caller(request))) return json({ error: st('server.ask.too-many') }, 429)
 
   let body: { question?: unknown }
   try {
     body = (await request.json()) as { question?: unknown }
   } catch {
-    return json({ error: 'Send a question.' }, 400)
+    return json({ error: st('server.ask.no-question') }, 400)
   }
   const question = typeof body.question === 'string' ? body.question.trim().slice(0, MAX_IN) : ''
-  if (!question) return json({ error: 'Send a question.' }, 400)
+  if (!question) return json({ error: st('server.ask.no-question') }, 400)
 
   let res: Response
   try {
@@ -64,11 +60,11 @@ export async function POST(request: Request) {
       }),
     })
   } catch {
-    return json({ error: "I couldn't get an answer just now." }, 502)
+    return json({ error: st('server.ask.failed') }, 502)
   }
-  if (res.status === 429) return json({ error: 'The model is out of quota. Try again later.' }, 429)
-  if (!res.ok) return json({ error: "I couldn't get an answer just now." }, 502)
+  if (res.status === 429) return json({ error: st('server.ask.out-of-quota') }, 429)
+  if (!res.ok) return json({ error: st('server.ask.failed') }, 502)
   const data = (await res.json()) as { candidates?: { content?: { parts?: { text?: string }[] } }[] }
   const answer = data.candidates?.[0]?.content?.parts?.map((p) => p.text ?? '').join('').trim()
-  return json({ answer: answer || "I don't know." })
+  return json({ answer: answer || st('server.ask.dont-know') })
 }

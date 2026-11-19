@@ -13,6 +13,7 @@
 // clock the server started when the run began.
 
 import { store, storeMissing, type Entry } from './_lib/store.js'
+import { st } from '../src/generated/server-text.js'
 import { ipKey, nonce, secretMissing, sign, verify } from './_lib/token.js'
 import { nameProblem, tidyName } from '../src/leaderboard/names.js'
 import { ACHIEVEMENT_IDS } from '../src/achievements/list.js'
@@ -60,7 +61,7 @@ interface SnakeToken {
 const SNAKE_TTL = 6 * 3600
 
 async function snakeStart(req: Request) {
-  if (await limited(req, 'snake-start', 120, 600)) return fail('slow down', 429)
+  if (await limited(req, 'snake-start', 120, 600)) return fail(st('server.leaderboard.slow-down'), 429)
   const seed = Math.floor(Math.random() * 2 ** 32)
   const t: SnakeToken = { k: 'snake', n: nonce(), seed, iat: Date.now() }
   return json({ token: sign(t), seed })
@@ -70,7 +71,7 @@ async function snakeSubmit(req: Request, body: Record<string, unknown>) {
   const t = verify<SnakeToken>(body.token)
   if (!t || t.k !== 'snake') return fail('bad token')
   const elapsed = Date.now() - t.iat
-  if (elapsed > SNAKE_TTL * 1000) return fail('that game is too old')
+  if (elapsed > SNAKE_TTL * 1000) return fail(st('server.leaderboard.game-too-old'))
   const { name, problem } = checkName(body.name)
   if (problem) return fail(problem)
 
@@ -89,15 +90,15 @@ async function snakeSubmit(req: Request, body: Record<string, unknown>) {
   }
 
   // Checked before the replay so a flood of fake games can't burn server time.
-  if (await limited(req, 'snake', 10, 600)) return fail('too many scores, try again in a few minutes', 429)
+  if (await limited(req, 'snake', 10, 600)) return fail(st('server.leaderboard.too-many-scores'), 429)
   const r = replay(cols, rows, t.seed, moves, ticks)
-  if (!r.ok) return fail(`that game doesn't add up (${r.reason})`)
-  if (r.score < 1) return fail('eat something first')
-  if (body.score !== undefined && Number(body.score) !== r.score) return fail("that game doesn't add up (score)")
+  if (!r.ok) return fail(st('server.leaderboard.game-doesnt-add-up', { reason: r.reason ?? '?' }))
+  if (r.score < 1) return fail(st('server.leaderboard.eat-first'))
+  if (body.score !== undefined && Number(body.score) !== r.score) return fail(st('server.leaderboard.game-doesnt-add-up', { reason: 'score' }))
   // The game speeds up but never past one tick per 55ms, so a real game can't finish faster than this.
-  if (elapsed < r.minMs * 0.8) return fail('that was faster than the snake can move')
+  if (elapsed < r.minMs * 0.8) return fail(st('server.leaderboard.too-fast-snake'))
 
-  if (!(await spend(t.n))) return fail('that game was already submitted')
+  if (!(await spend(t.n))) return fail(st('server.leaderboard.game-submitted'))
 
   const { rank, improved } = await save('snake', { name, value: r.score, at: Date.now() })
   return json({ rank, score: r.score, improved })
@@ -125,7 +126,7 @@ const KNOWN_IDS = new Set<string>(ACHIEVEMENT_IDS)
 async function achStart(req: Request, body: Record<string, unknown>) {
   const run = String(body.runId ?? '')
   if (!/^[\w-]{4,64}$/.test(run)) return fail('bad run')
-  if (await limited(req, 'ach-start', 30, 3600)) return fail('slow down', 429)
+  if (await limited(req, 'ach-start', 30, 3600)) return fail(st('server.leaderboard.slow-down'), 429)
   const t: AchStart = { k: 'ach', n: nonce(), run, iat: Date.now() }
   return json({ token: sign(t) })
 }
@@ -134,12 +135,12 @@ async function achFinish(req: Request, body: Record<string, unknown>) {
   const t = verify<AchStart>(body.token)
   if (!t || t.k !== 'ach') return fail('bad token')
   const wall = Date.now() - t.iat
-  if (wall > RUN_TTL * 1000) return fail('that run is too old')
+  if (wall > RUN_TTL * 1000) return fail(st('server.leaderboard.run-too-old'))
 
   const found = body.found as Record<string, number>
   if (!found || typeof found !== 'object') return fail('bad run')
   const ids = Object.keys(found)
-  if (ids.length !== KNOWN_IDS.size || !ids.every((id) => KNOWN_IDS.has(id))) return fail('not everything is found yet')
+  if (ids.length !== KNOWN_IDS.size || !ids.every((id) => KNOWN_IDS.has(id))) return fail(st('server.leaderboard.not-everything'))
   if (!ids.every((id) => Number.isFinite(found[id]))) return fail('bad run')
 
   // Rank on time with the tab open since the first find when the browser reports it, but never on
@@ -147,12 +148,12 @@ async function achFinish(req: Request, body: Record<string, unknown>) {
   const span = Math.max(...ids.map((id) => found[id])) - Math.min(...ids.map((id) => found[id]))
   const active = Number(body.activeMs)
   let ms = Number.isFinite(active) && active > 0 ? Math.min(active, wall) : wall
-  if (span > wall + 5000) return fail("that run doesn't add up")
+  if (span > wall + 5000) return fail(st('server.leaderboard.run-doesnt-add-up'))
   ms = Math.round(Math.max(ms, span, MIN_RUN_MS))
-  if (wall < MIN_RUN_MS) return fail('that was too fast to be real')
+  if (wall < MIN_RUN_MS) return fail(st('server.leaderboard.run-too-fast'))
 
-  if (await limited(req, 'ach-finish', 10, 3600)) return fail('slow down', 429)
-  if (!(await spend(t.n))) return fail('that run was already finished')
+  if (await limited(req, 'ach-finish', 10, 3600)) return fail(st('server.leaderboard.slow-down'), 429)
+  if (!(await spend(t.n))) return fail(st('server.leaderboard.run-finished'))
   const f: AchFinish = { k: 'achf', n: nonce(), ms, iat: Date.now() }
   return json({ finish: sign(f), ms })
 }
@@ -160,11 +161,11 @@ async function achFinish(req: Request, body: Record<string, unknown>) {
 async function achSubmit(req: Request, body: Record<string, unknown>) {
   const f = verify<AchFinish>(body.finish)
   if (!f || f.k !== 'achf') return fail('bad token')
-  if (Date.now() - f.iat > RUN_TTL * 1000) return fail('that run is too old')
+  if (Date.now() - f.iat > RUN_TTL * 1000) return fail(st('server.leaderboard.run-too-old'))
   const { name, problem } = checkName(body.name)
   if (problem) return fail(problem)
-  if (await limited(req, 'ach', 10, 600)) return fail('too many submissions, try again in a few minutes', 429)
-  if (!(await spend(f.n))) return fail('that run is already on the board')
+  if (await limited(req, 'ach', 10, 600)) return fail(st('server.leaderboard.too-many-runs'), 429)
+  if (!(await spend(f.n))) return fail(st('server.leaderboard.run-on-board'))
   const { rank, improved } = await save('achievements', { name, value: f.ms, at: Date.now() })
   return json({ rank, ms: f.ms, improved })
 }
@@ -172,7 +173,7 @@ async function achSubmit(req: Request, body: Record<string, unknown>) {
 /* ------------------------------ routes ------------------------------ */
 
 function offline() {
-  if (storeMissing || secretMissing) return fail('leaderboard is not set up yet', 503)
+  if (storeMissing || secretMissing) return fail(st('server.leaderboard.not-set-up'), 503)
   return null
 }
 
@@ -185,7 +186,7 @@ export async function GET(req: Request) {
     return json({ board, entries: await top(board) }, 200, { 'Cache-Control': 'public, s-maxage=10, stale-while-revalidate=30' })
   } catch (e) {
     console.error(e)
-    return fail('leaderboard is unavailable', 502)
+    return fail(st('server.leaderboard.unavailable'), 502)
   }
 }
 
@@ -218,6 +219,6 @@ export async function POST(req: Request) {
     }
   } catch (e) {
     console.error(e)
-    return fail('leaderboard is unavailable', 502)
+    return fail(st('server.leaderboard.unavailable'), 502)
   }
 }

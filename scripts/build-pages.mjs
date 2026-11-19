@@ -9,6 +9,10 @@ import opentype from 'opentype.js'
 const root = fileURLToPath(new URL('..', import.meta.url))
 const out = join(root, 'dist')
 const tree = JSON.parse(readFileSync(join(root, 'src/generated/fs.json'), 'utf8'))
+// Wording from content/text (see scripts/build-text.mjs).
+const TEXT = JSON.parse(readFileSync(join(root, 'src/generated/text.json'), 'utf8'))
+const t = (key, vars = {}) => String(TEXT[key] ?? key).replace(/\{(\w+)\}/g, (m, k) => (k in vars ? String(vars[k]) : m))
+const pageTitle = (page) => t('site.page-title', { page })
 const template = readFileSync(join(out, 'index.html'), 'utf8')
   .replace(/<!--portfolio-meta:start-->[\s\S]*?<!--portfolio-meta:end-->/g, '')
   .replace(/<div id="root">[\s\S]*?<\/div>(?=\s*<noscript>)/, '<div id="root"></div>')
@@ -41,28 +45,29 @@ const escape = (s = '') => String(s).replace(/[&<>"']/g, (c) => ({ '&': '&amp;',
 const plain = (text = '') => text.replace(/<!--[\s\S]*?-->/g, '').replace(/[#*_`]/g, '').replace(/\[([^\]]+)\]\([^)]+\)/g, '$1').replace(/\s+/g, ' ').trim()
 const readme = (dir) => dir.children.find((c) => c.name.toLowerCase() === 'readme.md')?.text ?? ''
 const pages = [
-  { route: '/', title: 'Danish Ali · Dev portfolio', description: 'Developer in Dubai building apps, games and tools for his homelab.', text: '# Hi, I’m Danish.\n\nI build apps, games and tools for my homelab.\n\n[Selected work](/projects) · [About](/about) · [Contact](/contact)' },
-  { route: '/projects', title: 'Selected work · Danish Ali', description: 'Apps, games and applied AI projects by Danish Ali.', text: '# Selected work' },
+  { route: '/', title: t('site.home-title'), name: t('site.home-title'), description: t('site.pages.home.description'), text: t('site.pages.home.text') },
+  { route: '/projects', title: pageTitle(t('site.pages.projects.title')), name: t('site.pages.projects.title'), description: t('site.pages.projects.description'), text: '# ' + t('site.pages.projects.title') },
 ]
 function walk(dir) {
   if (dir.type !== 'dir') return
   if (dir.meta && (dir.path.startsWith('/projects/') || dir.path.startsWith('/trash/'))) {
-    pages.push({ route: dir.path, title: dir.meta.name + ' · Danish Ali', description: dir.meta.tagline || plain(readme(dir)).slice(0, 160), text: readme(dir), color: dir.meta.color, aliases: dir.path.startsWith('/projects/') ? ['/projects/' + dir.name, ...(dir.meta.aliases ?? []).map((a) => '/projects/' + a)] : [] })
+    pages.push({ route: dir.path, title: pageTitle(dir.meta.name), name: dir.meta.name, description: dir.meta.tagline || plain(readme(dir)).slice(0, 160), text: readme(dir), color: dir.meta.color, aliases: dir.path.startsWith('/projects/') ? ['/projects/' + dir.name, ...(dir.meta.aliases ?? []).map((a) => '/projects/' + a)] : [] })
   }
   for (const child of dir.children) walk(child)
 }
 walk(tree)
 const trash = tree.children.find((c) => c.path === '/trash')
-if (trash) pages.push({ route: '/trash', title: 'Project archive · Danish Ali', description: 'Abandoned experiments and lessons from earlier projects.', text: readme(trash) })
-for (const [route, name, title] of [['/about', 'about.md', 'About'], ['/contact', 'cv.md', 'CV & contact'], ['/now', 'now.md', 'Now'], ['/uses', 'uses.md', 'Uses'], ['/resume', 'resume.md', 'Resume']]) {
-  const text = tree.children.find((c) => c.name === name)?.text ?? ''
-  pages.push({ route, title: title + ' · Danish Ali', description: plain(text).slice(0, 160), text })
+if (trash) pages.push({ route: '/trash', title: pageTitle(t('site.pages.trash.title')), name: t('site.pages.trash.title'), description: t('site.pages.trash.description'), text: readme(trash) })
+for (const [route, file, key] of [['/about', 'about.md', 'site.pages.about'], ['/contact', 'cv.md', 'site.pages.contact'], ['/now', 'now.md', 'site.pages.now.title'], ['/uses', 'uses.md', 'site.pages.uses.title'], ['/resume', 'resume.md', 'site.pages.resume.title']]) {
+  const text = tree.children.find((c) => c.name === file)?.text ?? ''
+  pages.push({ route, title: pageTitle(t(key)), name: t(key), description: plain(text).slice(0, 160), text })
 }
-for (const [route, title] of [['/welcome', 'Welcome'], ['/ask', 'Ask Danish'], ['/stats', 'Stats'], ['/terminal', 'Terminal'], ['/guestbook', 'Guestbook'], ['/updates', 'System Updates'], ['/wallpaper', 'Wallpaper']]) {
-  pages.push({ route, title: title + ' · Danish Ali', description: title + ' on Danish Ali’s interactive portfolio.', text: '# ' + title })
+for (const [route, key] of [['/welcome', 'welcome'], ['/ask', 'ask'], ['/stats', 'stats'], ['/terminal', 'terminal'], ['/guestbook', 'guestbook'], ['/updates', 'updates'], ['/wallpaper', 'wallpaper']]) {
+  const name = t('desktop.titles.' + key)
+  pages.push({ route, title: pageTitle(name), name, description: t('site.pages.app-description', { page: name }), text: '# ' + name })
 }
-const projectList = pages.filter((p) => p.route.startsWith('/projects/')).map((p) => '- [' + p.title.replace(' · Danish Ali', '') + '](' + p.route + ') — ' + p.description).join('\n')
-pages.find((p) => p.route === '/').text += '\n\n## Projects\n\n' + projectList
+const projectList = pages.filter((p) => p.route.startsWith('/projects/')).map((p) => '- [' + p.name + '](' + p.route + ') — ' + p.description).join('\n')
+pages.find((p) => p.route === '/').text += '\n\n## ' + t('site.pages.home.projects-heading') + '\n\n' + projectList
 pages.find((p) => p.route === '/projects').text += '\n\n' + projectList
 
 // Each card is rendered from text and shapes; no external image service is needed.
@@ -78,7 +83,7 @@ function lines(text, limit = 36) {
 for (const page of pages) {
   const key = page.route.slice(1).replaceAll('/', '--') || 'home'
   const image = origin + '/og/' + key + '.png'
-  const headline = lines(page.title.replace(' · Danish Ali', ''), 28).slice(0, 3)
+  const headline = lines(page.name, 28).slice(0, 3)
   const subtitle = lines(page.description, 64).slice(0, 2)
   const color = /^#[0-9a-f]{3,8}$/i.test(page.color ?? '') ? page.color : '#7cc9a0'
   const svg = '<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630">' +
@@ -119,9 +124,9 @@ for (const page of pages) {
 
 // Anything else gets the desktop with a "not found" window, served by Vercel with a real 404 status.
 const notFound = template
-  .replace(/<title>[\s\S]*?<\/title>/, '<title>Not found · Danish Ali</title>')
+  .replace(/<title>[\s\S]*?<\/title>/, '<title>' + escape(pageTitle(t('site.not-found'))) + '</title>')
   .replace('</head>', '<meta name="robots" content="noindex" />\n</head>')
-  .replace('<div id="root"></div>', '<div id="root"><main style="max-width:760px;margin:48px auto;padding:24px;font:18px/1.6 sans-serif"><h1>Not found</h1><p>Nothing lives at this address. <a href="/">Go to the desktop</a> or see <a href="/projects">selected work</a>.</p></main></div>')
+  .replace('<div id="root"></div>', '<div id="root"><main style="max-width:760px;margin:48px auto;padding:24px;font:18px/1.6 sans-serif"><h1>' + escape(t('site.not-found')) + '</h1><p>' + marked.parseInline(t('site.pages.not-found-body')) + '</p></main></div>')
 writeFileSync(join(out, '404.html'), notFound)
 mkdirSync(join(out, 'simple'), { recursive: true })
 writeFileSync(join(out, 'simple/index.html'), readFileSync(join(out, 'resume/index.html')))
