@@ -162,7 +162,7 @@ export default function FolderView({ path, onNavigate, singleClick = false }: Pr
               <span className="file-name">{c.type === 'dir' ? (c.meta?.name ?? c.name) : c.kind === 'app' ? `${c.title ?? c.name} app` : c.name}</span>
             </button>
             {path === TRASH_DIR && c.type === 'dir' && (
-              <button type="button" className="trash-restore" onClick={() => restore(c.path)} aria-label={`Restore ${c.name} to the desktop`}>
+              <button type="button" className="trash-restore" onClick={() => restore(c.path)} aria-label={`Restore ${c.meta?.name ?? c.name} to the desktop`}>
                 Restore
               </button>
             )}
