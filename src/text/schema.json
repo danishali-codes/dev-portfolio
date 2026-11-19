@@ -2448,9 +2448,23 @@
     "list": false,
     "vars": []
   },
+  "windows.ask.dont-know": {
+    "list": false,
+    "vars": []
+  },
+  "windows.ask.failed": {
+    "list": false,
+    "vars": []
+  },
   "windows.ask.lead": {
     "list": false,
     "vars": []
+  },
+  "windows.ask.model": {
+    "list": false,
+    "vars": [
+      "model"
+    ]
   },
   "windows.ask.placeholder": {
     "list": false,
