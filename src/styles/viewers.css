@@ -390,3 +390,34 @@
 .gallery-bar {
   padding: 0 20px 20px;
 }
+
+/* ---------- Trash ---------- */
+.trash-bar {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 0 20px 6px;
+}
+.trash-bar .pill {
+  height: 32px;
+  font-size: 12px;
+}
+.trash-note {
+  margin: 0;
+  font-size: 13px;
+  color: var(--muted);
+}
+.trash-restore {
+  display: block;
+  margin: -2px auto 0;
+  padding: 2px 10px;
+  border-radius: 999px;
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--muted);
+}
+.trash-restore:hover,
+.trash-restore:focus-visible {
+  background: var(--chip);
+  color: var(--ink);
+}

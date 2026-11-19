@@ -76,3 +76,27 @@ test.describe('desktop extras', () => {
     noErrors()
   })
 })
+
+test('the trash refuses to empty and restores projects to the desktop', async ({ page }) => {
+  const { noErrors } = await boot(page, '/trash')
+  const win = page.locator('.win.active')
+  await win.getByRole('button', { name: 'Empty trash' }).click()
+  await expect(win.locator('.trash-note')).toContainText('can’t be emptied')
+  const restore = win.getByRole('button', { name: /^Restore .* to the desktop$/ }).first()
+  const label = (await restore.getAttribute('aria-label'))!.replace(/^Restore | to the desktop$/g, '')
+  await restore.click()
+  await expect(page.locator('.desk-icons').getByRole('button', { name: label, exact: true })).toBeVisible()
+  await expect(win.getByRole('button', { name: `Restore ${label} to the desktop` })).toHaveCount(0)
+  noErrors()
+})
+
+test('sounds are off until the speaker is pressed', async ({ page }) => {
+  const { noErrors } = await boot(page)
+  const speaker = page.getByRole('button', { name: 'Turn sounds on' })
+  await expect(speaker).toHaveAttribute('aria-pressed', 'false')
+  await speaker.click()
+  await expect(page.getByRole('button', { name: 'Turn sounds off' })).toHaveAttribute('aria-pressed', 'true')
+  await page.reload()
+  await expect(page.getByRole('button', { name: 'Turn sounds off' })).toBeVisible()
+  noErrors()
+})

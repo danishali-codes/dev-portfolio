@@ -1,8 +1,10 @@
 // Anonymous visit counter for the Stats window (Vercel function).
 //
-// GET  /api/visit  { visits, avgSeconds, since }
-// POST /api/visit  { id, s, n? } from the page: n marks a new page load, s is
-//                  seconds the tab was visible since the last report
+// GET  /api/visit         { visits, avgSeconds, since }
+// GET  /api/visit?online  { online }: page loads that reported in the last two minutes
+// POST /api/visit  { id, s, n?, h? } from the page: n marks a new page load, s is
+//                  seconds the tab was visible since the last report, h is a
+//                  once-a-minute heartbeat from a visible tab (for "online now")
 //
 // Each page load becomes one row in the "site_visits" collection on PocketBase
 // (see scripts/setup-visits.mjs) holding only how long the tab was visible.
@@ -45,9 +47,25 @@ async function visitorHash(request: Request) {
 
 const empty = () => new Response(null, { status: 204 })
 
-export async function GET() {
+/** A tab counts as here now if it reported within this long. Tabs send a heartbeat every minute. */
+const ONLINE_MS = 2 * 60_000
+
+async function online() {
+  const since = new Date(Date.now() - ONLINE_MS).toISOString().replace('T', ' ')
+  const filter = encodeURIComponent(`updated >= "${since}"`)
+  const res = await pb(`${ROWS}?perPage=1&skipTotal=0&fields=id&filter=${filter}`)
+  if (!res.ok) {
+    console.error(`visit: PocketBase answered ${res.status} counting who is online`)
+    return empty()
+  }
+  const { totalItems } = (await res.json()) as { totalItems: number }
+  return Response.json({ online: Number(totalItems) || 0 }, { headers: { 'Cache-Control': 'public, s-maxage=30, stale-while-revalidate=60' } })
+}
+
+export async function GET(request?: Request) {
   if (!KEY) return empty()
   try {
+    if (request && new URL(request.url).searchParams.has('online')) return await online()
     const res = await pb(`${TOTALS}?perPage=1`)
     if (!res.ok) {
       console.error(`visit: PocketBase answered ${res.status} for site_visit_totals`)
@@ -69,7 +87,7 @@ export async function GET() {
 
 export async function POST(request: Request) {
   if (!KEY) return empty()
-  let body: { id?: unknown; s?: unknown; n?: unknown }
+  let body: { id?: unknown; s?: unknown; n?: unknown; h?: unknown }
   try {
     body = JSON.parse(await request.text())
   } catch {
@@ -89,12 +107,13 @@ export async function POST(request: Request) {
       if (((await recent.json()) as { totalItems: number }).totalItems >= PER_VISITOR_HOUR) return empty()
       const created = await pb(ROWS, { method: 'POST', body: JSON.stringify({ id, seconds, visitor }) })
       if (!created.ok) throw new Error(`PocketBase ${created.status} creating a visit: ${(await created.text()).slice(0, 200)}`)
-    } else if (seconds) {
+    } else if (seconds || body.h === 1) {
       // Later reports from the same page load add to its row, up to the cap.
+      // A heartbeat with nothing to add still saves the row, which moves its "updated" time for "online now".
       const res = await pb(`${ROWS}/${id}?fields=seconds`)
       if (!res.ok) throw new Error(`PocketBase ${res.status} reading visit ${id}`)
       const current = Number(((await res.json()) as { seconds: number }).seconds) || 0
-      if (current < MAX_SECONDS) {
+      if (current < MAX_SECONDS || body.h === 1) {
         await pb(`${ROWS}/${id}`, { method: 'PATCH', body: JSON.stringify({ seconds: Math.min(MAX_SECONDS, current + seconds) }) })
       }
     }

@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from 'react'
-import { getNode } from '../fs'
+import { getNode, TRASH_DIR } from '../fs'
+import { emptyTrashLine, useRestored } from '../shell/restored'
 import type { DirNode, FileNode, FsNode } from '../fs/types'
 import { openNode } from '../shell/opener'
 import Icon from './Icon'
@@ -76,6 +77,9 @@ export default function FolderView({ path, onNavigate, singleClick = false }: Pr
   const node = getNode(path)
   // Each folder remembers icons or pictures for as long as the window is open.
   const [views, setViews] = useState<Record<string, 'icons' | 'gallery'>>({})
+  const restored = useRestored((s) => s.paths)
+  const restore = useRestored((s) => s.restore)
+  const [trashNote, setTrashNote] = useState('')
   if (!node || node.type !== 'dir') return <p className="missing">This folder no longer exists.</p>
   const parent = path === '/' ? null : path.slice(0, path.lastIndexOf('/')) || '/'
   const parts = path.split('/').filter(Boolean)
@@ -126,8 +130,18 @@ export default function FolderView({ path, onNavigate, singleClick = false }: Pr
           <strong>{meta.name}</strong> {meta.tagline}
         </p>
       )}
+      {path === TRASH_DIR && (
+        <div className="trash-bar">
+          <button type="button" className="pill" onClick={() => setTrashNote(emptyTrashLine())}>
+            Empty trash
+          </button>
+          <p className="trash-note" aria-live="polite">
+            {trashNote || 'Abandoned projects. Restore one to put it back on the desktop for this visit.'}
+          </p>
+        </div>
+      )}
       {view === 'gallery' ? <Gallery dir={node} /> : <ul className="folder-grid" ref={gridRef} aria-label={`Files in ${parts[parts.length - 1] ?? 'home'}`}>
-        {node.children.filter((c) => c.name !== 'project.json').map((c) => (
+        {node.children.filter((c) => c.name !== 'project.json' && !restored.includes(c.path)).map((c) => (
           <li key={c.path}>
             <button
               type="button"
@@ -147,6 +161,11 @@ export default function FolderView({ path, onNavigate, singleClick = false }: Pr
               <Icon node={c} color={meta?.color} />
               <span className="file-name">{c.type === 'dir' ? (c.meta?.name ?? c.name) : c.kind === 'app' ? `${c.title ?? c.name} app` : c.name}</span>
             </button>
+            {path === TRASH_DIR && c.type === 'dir' && (
+              <button type="button" className="trash-restore" onClick={() => restore(c.path)} aria-label={`Restore ${c.meta?.name ?? c.name} to the desktop`}>
+                Restore
+              </button>
+            )}
           </li>
         ))}
       </ul>}

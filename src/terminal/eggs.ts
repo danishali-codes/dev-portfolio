@@ -9,6 +9,7 @@ import { restart, shutdown, takeover, wipe } from '../achievements/effects'
 import type { Command } from './commands'
 import { CV_PATH } from '../shell/contact'
 import { openNode } from '../shell/opener'
+import { gitLog } from './unix'
 
 const pick = <T,>(list: T[]) => list[Math.floor(Math.random() * list.length)]
 
@@ -444,11 +445,12 @@ export const EGG_COMMANDS: Record<string, Command> = {
     },
   },
   git: {
-    desc: 'git',
-    hidden: true,
+    desc: "this site's history",
+    usage: 'git log',
     run: (args, { print }) => {
       const sub = args[0]
       if (sub === 'status') return print([txt('On branch main')], [txt('nothing to commit, working tree clean', 'dim')])
+      if (sub === 'log') return gitLog(args.slice(1), print)
       if (sub === 'blame') return print([txt('Danish (every line, no regrets)')])
       if (sub === 'push') return print(err('git push: permission denied. This is the live site, not a repo you own.'))
       print([txt('The real repo lives on GitHub: ', 'dim'), { t: 'github.com/danishali-codes', href: 'https://github.com/danishali-codes' }])

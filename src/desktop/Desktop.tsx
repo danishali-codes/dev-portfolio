@@ -8,6 +8,7 @@ import { hasWallpaperPicker, openIntroduction, openGuestbook, openNode, openStat
 import { useTheme } from '../shell/theme'
 import { topWindowId, useWindows } from '../store/windows'
 import { useLayout } from '../store/layout'
+import { useRestored } from '../shell/restored'
 import Boot from './Boot'
 import GuestNotes from './GuestNotes'
 import Screensaver from './Screensaver'
@@ -49,6 +50,7 @@ export default function Desktop() {
   const about = getNode('/about.md')
   const cv = getNode('/cv.md')
   const trash = getNode(TRASH_DIR)
+  const restored = useRestored((s) => s.paths)
 
   return (
     <div className="desktop">
@@ -80,6 +82,10 @@ export default function Desktop() {
           {cv && <DeskIcon node={cv} label="cv & contact" onOpen={() => openNode(cv)} />}
           <DeskIcon node="guestbook" label="guestbook" onOpen={openGuestbook} />
           {trash && <DeskIcon node={trash} label="trash" onOpen={() => openNode(trash)} />}
+          {restored.map((path) => {
+            const n = getNode(path)
+            return n && <DeskIcon key={path} node={n} label={(n.type === "dir" && n.meta?.name) || n.name} onOpen={() => openNode(n)} />
+          })}
         </ul>
         <NowNote />
         <GuestNotes />
