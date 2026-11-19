@@ -1,17 +1,18 @@
 // `scores`: prints the leaderboards in the terminal.
 import type { Command } from '../terminal/commands'
-import { cmd, txt } from '../terminal/lines'
+import { say, txt } from '../terminal/lines'
+import { t } from '../text'
 import { useTerm } from '../terminal/store'
 import { fetchBoard, formatMs, type Board } from './api'
 
-const TITLES: Record<Board, string> = { snake: 'Snake high scores', achievements: 'Fastest to find every achievement' }
+const TITLES: Record<Board, () => string> = { snake: () => t('terminal.scores.snake'), achievements: () => t('terminal.scores.achievements') }
 
 async function printBoard(board: Board) {
   const { push } = useTerm.getState()
   const r = await fetchBoard(board)
-  push([txt(TITLES[board], 'bold')])
+  push([txt(TITLES[board](), 'bold')])
   if (!r.ok) return push([txt(`  ${r.error}`, 'dim')])
-  if (!r.entries.length) return push([txt('  nobody yet. Be the first.', 'dim')])
+  if (!r.entries.length) return push(say('terminal.scores.empty', 'dim'))
   r.entries.forEach((e, i) =>
     push([
       txt(`  ${String(i + 1).padStart(2)}  `, 'dim'),
@@ -23,15 +24,15 @@ async function printBoard(board: Board) {
 
 export const LEADERBOARD_COMMANDS: Record<string, Command> = {
   scores: {
-    desc: 'leaderboards for snake and achievements',
+    desc: t('terminal.commands.scores'),
     usage: 'scores [snake|achievements]',
     run: (args) => {
       const want = args[0]?.startsWith('a') ? ['achievements'] : args[0]?.startsWith('s') ? ['snake'] : ['snake', 'achievements']
       const { push } = useTerm.getState()
-      push([txt('loading…', 'dim')])
+      push(say('terminal.scores.loading', 'dim'))
       ;(async () => {
         for (const b of want as Board[]) await printBoard(b)
-        push([txt('Play ', 'dim'), cmd('snake'), txt(' to get on the board.', 'dim')])
+        push(say('terminal.scores.play'))
       })()
     },
   },

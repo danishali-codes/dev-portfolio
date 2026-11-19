@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from 'react'
 import { usePower } from '../shell/power'
 import { IDLE_MS, onScreensaverRequest } from '../shell/screensaver'
+import { t } from '../text'
 
 const COLOURS = ['var(--peach)', 'var(--mint)', 'var(--btn-min)', 'var(--btn-close)', 'var(--btn-max)']
 const reducedMotion = () => window.matchMedia?.('(prefers-reduced-motion: reduce)').matches ?? false
@@ -78,7 +79,7 @@ function Drifter() {
       </div>
       <div>
         <Clock />
-        <div className="ss-hint">{corners ? `Hit a corner ${corners === 1 ? 'once' : `${corners} times`}. Move the mouse to wake up.` : 'Move the mouse or press a key to wake up.'}</div>
+        <div className="ss-hint">{corners ? t('gags.screensaver.corners', { times: corners === 1 ? t('gags.screensaver.once') : t('gags.screensaver.many', { count: corners }) }) : t('gags.screensaver.wake')}</div>
       </div>
     </div>
   )
@@ -139,7 +140,7 @@ export default function Screensaver() {
 
   if (!on) return null
   return (
-    <div className="screensaver" role="dialog" aria-label="Screensaver. Press any key to wake up." onClick={(e) => e.stopPropagation()}>
+    <div className="screensaver" role="dialog" aria-label={t('gags.screensaver.label')} onClick={(e) => e.stopPropagation()}>
       <Drifter />
     </div>
   )

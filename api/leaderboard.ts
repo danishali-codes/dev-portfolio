@@ -15,7 +15,7 @@
 import { store, storeMissing, type Entry } from './_lib/store.js'
 import { ipKey, nonce, secretMissing, sign, verify } from './_lib/token.js'
 import { nameProblem, tidyName } from '../src/leaderboard/names.js'
-import { ACHIEVEMENTS } from '../src/achievements/list.js'
+import { ACHIEVEMENT_IDS } from '../src/achievements/list.js'
 import { MAX_COLS, MAX_ROWS, MIN_COLS, MIN_ROWS, replay, type Move } from '../src/leaderboard/snakeEngine.js'
 
 const TOP = 10
@@ -120,7 +120,7 @@ interface AchFinish {
 const RUN_TTL = 90 * DAY
 /** No one finds all of them in under this, even knowing every answer. */
 const MIN_RUN_MS = 60_000
-const ACHIEVEMENT_IDS = new Set(ACHIEVEMENTS.map((a) => a.id))
+const KNOWN_IDS = new Set<string>(ACHIEVEMENT_IDS)
 
 async function achStart(req: Request, body: Record<string, unknown>) {
   const run = String(body.runId ?? '')
@@ -139,7 +139,7 @@ async function achFinish(req: Request, body: Record<string, unknown>) {
   const found = body.found as Record<string, number>
   if (!found || typeof found !== 'object') return fail('bad run')
   const ids = Object.keys(found)
-  if (ids.length !== ACHIEVEMENT_IDS.size || !ids.every((id) => ACHIEVEMENT_IDS.has(id))) return fail('not everything is found yet')
+  if (ids.length !== KNOWN_IDS.size || !ids.every((id) => KNOWN_IDS.has(id))) return fail('not everything is found yet')
   if (!ids.every((id) => Number.isFinite(found[id]))) return fail('bad run')
 
   // Rank on time with the tab open since the first find when the browser reports it, but never on

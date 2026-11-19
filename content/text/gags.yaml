@@ -1,0 +1,108 @@
+# The full-screen bits: start-up screen, screensaver, blue screen, hack, shutdown,
+# the fake WordPress login, and the hello in the browser console.
+# See README.md in this folder for how the {placeholders} and *markup* work.
+
+boot:
+  # The green firmware lines. "left | right" puts dots between the two halves.
+  firmware:
+    - DA-BIOS v2.6   (c) 2026 Danish Ali
+    - 'CPU  : one developer @ 3 coffees/hr | OK'
+    - 'RAM  : 16384K | OK'
+    - 'DISK : /projects | {projects} found'
+    - 'NET  : danishali.dev | up'
+    - 'BOOT : dev/portfolio | ...'
+  name: dev/portfolio
+  # The progress bar's captions, in order.
+  steps:
+    - Waking the window manager
+    - Mounting /projects
+    - Warming up the terminal
+    - Brewing coffee
+  skip-to-resume: Skip to resume
+  skip-keys: press any key to skip
+  skip-touch: tap to skip
+  label: Starting up
+
+screensaver:
+  wake: Move the mouse or press a key to wake up.
+  corners: Hit a corner {times}. Move the mouse to wake up.
+  once: once
+  many: '{count} times'
+  label: Screensaver. Press any key to wake up.
+
+# The note left in the terminal after the blue screen or the hack.
+gotcha:
+  title: haha… did I get you?
+  bsod: Nothing was deleted. Everything is right where you left it.
+  hack: Nobody hacked anything. The "mainframe" is a React app, and the projects were public anyway.
+
+bsod:
+  label: PaperOS crashed
+  face: ':('
+  big: PaperOS ran into a problem it couldn't handle. Someone typed rm -rf /.
+  body: We're collecting absolutely no error info, and then we'll pretend to restart for you.
+  progress: '{percent}% complete'
+  more-info: For more information about this issue, don't search online.
+  stop-code: 'Stop code: USER_DELETED_EVERYTHING_ON_PURPOSE'
+  any-key: Press any key to continue
+
+hack:
+  label: You have been hacked
+  title: SYSTEM COMPROMISED
+  # The files it pretends to steal.
+  loot:
+    - projects/
+    - todo.txt
+    - unfinished-side-projects.zip
+    - memes/
+    - game-jam-coffee-receipts.csv
+    - passwords.txt (it just says hunter2)
+  uploading: uploading {file} … done
+  any-key: press any key to accept your fate
+
+restart: Restarting PaperOS…
+
+shutdown:
+  label: Shut down
+  shutting-down: Shutting down…
+  failed: Shutdown failed.
+  body: PaperOS is a website. It doesn't have an off switch.
+  aside: (You could close the tab. Please don't.)
+  back: Fine, back to the desktop
+
+wordpress:
+  label: Log in
+  logo: W?
+  first-error: "Error: this site isn't WordPress. It never was."
+  again-error: Still not WordPress. Bots try this page all day too, you know.
+  username: Username or email address
+  password: Password
+  log-in: Log in
+  back: ← Go to the actual site
+
+# What visitors see in the browser's DevTools console.
+console:
+  hello: psst. I see you sneaking around in the console.
+  warning: |-
+    Either you're a developer, or someone on the internet told you to paste something in here.
+    If it's the second one: please don't, ever, on any site.
+
+    If it's the first one: hi! There's a login hidden in here. {help} to start.
+  credit: The console login idea is borrowed from lupine.dev, a site full of great secrets.
+  help:
+    help: this
+    login: use the password hidden in the terminal
+    whoami: who made this
+    progress: your achievements so far
+  shrug: ¯\_(ツ)_/¯
+  already: Already logged in as root. Console achievement is unlocked.
+  usage: 'Usage in browser DevTools: danish.login("password"). Replace password with the value hidden in the terminal.'
+  wrong:
+    - Access denied.
+    - Nope. Still denied.
+    - Wrong again. Someone in the terminal was leaking passwords earlier, you know.
+  granted: ACCESS GRANTED
+  welcome: Welcome back, root. Everything here was public anyway, but well done.
+  granted-return: ACCESS GRANTED. Console achievement unlocked.
+  whoami: Danish Ali, developer in Dubai.
+  try-help: try danish.help()

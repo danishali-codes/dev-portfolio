@@ -2,6 +2,8 @@ import { lazy, Suspense, useEffect, useState } from 'react'
 import Draggable from '../desktop/Draggable'
 import { ACHIEVEMENTS, formatDuration, getProgress, resetAchievements, runSeed, unlock, useAchievements } from '.'
 import { BadgeBox } from './BadgeBox'
+import { t } from '../text'
+import { Rich } from '../text/Rich'
 
 // Loaded only once everything is found; it brings the name filter with it.
 const AchBoard = lazy(() => import('../leaderboard/AchBoard'))
@@ -27,8 +29,8 @@ export function AchievementToast() {
   useEffect(() => {
     if (!latest) return
     setShown(latest)
-    const t = setTimeout(() => setShown(null), 4200)
-    return () => clearTimeout(t)
+    const timer = setTimeout(() => setShown(null), 4200)
+    return () => clearTimeout(timer)
   }, [latest])
   const a = shown && ACHIEVEMENTS.find((x) => x.id === shown.id)
   if (!a) return null
@@ -39,7 +41,7 @@ export function AchievementToast() {
       </span>
       <div>
         <div className="ach-toast-kicker">
-          Achievement unlocked · {found}/{ACHIEVEMENTS.length}
+          {t('achievements.notepad.toast', { found, total: ACHIEVEMENTS.length })}
         </div>
         <div className="ach-toast-title">{a.title}</div>
       </div>
@@ -70,26 +72,26 @@ export default function Notepad() {
 
   if (!notepadOpen) {
     return (
-      <Draggable as="button" type="button" id="notepad-tab" axis="y" className="np-tab" onClick={() => fold(false)} aria-label={`Open achievements notepad, ${count} of ${ACHIEVEMENTS.length} found`}>
+      <Draggable as="button" type="button" id="notepad-tab" axis="y" className="np-tab" onClick={() => fold(false)} aria-label={t('achievements.notepad.tab-label', { count, total: ACHIEVEMENTS.length })}>
         <span aria-hidden="true">★</span> {count}/{ACHIEVEMENTS.length}
       </Draggable>
     )
   }
 
   return (
-    <Draggable as="aside" id="notepad" handle=".np-head" className="notepad" aria-label="Achievements">
+    <Draggable as="aside" id="notepad" handle=".np-head" className="notepad" aria-label={t('achievements.notepad.label')}>
       <header className="np-head">
-        <span className="np-title">notes.txt</span>
-        <button type="button" className="np-fold" onClick={() => fold(true)} aria-label="Fold the notepad away">
+        <span className="np-title">{t('achievements.notepad.title')}</span>
+        <button type="button" className="np-fold" onClick={() => fold(true)} aria-label={t('achievements.notepad.fold')}>
           –
         </button>
       </header>
       <div className="np-body">
         <div className="np-score">
           <span>
-            <b>{count}</b> of {ACHIEVEMENTS.length} found
+            <Rich k="achievements.notepad.score" vars={{ count, total: ACHIEVEMENTS.length }} />
           </span>
-          <span className="np-time" title="Time with the site open since your first find">
+          <span className="np-time" title={t('achievements.notepad.timer')}>
             {finishedAt ? '⏱ ' : ''}
             {formatDuration(ms)}
           </span>
@@ -97,8 +99,8 @@ export default function Notepad() {
         <div className="np-bar" aria-hidden="true">
           <span style={{ width: `${(count / ACHIEVEMENTS.length) * 100}%` }} />
         </div>
-        {finishedAt && <p className="np-done">All found. You are officially a power user.</p>}
-        {finishedAt && <BadgeBox when={finishedAt} title="Every secret" detail={`${ACHIEVEMENTS.length} achievements on danishali.dev`} />}
+        {finishedAt && <p className="np-done">{t('achievements.notepad.all-found')}</p>}
+        {finishedAt && <BadgeBox when={finishedAt} title={t('achievements.notepad.badge-title')} detail={t('achievements.notepad.badge-detail', { total: ACHIEVEMENTS.length })} />}
         {finishedAt && (
           <Suspense fallback={null}>
             <AchBoard />
@@ -114,7 +116,7 @@ export default function Notepad() {
                 <span className="np-name">{a.title}</span>
                 <span className="np-sub">{a.done}</span>
                 <button type="button" className="np-hint-btn" onClick={() => setCard(card === a.id ? null : a.id)}>
-                  Badge
+                  {t('achievements.notepad.badge')}
                 </button>
                 {card === a.id && <BadgeBox when={found[a.id]} title={a.title} detail={a.done} />}
               </span>
@@ -129,7 +131,7 @@ export default function Notepad() {
                 <span className="np-sub np-hint">{a.hint}</span>
               ) : (
                 <button type="button" className="np-hint-btn" onClick={() => setHints(new Set(hints).add(a.id))}>
-                  ??? <span>hint</span>
+                  {t('achievements.notepad.locked')} <span>{t('achievements.notepad.hint')}</span>
                 </button>
               )}
             </li>
@@ -139,14 +141,14 @@ export default function Notepad() {
               <span className="np-check" aria-hidden="true">
                 +
               </span>
-              <span className="np-sub">{left.length - 3} more to find</span>
+              <span className="np-sub">{t('achievements.notepad.more', { count: left.length - 3 })}</span>
             </li>
           )}
         </ol>
         <footer className="np-foot">
           {confirm ? (
             <span className="np-confirm">
-              Start over? Your time resets too.{' '}
+              {t('achievements.notepad.confirm')}{' '}
               <button
                 type="button"
                 onClick={() => {
@@ -154,23 +156,19 @@ export default function Notepad() {
                   setConfirm(false)
                 }}
               >
-                Yes, reset
+                {t('achievements.notepad.yes-reset')}
               </button>{' '}
               <button type="button" onClick={() => setConfirm(false)}>
-                No
+                {t('achievements.notepad.no')}
               </button>
             </span>
           ) : (
             <button type="button" className="np-reset" onClick={() => setConfirm(true)}>
-              Reset achievements
+              {t('achievements.notepad.reset')}
             </button>
           )}
           <p className="np-credit">
-            Some of these are borrowed, with love, from{' '}
-            <a href="https://lupine.dev" target="_blank" rel="noreferrer">
-              lupine.dev
-            </a>
-            .
+            <Rich k="achievements.notepad.credit" />
           </p>
         </footer>
       </div>
@@ -188,7 +186,7 @@ export function Star({ id, className = '', style }: { id: 'star-sky' | 'star-men
       type="button"
       className={`star${pop ? ' star-pop' : ''} ${className}`}
       style={style}
-      aria-label="A small star"
+      aria-label={t('achievements.notepad.star')}
       onClick={(e) => {
         e.stopPropagation()
         setPop(true)

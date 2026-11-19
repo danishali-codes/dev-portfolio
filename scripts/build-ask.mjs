@@ -14,7 +14,7 @@ function walk(dir, out = []) {
     if (name.startsWith('.')) continue
     const path = join(dir, name)
     if (statSync(path).isDirectory()) {
-      if (name === 'trash') continue
+      if (name === 'trash' || name === 'text') continue
       walk(path, out)
     } else if (/\.(md|json)$/.test(name) && name !== 'cv.md') out.push(path)
   }

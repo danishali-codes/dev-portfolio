@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import { rememberName, savedName } from '../leaderboard/api'
 import { badgeBlob, badgeLines } from './badge'
+import { t } from '../text'
 
 const LINK = 'https://danishali.dev/'
 
@@ -34,12 +35,12 @@ export function BadgeBox({ when, title, detail }: { when: number; title: string;
         a.download = 'danishali-dev-badge.png'
         a.click()
         URL.revokeObjectURL(url)
-        setNote('Saved.')
+        setNote(t('achievements.badge.saved'))
         return
       }
-      setNote((await shareFile(blob, `${lines().who} · ${title}`)) === 'copied' ? 'Link copied.' : 'Shared.')
+      setNote((await shareFile(blob, `${lines().who} · ${title}`)) === 'copied' ? t('achievements.badge.copied') : t('achievements.badge.shared'))
     } catch {
-      setNote('Could not share that. The download still works.')
+      setNote(t('achievements.badge.share-failed'))
     }
   }
   return (
@@ -51,24 +52,24 @@ export function BadgeBox({ when, title, detail }: { when: number; title: string;
       }}
     >
       <label>
-        Name on the card
-        <input value={name} onChange={(e) => setName(e.target.value)} maxLength={40} placeholder="a visitor" autoComplete="nickname" />
+        {t('achievements.badge.name-label')}
+        <input value={name} onChange={(e) => setName(e.target.value)} maxLength={40} placeholder={t('achievements.badge.anonymous')} autoComplete="nickname" />
       </label>
       <div className="np-badge-row">
-        <button type="submit">Share</button>
+        <button type="submit">{t('achievements.badge.share')}</button>
         <button type="button" onClick={() => void run('download')}>
-          Download
+          {t('achievements.badge.download')}
         </button>
         <button
           type="button"
           onClick={() =>
             navigator.clipboard.writeText(LINK).then(
-              () => setNote('Link copied.'),
-              () => setNote('Could not copy the link.'),
+              () => setNote(t('achievements.badge.copied')),
+              () => setNote(t('achievements.badge.copy-failed')),
             )
           }
         >
-          Copy link
+          {t('achievements.badge.copy-link')}
         </button>
       </div>
       {note && <p className="np-badge-note">{note}</p>}

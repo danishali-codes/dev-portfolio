@@ -1,3 +1,5 @@
+import { t } from '../text'
+
 export interface BadgeLines {
   who: string
   date: string
@@ -7,7 +9,7 @@ export interface BadgeLines {
 
 /** The words on the card. An empty name stays anonymous rather than inventing one. */
 export function badgeLines(name: string, when: Date, title: string, detail: string): BadgeLines {
-  const who = name.trim().slice(0, 40) || 'a visitor'
+  const who = name.trim().slice(0, 40) || t('achievements.badge.anonymous')
   const date = when.toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric' })
   return { who, date, title: title.slice(0, 48), detail: detail.slice(0, 80) }
 }

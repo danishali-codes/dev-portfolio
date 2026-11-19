@@ -1,0 +1,137 @@
+# The achievements: the name, the hint shown in the notepad before it's found, and the line shown after.
+# Keep each hint pointing at the real trigger, or nobody will find it. The ids (sudo:, rm: …) can't change.
+
+sudo:
+  title: 'Not in the sudoers file'
+  hint: 'Ask the terminal for superpowers.'
+  done: 'You tried sudo.'
+
+rm:
+  title: 'Deleted everything'
+  hint: 'Try deleting everything. What could go wrong?'
+  done: 'rm -rf / and a blue screen.'
+
+hack:
+  title: 'Mainframe breached'
+  hint: 'Every movie hacker types the same word.'
+  done: 'You hacked the mainframe.'
+
+vim:
+  title: 'Escaped vim'
+  hint: 'Open a certain editor, then try to leave.'
+  done: 'Put it on your CV.'
+
+coffee:
+  title: 'Teapot'
+  hint: 'The developer runs on a hot drink.'
+  done: 'Error 418: I''m a teapot.'
+
+xyzzy:
+  title: 'Nothing happens'
+  hint: 'A magic word from a very old adventure game.'
+  done: 'xyzzy'
+
+answer:
+  title: 'Deep thought'
+  hint: 'Life, the universe and everything.'
+  done: '42.'
+
+dotfile:
+  title: 'Dotfiles'
+  hint: 'Some files hide from a plain ls.'
+  done: 'ls -a found the secret file.'
+
+escape:
+  title: 'Above home'
+  hint: 'Try to climb above your home folder.'
+  done: 'There is nothing above ~.'
+
+konami:
+  title: '+30 lives'
+  hint: '↑ ↑ ↓ ↓ ← → ← → …'
+  done: 'Rainbow skin unlocked.'
+
+restart:
+  title: 'Off and on again'
+  hint: 'Have you tried turning it off and on again?'
+  done: 'Restarted PaperOS.'
+
+shutdown:
+  title: 'No off switch'
+  hint: 'Try to switch the whole thing off.'
+  done: 'Websites cannot shut down.'
+
+reader:
+  title: 'Bookworm'
+  hint: 'Read three READMEs.'
+  done: 'Three READMEs read.'
+
+wordpress:
+  title: 'Wrong CMS'
+  hint: 'Every bot on the internet tries to log in to the same blog admin page.'
+  done: 'This is not WordPress.'
+
+console:
+  title: 'Root access'
+  hint: 'Open the browser console. Someone left a login there.'
+  done: 'Logged in from the console.'
+
+header:
+  title: 'Read the headers'
+  hint: 'The server sends a little extra with every page.'
+  done: 'Found the x-achievement header.'
+
+dns:
+  title: 'Dug deep'
+  hint: 'Domains can keep text records too. Dig around.'
+  done: 'Found the DNS TXT record.'
+
+star-sky:
+  title: 'Wishing star'
+  hint: 'A star is hiding somewhere on the desktop.'
+  done: 'Caught the star on the desktop.'
+
+star-menu:
+  title: 'Pocket star'
+  hint: 'A star is tucked inside a menu (on a phone, the dock).'
+  done: 'Found the pocket star.'
+
+star-term:
+  title: 'Terminal star'
+  hint: 'A star is printed in some system info.'
+  done: 'Found the star in neofetch.'
+# ---------- the notepad on the right ----------
+notepad:
+  toast: Achievement unlocked · {found}/{total}
+  tab-label: Open achievements notepad, {count} of {total} found
+  label: Achievements
+  title: notes.txt
+  fold: Fold the notepad away
+  score: '**{count}** of {total} found'
+  timer: Time with the site open since your first find
+  all-found: All found. You are officially a power user.
+  badge-title: Every secret
+  badge-detail: '{total} achievements on danishali.dev'
+  badge: Badge
+  locked: '???'
+  hint: hint
+  more: '{count} more to find'
+  confirm: Start over? Your time resets too.
+  yes-reset: Yes, reset
+  no: 'No'
+  reset: Reset achievements
+  credit: Some of these are borrowed, with love, from [lupine.dev](https://lupine.dev).
+  star: A small star
+
+# ---------- the shareable badge card ----------
+badge:
+  name-label: Name on the card
+  anonymous: a visitor
+  share: Share
+  download: Download
+  copy-link: Copy link
+  saved: Saved.
+  copied: Link copied.
+  shared: Shared.
+  share-failed: Could not share that. The download still works.
+  copy-failed: Could not copy the link.
