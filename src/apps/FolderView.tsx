@@ -1,8 +1,57 @@
-import { useEffect, useRef } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { getNode } from '../fs'
-import type { FsNode } from '../fs/types'
+import type { DirNode, FileNode, FsNode } from '../fs/types'
 import { openNode } from '../shell/opener'
 import Icon from './Icon'
+import { requestSlideshow } from './slideshow'
+
+const isMedia = (c: FsNode): c is FileNode => c.type === 'file' && (c.kind === 'image' || c.kind === 'video')
+
+/** Folders that are mostly screenshots and videos open as a grid of pictures. */
+function isGalleryFolder(dir: DirNode) {
+  const media = dir.children.filter(isMedia).length
+  return media >= 3 && media >= dir.children.length * 0.6
+}
+
+function Gallery({ dir }: { dir: DirNode }) {
+  const media = dir.children.filter(isMedia)
+  const images = media.filter((m) => m.kind === 'image')
+  return (
+    <>
+      <ul className="gallery" aria-label={`Pictures in ${dir.name}`}>
+        {media.map((m) => (
+          <li key={m.path}>
+            <button type="button" className="gallery-item" onClick={() => openNode(m)} aria-label={`${m.kind === 'video' ? 'Play' : 'Open'} ${m.name}`}>
+              {m.kind === 'image' ? (
+                <img src={m.src} alt="" loading="lazy" decoding="async" width={m.width} height={m.height} />
+              ) : m.poster ? (
+                <img src={m.poster} alt="" loading="lazy" decoding="async" />
+              ) : (
+                <span className="gallery-video" aria-hidden="true" />
+              )}
+              {m.kind === 'video' && <span className="gallery-play" aria-hidden="true">▶</span>}
+              <span className="gallery-name">{m.name}</span>
+            </button>
+          </li>
+        ))}
+      </ul>
+      {images.length > 1 && (
+        <div className="gallery-bar">
+          <button
+            type="button"
+            className="pill"
+            onClick={() => {
+              requestSlideshow()
+              openNode(images[0])
+            }}
+          >
+            ▶ Slideshow
+          </button>
+        </div>
+      )}
+    </>
+  )
+}
 
 interface Props {
   path: string
@@ -25,11 +74,15 @@ export default function FolderView({ path, onNavigate, singleClick = false }: Pr
     }
   }, [path])
   const node = getNode(path)
+  // Each folder remembers icons or pictures for as long as the window is open.
+  const [views, setViews] = useState<Record<string, 'icons' | 'gallery'>>({})
   if (!node || node.type !== 'dir') return <p className="missing">This folder no longer exists.</p>
   const parent = path === '/' ? null : path.slice(0, path.lastIndexOf('/')) || '/'
   const parts = path.split('/').filter(Boolean)
   const meta = node.meta
 
+  const canGallery = isGalleryFolder(node)
+  const view = views[path] ?? (canGallery ? 'gallery' : 'icons')
   const activate = (child: FsNode) => (child.type === 'dir' ? onNavigate(child.path) : openNode(child))
 
   return (
@@ -57,13 +110,23 @@ export default function FolderView({ path, onNavigate, singleClick = false }: Pr
             </span>
           )
         })}
+        {canGallery && (
+          <button
+            type="button"
+            className="pill folder-view-btn"
+            onClick={() => setViews({ ...views, [path]: view === 'gallery' ? 'icons' : 'gallery' })}
+            aria-pressed={view === 'gallery'}
+          >
+            {view === 'gallery' ? 'Show as icons' : 'Show pictures'}
+          </button>
+        )}
       </nav>
       {meta?.tagline && (
         <p className="folder-meta">
           <strong>{meta.name}</strong> {meta.tagline}
         </p>
       )}
-      <ul className="folder-grid" ref={gridRef} aria-label={`Files in ${parts[parts.length - 1] ?? 'home'}`}>
+      {view === 'gallery' ? <Gallery dir={node} /> : <ul className="folder-grid" ref={gridRef} aria-label={`Files in ${parts[parts.length - 1] ?? 'home'}`}>
         {node.children.filter((c) => c.name !== 'project.json').map((c) => (
           <li key={c.path}>
             <button
@@ -86,7 +149,7 @@ export default function FolderView({ path, onNavigate, singleClick = false }: Pr
             </button>
           </li>
         ))}
-      </ul>
+      </ul>}
     </div>
   )
 }

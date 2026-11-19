@@ -15,7 +15,7 @@ const KONAMI = ['ArrowUp', 'ArrowUp', 'ArrowDown', 'ArrowDown', 'ArrowLeft', 'Ar
 const SHORTCUTS = ['help', 'projects', 'ls', 'cd ..', 'open fuloos', 'play lockout', 'games', 'neofetch', 'snake', 'exit']
 
 export default function Terminal({ onExit, showShortcuts = false }: { onExit: () => void; showShortcuts?: boolean }) {
-  const { lines, cwd, history, handler, program, skin, push, clear, setCwd, addHistory, capture, launch } = useTerm()
+  const { lines, cwd, history, handler, program, skin, queued, push, clear, setCwd, addHistory, capture, launch, queue } = useTerm()
   const [input, setInput] = useState('')
   const konami = useRef(0)
   const [hIndex, setHIndex] = useState<number | null>(null)
@@ -61,6 +61,15 @@ export default function Terminal({ onExit, showShortcuts = false }: { onExit: ()
     })
     inputRef.current?.focus()
   }
+
+  // Spotlight can hand the terminal a command to run, typed out as if by the visitor.
+  useEffect(() => {
+    if (!queued) return
+    queue(null)
+    if (!handler && !program) run(queued)
+    // run is recreated every render; only a new queued command should trigger this.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [queued])
 
   function onKonami(key: string) {
     const want = KONAMI[konami.current]

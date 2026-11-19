@@ -1,4 +1,5 @@
-import { useEffect, useRef, useState } from 'react'
+import { useCallback, useEffect, useRef, useState } from 'react'
+import Calendar from './Calendar'
 import { allProjects, getNode, projects } from '../fs'
 import type { DirNode, FsNode } from '../fs/types'
 import { openIntroduction, openAsk, openGuestbook, openNode, openStats, openTerminal, openWallpaperPicker } from '../shell/opener'
@@ -12,15 +13,25 @@ const GITHUB = 'https://github.com/danishali-codes'
 
 function Clock() {
   const [now, setNow] = useState(() => new Date())
+  const [cal, setCal] = useState(false)
+  const close = useCallback(() => setCal(false), [])
   useEffect(() => {
     const t = setInterval(() => setNow(new Date()), 15_000)
-    return () => clearInterval(t)
+    const show = () => setCal(true)
+    window.addEventListener('paperos:calendar', show)
+    return () => {
+      clearInterval(t)
+      window.removeEventListener('paperos:calendar', show)
+    }
   }, [])
   return (
-    <time className="tb-clock" dateTime={now.toISOString()}>
-      <span>{now.toLocaleTimeString(undefined, { hour: '2-digit', minute: '2-digit' })}</span>
-      <span className="tb-date">{now.toLocaleDateString(undefined, { weekday: 'short', day: 'numeric', month: 'short' })}</span>
-    </time>
+    <>
+      {cal && <Calendar onClose={close} />}
+      <button type="button" className="tb-clock" onClick={() => setCal(!cal)} aria-expanded={cal} aria-haspopup="dialog" aria-label={`${now.toLocaleString(undefined, { dateStyle: 'full', timeStyle: 'short' })}. Open calendar`}>
+        <time dateTime={now.toISOString()}>{now.toLocaleTimeString(undefined, { hour: '2-digit', minute: '2-digit' })}</time>
+        <span className="tb-date">{now.toLocaleDateString(undefined, { weekday: 'short', day: 'numeric', month: 'short' })}</span>
+      </button>
+    </>
   )
 }
 
@@ -164,6 +175,9 @@ function Search() {
           }}
           autoComplete="off"
         />
+        <button type="button" className="tb-kbd" onClick={() => window.dispatchEvent(new Event('paperos:spotlight'))} title="Search everything (Ctrl+K)" aria-label="Search everything (Ctrl+K)">
+          {/Mac|iPhone|iPad/.test(navigator.platform) ? '⌘K' : 'Ctrl K'}
+        </button>
       </label>
       {q.trim() && (
         <ul

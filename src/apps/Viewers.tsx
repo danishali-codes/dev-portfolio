@@ -3,6 +3,7 @@ import { useEffect, useMemo, useRef, useState } from 'react'
 import { findApp, getNode, projectAt } from '../fs'
 import type { DirNode, FileNode } from '../fs/types'
 import { openNode } from '../shell/opener'
+import { clearSlideshow, peekSlideshow, SLIDE_MS } from './slideshow'
 
 marked.use({ gfm: true })
 
@@ -165,6 +166,17 @@ export function ImageView({ path }: { path?: string }) {
     setI(Math.max(0, siblings.findIndex((s) => s.path === file?.path)))
   }, [file?.path, siblings])
   const n = siblings.length
+  const [playing, setPlaying] = useState(peekSlideshow)
+  useEffect(clearSlideshow, [])
+  useEffect(() => {
+    if (!playing || n < 2) return
+    const t = setInterval(() => {
+      // Hidden (minimised) windows stop the show.
+      if (ref.current?.closest('[hidden]')) return setPlaying(false)
+      setI((v) => (v + 1) % n)
+    }, SLIDE_MS)
+    return () => clearInterval(t)
+  }, [playing, n])
   useEffect(() => {
     const onKey = (e: KeyboardEvent) => {
       // Only the window on top flips pictures, and never while someone is typing.
@@ -172,6 +184,10 @@ export function ImageView({ path }: { path?: string }) {
       if ((host && !host.classList.contains('active')) || isTyping(e.target) || e.altKey || e.ctrlKey || e.metaKey) return
       if (e.key === 'ArrowRight') setI((v) => (v + 1) % n)
       if (e.key === 'ArrowLeft') setI((v) => (v - 1 + n) % n)
+      if (e.key === ' ' && n > 1 && !(e.target instanceof HTMLButtonElement)) {
+        e.preventDefault()
+        setPlaying((p) => !p)
+      }
     }
     window.addEventListener('keydown', onKey)
     return () => window.removeEventListener('keydown', onKey)
@@ -211,6 +227,11 @@ export function ImageView({ path }: { path?: string }) {
           {n > 1 && (
             <button type="button" onClick={() => setI((i + 1) % n)} aria-label="Next image">
               →
+            </button>
+          )}
+          {n > 1 && (
+            <button type="button" onClick={() => setPlaying(!playing)} aria-pressed={playing} aria-label={playing ? 'Pause slideshow' : 'Play slideshow'} title={playing ? 'Pause (Space)' : 'Slideshow (Space)'}>
+              {playing ? '❚❚' : '▶'}
             </button>
           )}
           {current.full && (
