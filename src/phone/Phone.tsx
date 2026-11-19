@@ -1,5 +1,5 @@
 import CopyLink from '../apps/CopyLink'
-import { initialiseHistory, specFromUrl, syncNavigation } from '../shell/navigation'
+import { initialiseHistory, notFoundSpec, specFromUrl, syncNavigation } from '../shell/navigation'
 import { useEffect, useRef, useState } from 'react'
 import { getNode, projects, TRASH_DIR } from '../fs'
 import type { FsNode } from '../fs/types'
@@ -31,14 +31,14 @@ function StatusBar() {
 /** Phone UI: a home screen of app icons; every app opens full screen. */
 export default function Phone() {
   const [stack, setStack] = useState<OpenSpec[]>(() => {
-    const spec = specFromUrl()
+    const spec = specFromUrl() ?? notFoundSpec()
     return spec ? [spec] : []
   })
 
   useEffect(() => {
     initialiseHistory()
     const restore = () => {
-      const spec = specFromUrl()
+      const spec = specFromUrl() ?? notFoundSpec()
       setStack(spec ? [spec] : [])
     }
     window.addEventListener('popstate', restore)

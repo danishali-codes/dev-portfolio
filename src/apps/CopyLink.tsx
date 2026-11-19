@@ -19,5 +19,6 @@ export default function CopyLink({ spec }: { spec: OpenSpec }) {
       window.prompt('Copy this link', url)
     }
   }
+  if (spec.kind === 'notfound') return null
   return <button type="button" className="pill copy-link" onClick={copy} aria-live="polite">{status || 'Copy link'}</button>
 }

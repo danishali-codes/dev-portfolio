@@ -56,18 +56,20 @@ describe('sitemap', () => {
 
 describe('static seo files', () => {
   const vercel = JSON.parse(readFileSync('vercel.json', 'utf8'))
-  const rewrite = new RegExp(`^${vercel.rewrites[0].source}$`)
+  // Vercel path patterns: "/found/:path*" matches /found and anything under it.
+  const patterns = vercel.rewrites.map((r) => new RegExp('^' + r.source.replace(/\./g, '\\.').replace(/\/:path\*$/, '(?:/.*)?') + '$'))
+  const rewritten = (path) => patterns.some((re) => re.test(path))
 
-  it('serves robots.txt as plain text and keeps the SPA rewrite off both files', () => {
+  it('serves robots.txt as plain text and only rewrites addresses the app handles itself', () => {
     const robots = readFileSync('public/robots.txt', 'utf8')
     expect(robots).toBe('User-agent: *\nAllow: /\nDisallow: /api/\n\nSitemap: https://danishali.dev/sitemap.xml\n')
     expect(robots).not.toMatch(/<html/i)
-    expect(vercel.rewrites[0].destination).toBe('/')
-    for (const path of ['/robots.txt', '/sitemap.xml', '/api/guestbook', '/fs/a', '/assets/a', '/favicon.svg', '/stats.json', '/cv', '/contact', '/now', '/uses', '/resume', '/simple', '/projects/ledger', '/about', '/og/home.png']) {
-      expect(rewrite.test(path)).toBe(false)
+    for (const rule of vercel.rewrites) expect(rule.destination).toBe('/')
+    for (const path of ['/robots.txt', '/sitemap.xml', '/api/guestbook', '/fs/a', '/assets/a', '/favicon.svg', '/stats.json', '/cv', '/contact', '/now', '/uses', '/resume', '/simple', '/projects/ledger', '/about', '/og/home.png', '/typo', '/projects/missing']) {
+      expect(rewritten(path)).toBe(false)
     }
-    for (const path of ['/', '/files/about.md', '/found/headers', '/found/dug', '/wp-admin']) {
-      expect(rewrite.test(path)).toBe(true)
+    for (const path of ['/files/about.md', '/found/headers', '/found/dug', '/wp-admin', '/wp-admin/setup.php', '/wp-login.php', '/xmlrpc.php']) {
+      expect(rewritten(path)).toBe(true)
     }
   })
 })

@@ -1,4 +1,4 @@
-import { useEffect, useRef, type PointerEvent as RPointerEvent, type ReactNode } from 'react'
+import { useEffect, useRef, useState, type PointerEvent as RPointerEvent, type ReactNode } from 'react'
 import CopyLink from '../apps/CopyLink'
 import { focusTopWindow } from '../shell/focus'
 import { useWindows, type Win } from '../store/windows'
@@ -9,6 +9,15 @@ export default function Window({ win, active, children }: { win: Win; active: bo
   const { focus, close, minimize, toggleMaximize, setBounds } = useWindows()
   const ref = useRef<HTMLElement>(null)
   const drag = useRef<{ edge: Edge; sx: number; sy: number; x: number; y: number; w: number; h: number } | null>(null)
+  // A live app restored minimised from the last visit waits until it is first shown before loading.
+  const [shown, setShown] = useState(!win.minimized)
+  if (!shown && !win.minimized) setShown(true)
+
+  // Minimising hides a window without unmounting it, so stop anything it was playing.
+  useEffect(() => {
+    if (!win.minimized) return
+    ref.current?.querySelectorAll<HTMLMediaElement>('video, audio').forEach((media) => media.pause())
+  }, [win.minimized])
 
   // A new window takes keyboard focus (unless its content already grabbed it, like the terminal prompt).
   useEffect(() => {
@@ -105,7 +114,7 @@ export default function Window({ win, active, children }: { win: Win; active: bo
           </button>
         </div>
       </header>
-      <div className="win-body">{children}</div>
+      <div className="win-body">{shown || win.kind !== 'app' ? children : null}</div>
       {!win.maximized && (
         <>
           <div className="rz rz-e" {...handle('e')} />

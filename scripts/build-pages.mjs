@@ -34,7 +34,7 @@ const pages = [
 function walk(dir) {
   if (dir.type !== 'dir') return
   if (dir.meta && (dir.path.startsWith('/projects/') || dir.path.startsWith('/trash/'))) {
-    pages.push({ route: dir.path, title: dir.meta.name + ' · Danish Ali', description: dir.meta.tagline || plain(readme(dir)).slice(0, 160), text: readme(dir), color: dir.meta.color, alias: dir.path.startsWith('/projects/') ? '/projects/' + dir.name : undefined })
+    pages.push({ route: dir.path, title: dir.meta.name + ' · Danish Ali', description: dir.meta.tagline || plain(readme(dir)).slice(0, 160), text: readme(dir), color: dir.meta.color, aliases: dir.path.startsWith('/projects/') ? ['/projects/' + dir.name, ...(dir.meta.aliases ?? []).map((a) => '/projects/' + a)] : [] })
   }
   for (const child of dir.children) walk(child)
 }
@@ -93,12 +93,21 @@ for (const page of pages) {
   mkdirSync(dirname(dest), { recursive: true })
   writeFileSync(dest, html)
   // Preserve existing short project links, but point crawlers at the full canonical path.
-  if (page.alias && page.alias !== page.route && !pages.some((p) => p.route === page.alias)) {
-    const alias = join(out, page.alias, 'index.html')
+  // Old names (Lockout's /projects/jeopardy) keep working the same way.
+  for (const route of page.aliases ?? []) {
+    if (route === page.route || pages.some((p) => p.route === route) || !/^\/projects\/[a-z0-9-]+$/.test(route)) continue
+    const alias = join(out, route, 'index.html')
     mkdirSync(dirname(alias), { recursive: true })
     writeFileSync(alias, html)
   }
 }
+
+// Anything else gets the desktop with a "not found" window, served by Vercel with a real 404 status.
+const notFound = template
+  .replace(/<title>[\s\S]*?<\/title>/, '<title>Not found · Danish Ali</title>')
+  .replace('</head>', '<meta name="robots" content="noindex" />\n</head>')
+  .replace('<div id="root"></div>', '<div id="root"><main style="max-width:760px;margin:48px auto;padding:24px;font:18px/1.6 sans-serif"><h1>Not found</h1><p>Nothing lives at this address. <a href="/">Go to the desktop</a> or see <a href="/projects">selected work</a>.</p></main></div>')
+writeFileSync(join(out, '404.html'), notFound)
 mkdirSync(join(out, 'simple'), { recursive: true })
 writeFileSync(join(out, 'simple/index.html'), readFileSync(join(out, 'resume/index.html')))
 mkdirSync(join(out, 'cv'), { recursive: true })

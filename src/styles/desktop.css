@@ -1100,3 +1100,14 @@
 
 
 .ic-introduction { background: var(--mint); color: var(--on-pastel); }
+
+/* 404: an address that opens nothing. */
+.notfound { padding: 22px; color: var(--ink); background: var(--paper); height: 100%; overflow: auto; }
+.notfound-term { margin: 0 0 18px; padding: 14px 16px; border-radius: 12px; background: #11140f; color: #9ef0a8; font: 13px/1.6 var(--font-mono); white-space: pre-wrap; word-break: break-all; }
+.notfound-prompt { color: #6fd3ff; }
+.notfound-cursor { animation: notfound-blink 1s steps(1) infinite; }
+@keyframes notfound-blink { 50% { opacity: 0; } }
+@media (prefers-reduced-motion: reduce) { .notfound-cursor { animation: none; } }
+.notfound h1 { margin: 0 0 6px; font-size: 24px; }
+.notfound p { margin: 0 0 16px; color: var(--muted); line-height: 1.55; }
+.notfound-actions { display: flex; flex-wrap: wrap; gap: 8px; }

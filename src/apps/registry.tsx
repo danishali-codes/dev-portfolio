@@ -3,6 +3,7 @@ import { markRead } from '../achievements'
 import type { Win } from '../store/windows'
 import FolderView from './FolderView'
 import Introduction from './Introduction'
+import NotFound from './NotFound'
 
 const Terminal = lazy(() => import('./Terminal'))
 const viewers = () => import('./Viewers')
@@ -36,6 +37,8 @@ export function WindowContent({ win, opts }: { win: Pick<Win, 'kind' | 'path' | 
   switch (win.kind) {
     case 'introduction':
       return <Introduction />
+    case 'notfound':
+      return <NotFound path={win.url ?? '/'} />
     case 'terminal':
       return (
         <Loading>

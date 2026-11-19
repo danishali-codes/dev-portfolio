@@ -2,7 +2,7 @@ import { create } from 'zustand'
 import { persist } from 'zustand/middleware'
 import { getNode } from '../fs'
 
-export type WindowKind = 'terminal' | 'folder' | 'markdown' | 'text' | 'image' | 'video' | 'pdf' | 'app' | 'cv' | 'guestbook' | 'stats' | 'updates' | 'wallpaper' | 'ask' | 'introduction'
+export type WindowKind = 'terminal' | 'folder' | 'markdown' | 'text' | 'image' | 'video' | 'pdf' | 'app' | 'cv' | 'guestbook' | 'stats' | 'updates' | 'wallpaper' | 'ask' | 'introduction' | 'notfound'
 
 export interface Win {
   id: string
@@ -57,6 +57,7 @@ const DEFAULT_SIZE: Record<WindowKind, [number, number]> = {
   updates: [560, 600],
   ask: [480, 560],
   introduction: [540, 540],
+  notfound: [520, 420],
 }
 
 let counter = 0
