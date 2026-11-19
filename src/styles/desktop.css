@@ -298,7 +298,8 @@
   margin: 0;
   padding: 28px;
   display: grid;
-  grid-template-columns: repeat(2, 96px);
+  /* more columns on short screens, so the last row never hides behind the taskbar (src/desktop/fit.ts) */
+  grid-template-columns: repeat(var(--desk-cols, 2), 96px);
   column-gap: 10px;
   row-gap: 18px;
   align-content: start;
@@ -335,11 +336,27 @@
   background: var(--ink);
   color: var(--paper);
 }
+/* The sticky notes stack down the right edge. Any that would hang below the taskbar are hidden (src/desktop/fit.ts). */
+.desk-notes {
+  position: absolute;
+  inset: 28px 28px 20px auto;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 16px;
+  pointer-events: none;
+}
+.desk-notes > * {
+  pointer-events: auto;
+}
+.desk-notes > .note-off {
+  visibility: hidden;
+  pointer-events: none;
+}
 /* the "working on" sticky note, top right of the desktop, under any windows */
 .now-note {
-  position: absolute;
-  top: 28px;
-  right: 28px;
+  position: relative;
+  flex: none;
   width: 248px;
   padding: 14px 16px 12px;
   background: var(--now-note);
@@ -392,8 +409,9 @@
   color: var(--on-pastel);
 }
 .guest-note {
-  position: absolute;
-  right: 36px;
+  position: relative;
+  flex: none;
+  margin-right: 8px;
   width: 210px;
   padding: 16px 16px 12px;
   background: var(--peach-soft);
@@ -422,18 +440,15 @@
   line-height: 1;
 }
 .guest-note-0 {
-  top: 250px;
   transform: rotate(-1.5deg);
 }
 .guest-note-1 {
-  top: 420px;
-  right: 64px;
+  margin-right: 36px;
   background: var(--mint-soft);
   transform: rotate(1.4deg);
 }
 .guest-note-2 {
   color: var(--on-pastel);
-  top: 590px;
   background: var(--btn-min);
   transform: rotate(-0.6deg);
 }
@@ -464,6 +479,7 @@
 /* ---------- Taskbar ---------- */
 .taskbar {
   position: relative;
+  min-width: 0;
   z-index: 100000;
   display: flex;
   align-items: center;
@@ -627,6 +643,32 @@
 }
 .tb-resume:hover {
   background: var(--chip);
+}
+.tb-ask {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  border: var(--stroke) solid var(--ink);
+  background: color-mix(in srgb, var(--mint) 35%, var(--paper));
+}
+.tb-ask:hover {
+  background: color-mix(in srgb, var(--mint) 60%, var(--paper));
+}
+/* narrow screens: the Ask button keeps just its icon, and the search box gets shorter */
+@media (max-width: 960px) {
+  .tb-ask {
+    width: 32px;
+    padding: 0;
+    justify-content: center;
+  }
+  .tb-ask-label {
+    display: none;
+  }
+}
+@media (max-width: 860px) {
+  .tb-search {
+    width: 160px;
+  }
 }
 .tb-theme {
   flex: none;

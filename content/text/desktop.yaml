@@ -16,6 +16,8 @@ taskbar:
   minimised-title: '{title} (minimised)'
   minimised-label: '{title}, minimised'
   resume: Resume
+  ask: Ask Danish
+  ask-title: Ask a question about Danish and his work
   to-light: Switch to light theme
   to-dark: Switch to dark theme
   sounds-off: Turn sounds off

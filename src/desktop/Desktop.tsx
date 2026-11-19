@@ -1,6 +1,6 @@
 import DesktopNavigation from '../shell/DesktopNavigation'
 import { t } from '../text'
-import { useCallback, useEffect, useState } from 'react'
+import { useCallback, useEffect, useRef, useState } from 'react'
 import { getNode, projects, TRASH_DIR } from '../fs'
 import type { FsNode } from '../fs/types'
 import { WindowContent } from '../apps/registry'
@@ -21,6 +21,7 @@ import ContextMenu from './ContextMenu'
 import { DeskIcon, NowNote } from './DeskIcons'
 import Spotlight from './Spotlight'
 import WindowSwitcher from './WindowSwitcher'
+import { useIconColumns, useNotesFit } from './fit'
 
 export default function Desktop() {
   const { windows, open, close, update, fitAll, resetLayout } = useWindows()
@@ -52,6 +53,11 @@ export default function Desktop() {
   const cv = getNode('/cv.md')
   const trash = getNode(TRASH_DIR)
   const restored = useRestored((s) => s.paths)
+  const workspace = useRef<HTMLElement>(null)
+  const icons = useRef<HTMLUListElement>(null)
+  const notes = useRef<HTMLDivElement>(null)
+  useIconColumns(icons, workspace, `${refreshing}:${restored.length}`)
+  useNotesFit(notes)
 
   return (
     <div className="desktop">
@@ -60,6 +66,7 @@ export default function Desktop() {
       <SkyStar />
       <main
         className="workspace"
+        ref={workspace}
         onContextMenu={(e) => {
           // Windows keep the browser's own menu (copy, open link, …); the desktop gets ours.
           if ((e.target as HTMLElement).closest('.win, input, textarea, a')) return
@@ -68,6 +75,7 @@ export default function Desktop() {
         }}
       >
         <ul
+          ref={icons}
           className={`desk-icons${refreshing ? ' refreshing' : ''}`}
           key={refreshing}
           aria-label={t('desktop.menu.label')}
@@ -88,8 +96,10 @@ export default function Desktop() {
             return n && <DeskIcon key={path} node={n} label={(n.type === "dir" && n.meta?.name) || n.name} onOpen={() => openNode(n)} />
           })}
         </ul>
-        <NowNote />
-        <GuestNotes />
+        <div className="desk-notes" ref={notes}>
+          <NowNote />
+          <GuestNotes />
+        </div>
         {windows.length === 0 && <p className="desk-hint">{t('desktop.hint')}</p>}
         {windows.map((w) => (
           <Window key={w.id} win={w} active={w.id === top}>
