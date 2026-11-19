@@ -2,21 +2,16 @@ import { useCallback, useEffect, useState } from 'react'
 import { projects } from '../fs'
 import { usePower } from '../shell/power'
 import { setResume } from '../shell/plain'
+import { lines, t } from '../text'
 
 type Screen = 'post' | 'splash'
 
-const SPLASH_STEPS = ['Waking the window manager', 'Mounting /projects', 'Warming up the terminal', 'Brewing coffee']
-
+/** Each firmware line, split at " | " into the left half and the status on the right. */
 function postLines(): [string, string][] {
-  const n = projects().length
-  return [
-    ['DA-BIOS v2.6   (c) 2026 Danish Ali', ''],
-    ['CPU  : one developer @ 3 coffees/hr', 'OK'],
-    ['RAM  : 16384K', 'OK'],
-    ['DISK : /projects', `${n} found`],
-    ['NET  : danishali.dev', 'up'],
-    ['BOOT : dev/portfolio', '...'],
-  ]
+  return lines('gags.boot.firmware', { projects: projects().length }).map((l) => {
+    const at = l.lastIndexOf(' | ')
+    return at < 0 ? [l, ''] : [l.slice(0, at), l.slice(at + 3)]
+  })
 }
 
 /** Firmware text in the terminal's green, a line at a time, like a machine powering on. */
@@ -48,25 +43,26 @@ function Post({ onDone }: { onDone: () => void }) {
 /** The Soft Paper logo and a chunky progress bar. */
 function Splash({ duration, onDone }: { duration: number; onDone: () => void }) {
   const [step, setStep] = useState(0)
+  const [steps] = useState(() => lines('gags.boot.steps'))
   useEffect(() => {
-    const per = duration / SPLASH_STEPS.length
-    const t = setInterval(() => setStep((s) => Math.min(s + 1, SPLASH_STEPS.length - 1)), per)
+    const per = duration / steps.length
+    const timer = setInterval(() => setStep((s) => Math.min(s + 1, steps.length - 1)), per)
     const done = setTimeout(onDone, duration)
     return () => {
-      clearInterval(t)
+      clearInterval(timer)
       clearTimeout(done)
     }
-  }, [duration, onDone])
+  }, [duration, onDone, steps.length])
   return (
     <div className="boot-splash">
       <div className="boot-logo" aria-hidden="true">
         da
       </div>
-      <div className="boot-name">dev/portfolio</div>
+      <div className="boot-name">{t('gags.boot.name')}</div>
       <div className="boot-bar" aria-hidden="true">
         <span style={{ animationDuration: `${duration}ms` }} />
       </div>
-      <div className="boot-step">{SPLASH_STEPS[step]}</div>
+      <div className="boot-step">{steps[step]}</div>
     </div>
   )
 }
@@ -117,7 +113,7 @@ export default function Boot() {
 
   if (phase === 'on' && !leaving) return null
   return (
-    <div className={`boot${leaving ? ' leaving' : ''}${screen === 'post' ? ' boot-dark' : ''}`} role="status" aria-label="Starting up" onPointerDown={finish}>
+    <div className={`boot${leaving ? ' leaving' : ''}${screen === 'post' ? ' boot-dark' : ''}`} role="status" aria-label={t('gags.boot.label')} onPointerDown={finish}>
       {screen === 'post' && <Post key={boots} onDone={toSplash} />}
       {screen === 'splash' && <Splash key={boots} duration={short ? 700 : 1500} onDone={finish} />}
       {!leaving && (
@@ -130,10 +126,10 @@ export default function Boot() {
               setResume(true)
             }}
           >
-            Skip to resume
+            {t('gags.boot.skip-to-resume')}
           </button>
-          <span className="keys">press any key to skip</span>
-          <span className="touch">tap to skip</span>
+          <span className="keys">{t('gags.boot.skip-keys')}</span>
+          <span className="touch">{t('gags.boot.skip-touch')}</span>
         </div>
       )}
     </div>

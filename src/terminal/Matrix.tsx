@@ -1,5 +1,6 @@
 import { useEffect, useRef } from 'react'
-import { txt, type Line } from './lines'
+import { say, type Line } from './lines'
+import { t } from '../text'
 
 const GLYPHS = 'アイウエオカキクケコサシスセソタチツテトナニヌネノハヒフヘホマミムメモヤユヨラリルレロワン0123456789DANISH'
 const SIZE = 16
@@ -64,7 +65,7 @@ export default function Matrix({ onQuit }: { onQuit: (...l: Line[]) => void }) {
     }
   }, [])
 
-  const quit = () => onQuit([txt('Wake up, Neo… then try ', 'dim'), { t: 'games', cls: 'accent', run: 'games' }])
+  const quit = () => onQuit(say('eggs.matrix.quit'))
 
   return (
     <div
@@ -72,7 +73,7 @@ export default function Matrix({ onQuit }: { onQuit: (...l: Line[]) => void }) {
       className="term-program"
       tabIndex={0}
       role="img"
-      aria-label="Falling green characters. Press any key to leave."
+      aria-label={t('eggs.matrix.label')}
       onKeyDown={(e) => {
         e.preventDefault()
         quit()

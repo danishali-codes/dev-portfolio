@@ -1,0 +1,192 @@
+# The terminal: the welcome lines, every command's one-line description and the replies.
+# See README.md in this folder for how the {placeholders} and *markup* work.
+
+welcome:
+  - '**Dev portfolio** _· {count} {count|project|projects} in_ {projects}'
+  - _Type_ `help` _to look around,_ `projects` _for the list, or_ `exit` _for the desktop._
+
+# What `help` (and Ctrl+K search) says about each command.
+commands:
+  help: list every command
+  ls: list a folder
+  cd: change folder
+  pwd: show the current folder
+  cat: print a text file
+  open: open a project, folder or file in a window
+  run: launch a project's live app (games open on itch.io)
+  play: play Lockout
+  projects: table of every project
+  stats: GitHub streaks, languages and site visits
+  now: what I'm working on right now
+  whoami: who made this
+  cv: open my CV
+  contact: how to reach me
+  updates: what's changed on this site lately
+  source: this site's source code
+  ask: ask about the projects
+  guestbook: leave me a note
+  theme: switch light or dark
+  wallpaper: pick a desktop background
+  screensaver: start the screensaver now
+  echo: print some text
+  date: show the date and time
+  clear: clear the screen
+  exit: close the terminal and show the desktop
+  tree: draw a folder and everything in it
+  grep: search inside every write-up
+  top: what this desktop is running
+  who: who else is on the site
+  neofetch: system info, the classic way
+  games: games I made, on itch.io
+  fortune: a fortune cookie for developers
+  snake: play snake (arrows or swipe, q quits)
+  guess: guess the number I am thinking of
+  matrix: follow the white rabbit (any key exits)
+  skin: recolour this terminal
+  history: commands you have typed
+  git: this site's history
+  scores: leaderboards for snake and achievements
+
+help:
+  title: Commands
+  tips:
+    - 'Tip: Tab completes names, ↑ recalls history, and anything underlined is clickable.'
+    - A few commands are not on this list. Finding them is the fun part.
+
+not-found: '{name}: command not found.'
+did-you-mean: ' _Did you mean_ {suggestion}_?_'
+type-help: ' _Type_ `help`_._'
+
+ls:
+  missing: 'ls: {path}: no such file or folder'
+  empty: (empty)
+
+cd:
+  above-home: "cd: you're already home. There is nothing above it. (I checked.)"
+  missing: 'cd: {path}: no such folder'
+  not-folder: 'cd: {path}: not a folder'
+
+cat:
+  which: 'cat: which file? Try `cat about.md`'
+  missing: 'cat: {path}: no such file'
+  is-folder: 'cat: {path}: is a folder (try `ls {path}`)'
+  binary: '_{name} is a {kind} file._ {open}'
+
+open:
+  what: 'open: what should I open? Try `open fuloos`'
+  missing: "open: {path}: not found. Try `projects` to see what's here."
+  opening: _opening_ {thing}
+
+run:
+  missing: 'run: {name}: no such project. Try `projects`.'
+  on-itch: _opening_ *{name}* _on itch.io ↗_
+  no-app: 'run: {name} has no live app yet.'
+  launching: _launching_ *{name}*
+
+projects:
+  header: [NAME, YEAR, STATUS, ABOUT]
+
+stats:
+  opening: opening Stats
+  reading: reading counters…
+  contributions: contributions
+  contributions-exact: '  {total} in the last year'
+  contributions-rough: '  the last year'
+  streaks: '  streak {current}d · longest {longest}d · {active} active days'
+  languages: languages
+  commits: recent commits
+  itch: itch.io
+  itch-views: '{views} views'
+  site: this site
+  visits: '  {visits} visits, {average} on average'
+  projects: '  {count} {count|project|projects}'
+  site-commits: ', {commits} commits to build it'
+  no-github: '  (the GitHub numbers are missing from this build)'
+  window: '_Prettier as a window:_ `stats -w`'
+
+now:
+  empty: 'now: nothing on the go. Suspicious.'
+  title: '**Now**'
+  updated: ' · updated {when}'
+  full-note: '_Full note:_ {file}'
+
+cv:
+  missing: 'cv: no CV here yet'
+  opening: '_opening_ {file} _·_ `cat cv.md` _prints it here instead_'
+
+contact:
+  labels:
+    email: email
+    local: local
+  local-time: '{time} in {city} ({gap})'
+  card: _Or_ {card}_, which has the CV too._
+  card-link: open the contact card
+
+updates: opening System Updates
+source: '_Source:_ {link}'
+ask: opening Ask Danish
+guestbook: opening the guestbook. notes reach me first; nice ones get pinned.
+
+theme:
+  usage: 'theme: use `theme light` or `theme dark`'
+  set: theme set to {theme}
+
+wallpaper:
+  list: 'wallpapers: '
+  missing: 'wallpaper: no wallpaper called {name}. Try `wallpaper` for the list.'
+  set: wallpaper set to {name}
+
+screensaver:
+  phone: 'screensaver: phones lock their own screen'
+
+tree:
+  missing: 'tree: {path}: no such folder'
+  folded-media: '  ({count} screenshots and videos)'
+  folded: '  ({count} files)'
+  summary: '{dirs} folders, {files} files'
+
+grep:
+  what: 'grep: what should I look for? Try `grep pocketbase`'
+  none: no matches for “{pattern}” in {folder}
+  summary: '{hits} {hits|match|matches} in {files} {files|file|files}'
+  capped: ', first {limit} shown'
+
+top:
+  summary: 'up {minutes}m {seconds}s · {windows} {windows|window|windows} · {cores} cores'
+  memory: ' · {mb} MB in use'
+  header: 'PID   STATE      %CPU  COMMAND'
+  running: running
+  sleeping: sleeping
+  waiting: waiting
+  # The made-up background processes, first three before the open windows, the last one after.
+  processes: [init, paperos-wm, wallpaper, coffee]
+
+who:
+  you: you
+  offline: (the visitor count is offline right now)
+  others: + {count} other {count|visitor|visitors} looking around right now
+  alone: nobody else is here right now. Just us.
+
+git:
+  status:
+    - On branch main
+    - _nothing to commit, working tree clean_
+  blame: Danish (every line, no regrets)
+  push: 'git push: permission denied. This is the live site, not a repo you own.'
+  repo: '_The real repo lives on GitHub:_ {link}'
+  log:
+    empty: 'fatal: your current branch does not have any commits yet'
+    commit: commit
+    author: 'Author: Danish'
+    date: 'Date:   {date}'
+    older: '… {count} older. '
+
+scores:
+  loading: loading…
+  snake: Snake high scores
+  achievements: Fastest to find every achievement
+  empty: '  nobody yet. Be the first.'
+  play: _Play_ `snake` _to get on the board._
+
+# Read out by screen readers for the command box.
+input-label: Terminal command

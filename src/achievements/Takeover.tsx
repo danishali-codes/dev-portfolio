@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState, type FormEvent } from 'react'
 import { unlock } from '.'
 import { goHome, takeover, useTakeover, type Takeover as Mode } from './effects'
+import { lines, t } from '../text'
 
 /** Any key, click or tap after a short delay calls `go`. The delay stops the key that started it from ending it. */
 function useAnyKey(go: () => void, delay = 900) {
@@ -36,12 +37,12 @@ function Bsod() {
   }, [])
   useAnyKey(() => goHome('bsod'), 1200)
   return (
-    <div className="to to-bsod" role="alertdialog" aria-label="PaperOS crashed">
+    <div className="to to-bsod" role="alertdialog" aria-label={t('gags.bsod.label')}>
       <div className="bsod-inner">
-        <div className="bsod-face">:(</div>
-        <p className="bsod-big">PaperOS ran into a problem it couldn&apos;t handle. Someone typed rm -rf /.</p>
-        <p>We&apos;re collecting absolutely no error info, and then we&apos;ll pretend to restart for you.</p>
-        <p className="bsod-pct">{pct}% complete</p>
+        <div className="bsod-face">{t('gags.bsod.face')}</div>
+        <p className="bsod-big">{t('gags.bsod.big')}</p>
+        <p>{t('gags.bsod.body')}</p>
+        <p className="bsod-pct">{t('gags.bsod.progress', { percent: pct })}</p>
         <div className="bsod-foot">
           <div className="bsod-qr" aria-hidden="true">
             {Array.from({ length: 49 }, (_, i) => (
@@ -49,9 +50,9 @@ function Bsod() {
             ))}
           </div>
           <div>
-            <p>For more information about this issue, don&apos;t search online.</p>
-            <p>Stop code: USER_DELETED_EVERYTHING_ON_PURPOSE</p>
-            <p className="bsod-any">{pct >= 100 ? 'Press any key to continue' : ' '}</p>
+            <p>{t('gags.bsod.more-info')}</p>
+            <p>{t('gags.bsod.stop-code')}</p>
+            <p className="bsod-any">{pct >= 100 ? t('gags.bsod.any-key') : ' '}</p>
           </div>
         </div>
       </div>
@@ -60,9 +61,9 @@ function Bsod() {
 }
 
 const HEX = '0123456789abcdef'
-const LOOT = ['projects/', 'todo.txt', 'unfinished-side-projects.zip', 'memes/', 'game-jam-coffee-receipts.csv', 'passwords.txt (it just says hunter2)']
 
 function Hack() {
+  const [loot] = useState(() => lines('gags.hack.loot'))
   const [rows, setRows] = useState<string[]>([])
   const [phase, setPhase] = useState(0)
   useEffect(() => {
@@ -71,28 +72,28 @@ function Hack() {
       setRows((r) => [...r.slice(-40), `0x${Math.floor(Math.random() * 0xffffff).toString(16).padStart(6, '0')}  ${row}`])
     }, 40)
     const p1 = setTimeout(() => setPhase(1), 1600)
-    const p2 = setTimeout(() => setPhase(2), 1600 + LOOT.length * 380 + 400)
+    const p2 = setTimeout(() => setPhase(2), 1600 + loot.length * 380 + 400)
     return () => {
       clearInterval(t)
       clearTimeout(p1)
       clearTimeout(p2)
     }
-  }, [])
+  }, [loot.length])
   useAnyKey(() => goHome('hack'), 2400)
   return (
-    <div className="to to-hack" role="alertdialog" aria-label="You have been hacked">
+    <div className="to to-hack" role="alertdialog" aria-label={t('gags.hack.label')}>
       <pre className="hack-rain" aria-hidden="true">{rows.join('\n')}</pre>
       {phase >= 1 && (
         <div className="hack-box">
-          <div className="hack-title">SYSTEM COMPROMISED</div>
+          <div className="hack-title">{t('gags.hack.title')}</div>
           <ul>
-            {LOOT.map((f, i) => (
-              <li key={f} style={{ animationDelay: `${i * 380}ms` }}>
-                uploading {f} … done
+            {loot.map((f, i) => (
+              <li key={i} style={{ animationDelay: `${i * 380}ms` }}>
+                {t('gags.hack.uploading', { file: f })}
               </li>
             ))}
           </ul>
-          <p className="hack-any">{phase >= 2 ? 'press any key to accept your fate' : ' '}</p>
+          <p className="hack-any">{phase >= 2 ? t('gags.hack.any-key') : ' '}</p>
         </div>
       )}
     </div>
@@ -103,7 +104,7 @@ function Restart() {
   return (
     <div className="to to-power" role="alert">
       <div className="power-spin" aria-hidden="true" />
-      <p>Restarting PaperOS…</p>
+      <p>{t('gags.restart')}</p>
     </div>
   )
 }
@@ -118,19 +119,19 @@ function Shutdown() {
     return () => clearTimeout(t)
   }, [])
   return (
-    <div className="to to-power" role="alertdialog" aria-label="Shut down">
+    <div className="to to-power" role="alertdialog" aria-label={t('gags.shutdown.label')}>
       {stage === 0 ? (
         <>
           <div className="power-spin" aria-hidden="true" />
-          <p>Shutting down…</p>
+          <p>{t('gags.shutdown.shutting-down')}</p>
         </>
       ) : (
         <div className="power-fail">
-          <p className="power-big">Shutdown failed.</p>
-          <p>PaperOS is a website. It doesn&apos;t have an off switch.</p>
-          <p className="power-dim">(You could close the tab. Please don&apos;t.)</p>
+          <p className="power-big">{t('gags.shutdown.failed')}</p>
+          <p>{t('gags.shutdown.body')}</p>
+          <p className="power-dim">{t('gags.shutdown.aside')}</p>
           <button type="button" className="pill" autoFocus onClick={() => takeover(null)}>
-            Fine, back to the desktop
+            {t('gags.shutdown.back')}
           </button>
         </div>
       )}
@@ -143,33 +144,33 @@ function WordPress() {
   const leave = () => takeover(null)
   const submit = (e: FormEvent) => {
     e.preventDefault()
-    setTries((t) => t + 1)
+    setTries((n) => n + 1)
     unlock('wordpress')
   }
   return (
-    <div className="to to-wp" role="dialog" aria-label="Log in">
+    <div className="to to-wp" role="dialog" aria-label={t('gags.wordpress.label')}>
       <form className="wp-card" onSubmit={submit}>
         <div className="wp-logo" aria-hidden="true">
-          W?
+          {t('gags.wordpress.logo')}
         </div>
         {tries > 0 && (
           <p className="wp-error" role="alert">
-            {tries === 1 ? "Error: this site isn't WordPress. It never was." : 'Still not WordPress. Bots try this page all day too, you know.'}
+            {tries === 1 ? t('gags.wordpress.first-error') : t('gags.wordpress.again-error')}
           </p>
         )}
         <label>
-          Username or email address
+          {t('gags.wordpress.username')}
           <input name="log" autoComplete="off" autoFocus />
         </label>
         <label>
-          Password
+          {t('gags.wordpress.password')}
           <input name="pwd" type="password" autoComplete="off" />
         </label>
         <button type="submit" className="pill pill-dark">
-          Log in
+          {t('gags.wordpress.log-in')}
         </button>
         <button type="button" className="wp-back" onClick={leave}>
-          ← Go to the actual site
+          {t('gags.wordpress.back')}
         </button>
       </form>
     </div>

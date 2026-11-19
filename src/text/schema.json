@@ -1,0 +1,1654 @@
+{
+  "achievements.answer.done": {
+    "list": false,
+    "vars": []
+  },
+  "achievements.answer.hint": {
+    "list": false,
+    "vars": []
+  },
+  "achievements.answer.title": {
+    "list": false,
+    "vars": []
+  },
+  "achievements.badge.anonymous": {
+    "list": false,
+    "vars": []
+  },
+  "achievements.badge.copied": {
+    "list": false,
+    "vars": []
+  },
+  "achievements.badge.copy-failed": {
+    "list": false,
+    "vars": []
+  },
+  "achievements.badge.copy-link": {
+    "list": false,
+    "vars": []
+  },
+  "achievements.badge.download": {
+    "list": false,
+    "vars": []
+  },
+  "achievements.badge.name-label": {
+    "list": false,
+    "vars": []
+  },
+  "achievements.badge.saved": {
+    "list": false,
+    "vars": []
+  },
+  "achievements.badge.share": {
+    "list": false,
+    "vars": []
+  },
+  "achievements.badge.share-failed": {
+    "list": false,
+    "vars": []
+  },
+  "achievements.badge.shared": {
+    "list": false,
+    "vars": []
+  },
+  "achievements.coffee.done": {
+    "list": false,
+    "vars": []
+  },
+  "achievements.coffee.hint": {
+    "list": false,
+    "vars": []
+  },
+  "achievements.coffee.title": {
+    "list": false,
+    "vars": []
+  },
+  "achievements.console.done": {
+    "list": false,
+    "vars": []
+  },
+  "achievements.console.hint": {
+    "list": false,
+    "vars": []
+  },
+  "achievements.console.title": {
+    "list": false,
+    "vars": []
+  },
+  "achievements.dns.done": {
+    "list": false,
+    "vars": []
+  },
+  "achievements.dns.hint": {
+    "list": false,
+    "vars": []
+  },
+  "achievements.dns.title": {
+    "list": false,
+    "vars": []
+  },
+  "achievements.dotfile.done": {
+    "list": false,
+    "vars": []
+  },
+  "achievements.dotfile.hint": {
+    "list": false,
+    "vars": []
+  },
+  "achievements.dotfile.title": {
+    "list": false,
+    "vars": []
+  },
+  "achievements.escape.done": {
+    "list": false,
+    "vars": []
+  },
+  "achievements.escape.hint": {
+    "list": false,
+    "vars": []
+  },
+  "achievements.escape.title": {
+    "list": false,
+    "vars": []
+  },
+  "achievements.hack.done": {
+    "list": false,
+    "vars": []
+  },
+  "achievements.hack.hint": {
+    "list": false,
+    "vars": []
+  },
+  "achievements.hack.title": {
+    "list": false,
+    "vars": []
+  },
+  "achievements.header.done": {
+    "list": false,
+    "vars": []
+  },
+  "achievements.header.hint": {
+    "list": false,
+    "vars": []
+  },
+  "achievements.header.title": {
+    "list": false,
+    "vars": []
+  },
+  "achievements.konami.done": {
+    "list": false,
+    "vars": []
+  },
+  "achievements.konami.hint": {
+    "list": false,
+    "vars": []
+  },
+  "achievements.konami.title": {
+    "list": false,
+    "vars": []
+  },
+  "achievements.notepad.all-found": {
+    "list": false,
+    "vars": []
+  },
+  "achievements.notepad.badge": {
+    "list": false,
+    "vars": []
+  },
+  "achievements.notepad.badge-detail": {
+    "list": false,
+    "vars": [
+      "total"
+    ]
+  },
+  "achievements.notepad.badge-title": {
+    "list": false,
+    "vars": []
+  },
+  "achievements.notepad.confirm": {
+    "list": false,
+    "vars": []
+  },
+  "achievements.notepad.credit": {
+    "list": false,
+    "vars": []
+  },
+  "achievements.notepad.fold": {
+    "list": false,
+    "vars": []
+  },
+  "achievements.notepad.hint": {
+    "list": false,
+    "vars": []
+  },
+  "achievements.notepad.label": {
+    "list": false,
+    "vars": []
+  },
+  "achievements.notepad.locked": {
+    "list": false,
+    "vars": []
+  },
+  "achievements.notepad.more": {
+    "list": false,
+    "vars": [
+      "count"
+    ]
+  },
+  "achievements.notepad.no": {
+    "list": false,
+    "vars": []
+  },
+  "achievements.notepad.reset": {
+    "list": false,
+    "vars": []
+  },
+  "achievements.notepad.score": {
+    "list": false,
+    "vars": [
+      "count",
+      "total"
+    ]
+  },
+  "achievements.notepad.star": {
+    "list": false,
+    "vars": []
+  },
+  "achievements.notepad.tab-label": {
+    "list": false,
+    "vars": [
+      "count",
+      "total"
+    ]
+  },
+  "achievements.notepad.timer": {
+    "list": false,
+    "vars": []
+  },
+  "achievements.notepad.title": {
+    "list": false,
+    "vars": []
+  },
+  "achievements.notepad.toast": {
+    "list": false,
+    "vars": [
+      "found",
+      "total"
+    ]
+  },
+  "achievements.notepad.yes-reset": {
+    "list": false,
+    "vars": []
+  },
+  "achievements.reader.done": {
+    "list": false,
+    "vars": []
+  },
+  "achievements.reader.hint": {
+    "list": false,
+    "vars": []
+  },
+  "achievements.reader.title": {
+    "list": false,
+    "vars": []
+  },
+  "achievements.restart.done": {
+    "list": false,
+    "vars": []
+  },
+  "achievements.restart.hint": {
+    "list": false,
+    "vars": []
+  },
+  "achievements.restart.title": {
+    "list": false,
+    "vars": []
+  },
+  "achievements.rm.done": {
+    "list": false,
+    "vars": []
+  },
+  "achievements.rm.hint": {
+    "list": false,
+    "vars": []
+  },
+  "achievements.rm.title": {
+    "list": false,
+    "vars": []
+  },
+  "achievements.shutdown.done": {
+    "list": false,
+    "vars": []
+  },
+  "achievements.shutdown.hint": {
+    "list": false,
+    "vars": []
+  },
+  "achievements.shutdown.title": {
+    "list": false,
+    "vars": []
+  },
+  "achievements.star-menu.done": {
+    "list": false,
+    "vars": []
+  },
+  "achievements.star-menu.hint": {
+    "list": false,
+    "vars": []
+  },
+  "achievements.star-menu.title": {
+    "list": false,
+    "vars": []
+  },
+  "achievements.star-sky.done": {
+    "list": false,
+    "vars": []
+  },
+  "achievements.star-sky.hint": {
+    "list": false,
+    "vars": []
+  },
+  "achievements.star-sky.title": {
+    "list": false,
+    "vars": []
+  },
+  "achievements.star-term.done": {
+    "list": false,
+    "vars": []
+  },
+  "achievements.star-term.hint": {
+    "list": false,
+    "vars": []
+  },
+  "achievements.star-term.title": {
+    "list": false,
+    "vars": []
+  },
+  "achievements.sudo.done": {
+    "list": false,
+    "vars": []
+  },
+  "achievements.sudo.hint": {
+    "list": false,
+    "vars": []
+  },
+  "achievements.sudo.title": {
+    "list": false,
+    "vars": []
+  },
+  "achievements.vim.done": {
+    "list": false,
+    "vars": []
+  },
+  "achievements.vim.hint": {
+    "list": false,
+    "vars": []
+  },
+  "achievements.vim.title": {
+    "list": false,
+    "vars": []
+  },
+  "achievements.wordpress.done": {
+    "list": false,
+    "vars": []
+  },
+  "achievements.wordpress.hint": {
+    "list": false,
+    "vars": []
+  },
+  "achievements.wordpress.title": {
+    "list": false,
+    "vars": []
+  },
+  "achievements.xyzzy.done": {
+    "list": false,
+    "vars": []
+  },
+  "achievements.xyzzy.hint": {
+    "list": false,
+    "vars": []
+  },
+  "achievements.xyzzy.title": {
+    "list": false,
+    "vars": []
+  },
+  "eggs.answer": {
+    "list": false,
+    "vars": []
+  },
+  "eggs.brew-missing": {
+    "list": false,
+    "vars": [
+      "name"
+    ]
+  },
+  "eggs.coffee.brewing": {
+    "list": false,
+    "vars": []
+  },
+  "eggs.coffee.teapot": {
+    "list": false,
+    "vars": []
+  },
+  "eggs.coffee.try-tea": {
+    "list": false,
+    "vars": []
+  },
+  "eggs.eggs.none": {
+    "list": false,
+    "vars": []
+  },
+  "eggs.eggs.some": {
+    "list": false,
+    "vars": [
+      "found",
+      "total"
+    ]
+  },
+  "eggs.emacs": {
+    "list": false,
+    "vars": []
+  },
+  "eggs.fortunes": {
+    "list": true,
+    "vars": []
+  },
+  "eggs.games.fallback.game-dev-loop": {
+    "list": false,
+    "vars": []
+  },
+  "eggs.games.fallback.rolling-in-dough": {
+    "list": false,
+    "vars": []
+  },
+  "eggs.games.fallback.the-feed": {
+    "list": false,
+    "vars": []
+  },
+  "eggs.games.more": {
+    "list": false,
+    "vars": [
+      "itch"
+    ]
+  },
+  "eggs.games.play": {
+    "list": false,
+    "vars": []
+  },
+  "eggs.games.title": {
+    "list": false,
+    "vars": []
+  },
+  "eggs.guess.gave-up": {
+    "list": false,
+    "vars": [
+      "target"
+    ]
+  },
+  "eggs.guess.higher": {
+    "list": false,
+    "vars": []
+  },
+  "eggs.guess.invalid": {
+    "list": false,
+    "vars": []
+  },
+  "eggs.guess.lower": {
+    "list": false,
+    "vars": []
+  },
+  "eggs.guess.start": {
+    "list": false,
+    "vars": []
+  },
+  "eggs.guess.won": {
+    "list": false,
+    "vars": [
+      "tries"
+    ]
+  },
+  "eggs.guess.won-fast": {
+    "list": false,
+    "vars": []
+  },
+  "eggs.guess.won-slow": {
+    "list": false,
+    "vars": []
+  },
+  "eggs.hack.granted": {
+    "list": false,
+    "vars": []
+  },
+  "eggs.hack.steps": {
+    "list": true,
+    "vars": []
+  },
+  "eggs.hello": {
+    "list": false,
+    "vars": []
+  },
+  "eggs.konami": {
+    "list": false,
+    "vars": []
+  },
+  "eggs.make.no-rule": {
+    "list": false,
+    "vars": [
+      "target"
+    ]
+  },
+  "eggs.make.sandwich": {
+    "list": false,
+    "vars": []
+  },
+  "eggs.man.try": {
+    "list": false,
+    "vars": [
+      "page"
+    ]
+  },
+  "eggs.man.which": {
+    "list": false,
+    "vars": []
+  },
+  "eggs.matrix.label": {
+    "list": false,
+    "vars": []
+  },
+  "eggs.matrix.quit": {
+    "list": false,
+    "vars": []
+  },
+  "eggs.nano": {
+    "list": false,
+    "vars": []
+  },
+  "eggs.neofetch.rows": {
+    "list": true,
+    "vars": [
+      "browser",
+      "height",
+      "projects",
+      "skin",
+      "theme",
+      "uptime",
+      "width"
+    ]
+  },
+  "eggs.neofetch.unknown-browser": {
+    "list": false,
+    "vars": []
+  },
+  "eggs.neofetch.uptime-minutes": {
+    "list": false,
+    "vars": [
+      "minutes",
+      "seconds"
+    ]
+  },
+  "eggs.neofetch.uptime-seconds": {
+    "list": false,
+    "vars": [
+      "seconds"
+    ]
+  },
+  "eggs.ping.done": {
+    "list": false,
+    "vars": []
+  },
+  "eggs.ping.reply": {
+    "list": false,
+    "vars": [
+      "host",
+      "ms",
+      "seq"
+    ]
+  },
+  "eggs.ping.start": {
+    "list": false,
+    "vars": [
+      "host"
+    ]
+  },
+  "eggs.plugh": {
+    "list": false,
+    "vars": []
+  },
+  "eggs.quit-outside-vim": {
+    "list": false,
+    "vars": []
+  },
+  "eggs.reboot": {
+    "list": false,
+    "vars": []
+  },
+  "eggs.rm.busy": {
+    "list": false,
+    "vars": []
+  },
+  "eggs.rm.more": {
+    "list": false,
+    "vars": [
+      "count"
+    ]
+  },
+  "eggs.rm.panic": {
+    "list": false,
+    "vars": []
+  },
+  "eggs.rm.read-only": {
+    "list": false,
+    "vars": []
+  },
+  "eggs.rm.removed": {
+    "list": false,
+    "vars": [
+      "path"
+    ]
+  },
+  "eggs.secret-file": {
+    "list": true,
+    "vars": []
+  },
+  "eggs.shutdown": {
+    "list": false,
+    "vars": []
+  },
+  "eggs.skin.list": {
+    "list": false,
+    "vars": []
+  },
+  "eggs.skin.reload": {
+    "list": false,
+    "vars": []
+  },
+  "eggs.skin.set": {
+    "list": false,
+    "vars": [
+      "skin"
+    ]
+  },
+  "eggs.snake.help-keys": {
+    "list": false,
+    "vars": []
+  },
+  "eggs.snake.help-touch": {
+    "list": false,
+    "vars": []
+  },
+  "eggs.snake.hud": {
+    "list": false,
+    "vars": [
+      "best",
+      "score"
+    ]
+  },
+  "eggs.snake.label": {
+    "list": false,
+    "vars": []
+  },
+  "eggs.snake.new-best": {
+    "list": false,
+    "vars": []
+  },
+  "eggs.snake.over": {
+    "list": false,
+    "vars": [
+      "newBest",
+      "score"
+    ]
+  },
+  "eggs.snake.over-title": {
+    "list": false,
+    "vars": []
+  },
+  "eggs.snake.paused": {
+    "list": false,
+    "vars": []
+  },
+  "eggs.snake.paused-title": {
+    "list": false,
+    "vars": []
+  },
+  "eggs.snake.quit": {
+    "list": false,
+    "vars": [
+      "best",
+      "score"
+    ]
+  },
+  "eggs.snake.ready": {
+    "list": false,
+    "vars": []
+  },
+  "eggs.snake.ready-title": {
+    "list": false,
+    "vars": []
+  },
+  "eggs.sudo.denied": {
+    "list": false,
+    "vars": []
+  },
+  "eggs.sudo.hired": {
+    "list": false,
+    "vars": []
+  },
+  "eggs.sudo.password": {
+    "list": false,
+    "vars": []
+  },
+  "eggs.sudo.reported": {
+    "list": false,
+    "vars": []
+  },
+  "eggs.sudo.sandwich": {
+    "list": false,
+    "vars": []
+  },
+  "eggs.sudo.usage": {
+    "list": false,
+    "vars": []
+  },
+  "eggs.tea.art": {
+    "list": true,
+    "vars": []
+  },
+  "eggs.tea.ready": {
+    "list": false,
+    "vars": []
+  },
+  "eggs.twinkle.again": {
+    "list": false,
+    "vars": []
+  },
+  "eggs.twinkle.caught": {
+    "list": false,
+    "vars": []
+  },
+  "eggs.uname.all": {
+    "list": false,
+    "vars": [
+      "browser"
+    ]
+  },
+  "eggs.uname.short": {
+    "list": false,
+    "vars": []
+  },
+  "eggs.vim.escaped": {
+    "list": false,
+    "vars": []
+  },
+  "eggs.vim.hint": {
+    "list": false,
+    "vars": []
+  },
+  "eggs.vim.insert": {
+    "list": false,
+    "vars": []
+  },
+  "eggs.vim.no-name": {
+    "list": false,
+    "vars": []
+  },
+  "eggs.vim.not-a-command": {
+    "list": false,
+    "vars": [
+      "command"
+    ]
+  },
+  "eggs.vim.screen": {
+    "list": true,
+    "vars": [
+      "file"
+    ]
+  },
+  "eggs.vim.trap": {
+    "list": false,
+    "vars": []
+  },
+  "eggs.xyzzy": {
+    "list": false,
+    "vars": []
+  },
+  "gags.boot.firmware": {
+    "list": true,
+    "vars": [
+      "projects"
+    ]
+  },
+  "gags.boot.label": {
+    "list": false,
+    "vars": []
+  },
+  "gags.boot.name": {
+    "list": false,
+    "vars": []
+  },
+  "gags.boot.skip-keys": {
+    "list": false,
+    "vars": []
+  },
+  "gags.boot.skip-to-resume": {
+    "list": false,
+    "vars": []
+  },
+  "gags.boot.skip-touch": {
+    "list": false,
+    "vars": []
+  },
+  "gags.boot.steps": {
+    "list": true,
+    "vars": []
+  },
+  "gags.bsod.any-key": {
+    "list": false,
+    "vars": []
+  },
+  "gags.bsod.big": {
+    "list": false,
+    "vars": []
+  },
+  "gags.bsod.body": {
+    "list": false,
+    "vars": []
+  },
+  "gags.bsod.face": {
+    "list": false,
+    "vars": []
+  },
+  "gags.bsod.label": {
+    "list": false,
+    "vars": []
+  },
+  "gags.bsod.more-info": {
+    "list": false,
+    "vars": []
+  },
+  "gags.bsod.progress": {
+    "list": false,
+    "vars": [
+      "percent"
+    ]
+  },
+  "gags.bsod.stop-code": {
+    "list": false,
+    "vars": []
+  },
+  "gags.console.already": {
+    "list": false,
+    "vars": []
+  },
+  "gags.console.credit": {
+    "list": false,
+    "vars": []
+  },
+  "gags.console.granted": {
+    "list": false,
+    "vars": []
+  },
+  "gags.console.granted-return": {
+    "list": false,
+    "vars": []
+  },
+  "gags.console.hello": {
+    "list": false,
+    "vars": []
+  },
+  "gags.console.help.help": {
+    "list": false,
+    "vars": []
+  },
+  "gags.console.help.login": {
+    "list": false,
+    "vars": []
+  },
+  "gags.console.help.progress": {
+    "list": false,
+    "vars": []
+  },
+  "gags.console.help.whoami": {
+    "list": false,
+    "vars": []
+  },
+  "gags.console.shrug": {
+    "list": false,
+    "vars": []
+  },
+  "gags.console.try-help": {
+    "list": false,
+    "vars": []
+  },
+  "gags.console.usage": {
+    "list": false,
+    "vars": []
+  },
+  "gags.console.warning": {
+    "list": false,
+    "vars": [
+      "help"
+    ]
+  },
+  "gags.console.welcome": {
+    "list": false,
+    "vars": []
+  },
+  "gags.console.whoami": {
+    "list": false,
+    "vars": []
+  },
+  "gags.console.wrong": {
+    "list": true,
+    "vars": []
+  },
+  "gags.gotcha.bsod": {
+    "list": false,
+    "vars": []
+  },
+  "gags.gotcha.hack": {
+    "list": false,
+    "vars": []
+  },
+  "gags.gotcha.title": {
+    "list": false,
+    "vars": []
+  },
+  "gags.hack.any-key": {
+    "list": false,
+    "vars": []
+  },
+  "gags.hack.label": {
+    "list": false,
+    "vars": []
+  },
+  "gags.hack.loot": {
+    "list": true,
+    "vars": []
+  },
+  "gags.hack.title": {
+    "list": false,
+    "vars": []
+  },
+  "gags.hack.uploading": {
+    "list": false,
+    "vars": [
+      "file"
+    ]
+  },
+  "gags.restart": {
+    "list": false,
+    "vars": []
+  },
+  "gags.screensaver.corners": {
+    "list": false,
+    "vars": [
+      "times"
+    ]
+  },
+  "gags.screensaver.label": {
+    "list": false,
+    "vars": []
+  },
+  "gags.screensaver.many": {
+    "list": false,
+    "vars": [
+      "count"
+    ]
+  },
+  "gags.screensaver.once": {
+    "list": false,
+    "vars": []
+  },
+  "gags.screensaver.wake": {
+    "list": false,
+    "vars": []
+  },
+  "gags.shutdown.aside": {
+    "list": false,
+    "vars": []
+  },
+  "gags.shutdown.back": {
+    "list": false,
+    "vars": []
+  },
+  "gags.shutdown.body": {
+    "list": false,
+    "vars": []
+  },
+  "gags.shutdown.failed": {
+    "list": false,
+    "vars": []
+  },
+  "gags.shutdown.label": {
+    "list": false,
+    "vars": []
+  },
+  "gags.shutdown.shutting-down": {
+    "list": false,
+    "vars": []
+  },
+  "gags.wordpress.again-error": {
+    "list": false,
+    "vars": []
+  },
+  "gags.wordpress.back": {
+    "list": false,
+    "vars": []
+  },
+  "gags.wordpress.first-error": {
+    "list": false,
+    "vars": []
+  },
+  "gags.wordpress.label": {
+    "list": false,
+    "vars": []
+  },
+  "gags.wordpress.log-in": {
+    "list": false,
+    "vars": []
+  },
+  "gags.wordpress.logo": {
+    "list": false,
+    "vars": []
+  },
+  "gags.wordpress.password": {
+    "list": false,
+    "vars": []
+  },
+  "gags.wordpress.username": {
+    "list": false,
+    "vars": []
+  },
+  "terminal.ask": {
+    "list": false,
+    "vars": []
+  },
+  "terminal.cat.binary": {
+    "list": false,
+    "vars": [
+      "kind",
+      "name",
+      "open"
+    ]
+  },
+  "terminal.cat.is-folder": {
+    "list": false,
+    "vars": [
+      "path"
+    ]
+  },
+  "terminal.cat.missing": {
+    "list": false,
+    "vars": [
+      "path"
+    ]
+  },
+  "terminal.cat.which": {
+    "list": false,
+    "vars": []
+  },
+  "terminal.cd.above-home": {
+    "list": false,
+    "vars": []
+  },
+  "terminal.cd.missing": {
+    "list": false,
+    "vars": [
+      "path"
+    ]
+  },
+  "terminal.cd.not-folder": {
+    "list": false,
+    "vars": [
+      "path"
+    ]
+  },
+  "terminal.commands.ask": {
+    "list": false,
+    "vars": []
+  },
+  "terminal.commands.cat": {
+    "list": false,
+    "vars": []
+  },
+  "terminal.commands.cd": {
+    "list": false,
+    "vars": []
+  },
+  "terminal.commands.clear": {
+    "list": false,
+    "vars": []
+  },
+  "terminal.commands.contact": {
+    "list": false,
+    "vars": []
+  },
+  "terminal.commands.cv": {
+    "list": false,
+    "vars": []
+  },
+  "terminal.commands.date": {
+    "list": false,
+    "vars": []
+  },
+  "terminal.commands.echo": {
+    "list": false,
+    "vars": []
+  },
+  "terminal.commands.exit": {
+    "list": false,
+    "vars": []
+  },
+  "terminal.commands.fortune": {
+    "list": false,
+    "vars": []
+  },
+  "terminal.commands.games": {
+    "list": false,
+    "vars": []
+  },
+  "terminal.commands.git": {
+    "list": false,
+    "vars": []
+  },
+  "terminal.commands.grep": {
+    "list": false,
+    "vars": []
+  },
+  "terminal.commands.guess": {
+    "list": false,
+    "vars": []
+  },
+  "terminal.commands.guestbook": {
+    "list": false,
+    "vars": []
+  },
+  "terminal.commands.help": {
+    "list": false,
+    "vars": []
+  },
+  "terminal.commands.history": {
+    "list": false,
+    "vars": []
+  },
+  "terminal.commands.ls": {
+    "list": false,
+    "vars": []
+  },
+  "terminal.commands.matrix": {
+    "list": false,
+    "vars": []
+  },
+  "terminal.commands.neofetch": {
+    "list": false,
+    "vars": []
+  },
+  "terminal.commands.now": {
+    "list": false,
+    "vars": []
+  },
+  "terminal.commands.open": {
+    "list": false,
+    "vars": []
+  },
+  "terminal.commands.play": {
+    "list": false,
+    "vars": []
+  },
+  "terminal.commands.projects": {
+    "list": false,
+    "vars": []
+  },
+  "terminal.commands.pwd": {
+    "list": false,
+    "vars": []
+  },
+  "terminal.commands.run": {
+    "list": false,
+    "vars": []
+  },
+  "terminal.commands.scores": {
+    "list": false,
+    "vars": []
+  },
+  "terminal.commands.screensaver": {
+    "list": false,
+    "vars": []
+  },
+  "terminal.commands.skin": {
+    "list": false,
+    "vars": []
+  },
+  "terminal.commands.snake": {
+    "list": false,
+    "vars": []
+  },
+  "terminal.commands.source": {
+    "list": false,
+    "vars": []
+  },
+  "terminal.commands.stats": {
+    "list": false,
+    "vars": []
+  },
+  "terminal.commands.theme": {
+    "list": false,
+    "vars": []
+  },
+  "terminal.commands.top": {
+    "list": false,
+    "vars": []
+  },
+  "terminal.commands.tree": {
+    "list": false,
+    "vars": []
+  },
+  "terminal.commands.updates": {
+    "list": false,
+    "vars": []
+  },
+  "terminal.commands.wallpaper": {
+    "list": false,
+    "vars": []
+  },
+  "terminal.commands.who": {
+    "list": false,
+    "vars": []
+  },
+  "terminal.commands.whoami": {
+    "list": false,
+    "vars": []
+  },
+  "terminal.contact.card": {
+    "list": false,
+    "vars": [
+      "card"
+    ]
+  },
+  "terminal.contact.card-link": {
+    "list": false,
+    "vars": []
+  },
+  "terminal.contact.labels.email": {
+    "list": false,
+    "vars": []
+  },
+  "terminal.contact.labels.local": {
+    "list": false,
+    "vars": []
+  },
+  "terminal.contact.local-time": {
+    "list": false,
+    "vars": [
+      "city",
+      "gap",
+      "time"
+    ]
+  },
+  "terminal.cv.missing": {
+    "list": false,
+    "vars": []
+  },
+  "terminal.cv.opening": {
+    "list": false,
+    "vars": [
+      "file"
+    ]
+  },
+  "terminal.did-you-mean": {
+    "list": false,
+    "vars": [
+      "suggestion"
+    ]
+  },
+  "terminal.git.blame": {
+    "list": false,
+    "vars": []
+  },
+  "terminal.git.log.author": {
+    "list": false,
+    "vars": []
+  },
+  "terminal.git.log.commit": {
+    "list": false,
+    "vars": []
+  },
+  "terminal.git.log.date": {
+    "list": false,
+    "vars": [
+      "date"
+    ]
+  },
+  "terminal.git.log.empty": {
+    "list": false,
+    "vars": []
+  },
+  "terminal.git.log.older": {
+    "list": false,
+    "vars": [
+      "count"
+    ]
+  },
+  "terminal.git.push": {
+    "list": false,
+    "vars": []
+  },
+  "terminal.git.repo": {
+    "list": false,
+    "vars": [
+      "link"
+    ]
+  },
+  "terminal.git.status": {
+    "list": true,
+    "vars": []
+  },
+  "terminal.grep.capped": {
+    "list": false,
+    "vars": [
+      "limit"
+    ]
+  },
+  "terminal.grep.none": {
+    "list": false,
+    "vars": [
+      "folder",
+      "pattern"
+    ]
+  },
+  "terminal.grep.summary": {
+    "list": false,
+    "vars": [
+      "files",
+      "hits"
+    ]
+  },
+  "terminal.grep.what": {
+    "list": false,
+    "vars": []
+  },
+  "terminal.guestbook": {
+    "list": false,
+    "vars": []
+  },
+  "terminal.help.tips": {
+    "list": true,
+    "vars": []
+  },
+  "terminal.help.title": {
+    "list": false,
+    "vars": []
+  },
+  "terminal.input-label": {
+    "list": false,
+    "vars": []
+  },
+  "terminal.ls.empty": {
+    "list": false,
+    "vars": []
+  },
+  "terminal.ls.missing": {
+    "list": false,
+    "vars": [
+      "path"
+    ]
+  },
+  "terminal.not-found": {
+    "list": false,
+    "vars": [
+      "name"
+    ]
+  },
+  "terminal.now.empty": {
+    "list": false,
+    "vars": []
+  },
+  "terminal.now.full-note": {
+    "list": false,
+    "vars": [
+      "file"
+    ]
+  },
+  "terminal.now.title": {
+    "list": false,
+    "vars": []
+  },
+  "terminal.now.updated": {
+    "list": false,
+    "vars": [
+      "when"
+    ]
+  },
+  "terminal.open.missing": {
+    "list": false,
+    "vars": [
+      "path"
+    ]
+  },
+  "terminal.open.opening": {
+    "list": false,
+    "vars": [
+      "thing"
+    ]
+  },
+  "terminal.open.what": {
+    "list": false,
+    "vars": []
+  },
+  "terminal.projects.header": {
+    "list": true,
+    "vars": []
+  },
+  "terminal.run.launching": {
+    "list": false,
+    "vars": [
+      "name"
+    ]
+  },
+  "terminal.run.missing": {
+    "list": false,
+    "vars": [
+      "name"
+    ]
+  },
+  "terminal.run.no-app": {
+    "list": false,
+    "vars": [
+      "name"
+    ]
+  },
+  "terminal.run.on-itch": {
+    "list": false,
+    "vars": [
+      "name"
+    ]
+  },
+  "terminal.scores.achievements": {
+    "list": false,
+    "vars": []
+  },
+  "terminal.scores.empty": {
+    "list": false,
+    "vars": []
+  },
+  "terminal.scores.loading": {
+    "list": false,
+    "vars": []
+  },
+  "terminal.scores.play": {
+    "list": false,
+    "vars": []
+  },
+  "terminal.scores.snake": {
+    "list": false,
+    "vars": []
+  },
+  "terminal.screensaver.phone": {
+    "list": false,
+    "vars": []
+  },
+  "terminal.source": {
+    "list": false,
+    "vars": [
+      "link"
+    ]
+  },
+  "terminal.stats.commits": {
+    "list": false,
+    "vars": []
+  },
+  "terminal.stats.contributions": {
+    "list": false,
+    "vars": []
+  },
+  "terminal.stats.contributions-exact": {
+    "list": false,
+    "vars": [
+      "total"
+    ]
+  },
+  "terminal.stats.contributions-rough": {
+    "list": false,
+    "vars": []
+  },
+  "terminal.stats.itch": {
+    "list": false,
+    "vars": []
+  },
+  "terminal.stats.itch-views": {
+    "list": false,
+    "vars": [
+      "views"
+    ]
+  },
+  "terminal.stats.languages": {
+    "list": false,
+    "vars": []
+  },
+  "terminal.stats.no-github": {
+    "list": false,
+    "vars": []
+  },
+  "terminal.stats.opening": {
+    "list": false,
+    "vars": []
+  },
+  "terminal.stats.projects": {
+    "list": false,
+    "vars": [
+      "count"
+    ]
+  },
+  "terminal.stats.reading": {
+    "list": false,
+    "vars": []
+  },
+  "terminal.stats.site": {
+    "list": false,
+    "vars": []
+  },
+  "terminal.stats.site-commits": {
+    "list": false,
+    "vars": [
+      "commits"
+    ]
+  },
+  "terminal.stats.streaks": {
+    "list": false,
+    "vars": [
+      "active",
+      "current",
+      "longest"
+    ]
+  },
+  "terminal.stats.visits": {
+    "list": false,
+    "vars": [
+      "average",
+      "visits"
+    ]
+  },
+  "terminal.stats.window": {
+    "list": false,
+    "vars": []
+  },
+  "terminal.theme.set": {
+    "list": false,
+    "vars": [
+      "theme"
+    ]
+  },
+  "terminal.theme.usage": {
+    "list": false,
+    "vars": []
+  },
+  "terminal.top.header": {
+    "list": false,
+    "vars": []
+  },
+  "terminal.top.memory": {
+    "list": false,
+    "vars": [
+      "mb"
+    ]
+  },
+  "terminal.top.processes": {
+    "list": true,
+    "vars": []
+  },
+  "terminal.top.running": {
+    "list": false,
+    "vars": []
+  },
+  "terminal.top.sleeping": {
+    "list": false,
+    "vars": []
+  },
+  "terminal.top.summary": {
+    "list": false,
+    "vars": [
+      "cores",
+      "minutes",
+      "seconds",
+      "windows"
+    ]
+  },
+  "terminal.top.waiting": {
+    "list": false,
+    "vars": []
+  },
+  "terminal.tree.folded": {
+    "list": false,
+    "vars": [
+      "count"
+    ]
+  },
+  "terminal.tree.folded-media": {
+    "list": false,
+    "vars": [
+      "count"
+    ]
+  },
+  "terminal.tree.missing": {
+    "list": false,
+    "vars": [
+      "path"
+    ]
+  },
+  "terminal.tree.summary": {
+    "list": false,
+    "vars": [
+      "dirs",
+      "files"
+    ]
+  },
+  "terminal.type-help": {
+    "list": false,
+    "vars": []
+  },
+  "terminal.updates": {
+    "list": false,
+    "vars": []
+  },
+  "terminal.wallpaper.list": {
+    "list": false,
+    "vars": []
+  },
+  "terminal.wallpaper.missing": {
+    "list": false,
+    "vars": [
+      "name"
+    ]
+  },
+  "terminal.wallpaper.set": {
+    "list": false,
+    "vars": [
+      "name"
+    ]
+  },
+  "terminal.welcome": {
+    "list": true,
+    "vars": [
+      "count",
+      "projects"
+    ]
+  },
+  "terminal.who.alone": {
+    "list": false,
+    "vars": []
+  },
+  "terminal.who.offline": {
+    "list": false,
+    "vars": []
+  },
+  "terminal.who.others": {
+    "list": false,
+    "vars": [
+      "count"
+    ]
+  },
+  "terminal.who.you": {
+    "list": false,
+    "vars": []
+  }
+}

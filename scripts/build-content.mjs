@@ -207,6 +207,8 @@ async function repoMedia(meta, path) {
 async function walk(dir, path) {
   const entries = readdirSync(dir)
     .filter((name) => !name.startsWith('.'))
+    // content/text holds the site's own wording (see scripts/build-text.mjs), not files to browse.
+    .filter((name) => !(path === '/' && name === 'text'))
     .sort((a, b) => a.localeCompare(b))
   const children = []
   let meta

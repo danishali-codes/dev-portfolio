@@ -3,7 +3,8 @@ import { displayPath, getNode } from '../fs'
 import { openNode } from '../shell/opener'
 import { complete, execute, type Line, type Seg } from '../terminal/commands'
 import { unlock } from '../achievements'
-import { txt } from '../terminal/lines'
+import { say, txt } from '../terminal/lines'
+import { t } from '../text'
 import { useTerm } from '../terminal/store'
 
 
@@ -78,7 +79,7 @@ export default function Terminal({ onExit, showShortcuts = false }: { onExit: ()
     konami.current = 0
     setInput('')
     useTerm.getState().setSkin('rainbow')
-    push([txt('↑↑↓↓←→←→BA  +30 lives. Rainbow skin unlocked: ', 'bold'), { t: 'skin', cls: 'accent', run: 'skin' }])
+    push(say('eggs.konami'))
     unlock('konami')
     return true
   }
@@ -174,7 +175,7 @@ export default function Terminal({ onExit, showShortcuts = false }: { onExit: ()
             spellCheck={false}
             autoCapitalize="off"
             autoComplete="off"
-            aria-label="Terminal command"
+            aria-label={t('terminal.input-label')}
           />
         </div>
       </div>

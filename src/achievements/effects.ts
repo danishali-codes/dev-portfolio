@@ -5,6 +5,7 @@ import { restart as rebootMachine } from '../shell/power'
 import { useWindows } from '../store/windows'
 import { useTerm } from '../terminal/store'
 import { txt } from '../terminal/lines'
+import { t } from '../text'
 import { unlock } from '.'
 
 export type Takeover = 'bsod' | 'hack' | 'restart' | 'shutdown' | 'wordpress'
@@ -15,9 +16,9 @@ export function takeover(mode: Takeover | null) {
   useTakeover.setState({ mode })
 }
 
-const GOTCHA: Partial<Record<Takeover, string[]>> = {
-  bsod: ['haha… did I get you?', 'Nothing was deleted. Everything is right where you left it.'],
-  hack: ['haha… did I get you?', 'Nobody hacked anything. The "mainframe" is a React app, and the projects were public anyway.'],
+const GOTCHA: Partial<Record<Takeover, () => string>> = {
+  bsod: () => t('gags.gotcha.bsod'),
+  hack: () => t('gags.gotcha.hack'),
 }
 
 /** Close every window, open a fresh terminal and leave a note in it. */
@@ -29,7 +30,7 @@ export function goHome(from: Takeover) {
   const note = GOTCHA[from]
   if (note) {
     useTerm.setState({ lines: [], cwd: '/', handler: null, program: null })
-    useTerm.getState().push([txt(note[0], 'bold')], [txt(note[1], 'dim')], [])
+    useTerm.getState().push([txt(t('gags.gotcha.title'), 'bold')], [txt(note(), 'dim')], [])
   }
   openTerminal()
   if (from === 'bsod') unlock('rm')

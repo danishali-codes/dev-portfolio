@@ -5,7 +5,7 @@ import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
 import { POST, GET } from '../leaderboard'
 import { sign, verify } from './token'
 import { nameProblem, tidyName } from '../../src/leaderboard/names'
-import { ACHIEVEMENTS } from '../../src/achievements/list'
+import { ACHIEVEMENT_IDS } from '../../src/achievements/list'
 import { canTurn, DIR_CODES, dirCode, newGame, replay, tick, tickMs, type Move } from '../../src/leaderboard/snakeEngine'
 
 let ip = 0
@@ -115,8 +115,8 @@ describe('achievement runs', () => {
     vi.setSystemTime(new Date('2026-11-19T10:00:00Z'))
     const { token } = (await call('ach-start', { runId: 'run-test-1' })).body as { token: string }
     const t0 = Date.now()
-    const found = Object.fromEntries(ACHIEVEMENTS.map((a, i) => [a.id, t0 + i * 1000]))
-    const { [ACHIEVEMENTS[0].id]: _missing, ...partial } = found
+    const found = Object.fromEntries(ACHIEVEMENT_IDS.map((id, i) => [id, t0 + i * 1000]))
+    const { [ACHIEVEMENT_IDS[0]]: _missing, ...partial } = found
     void _missing
 
     expect((await call('ach-finish', { token, found: partial })).body.error).toMatch(/not everything/)

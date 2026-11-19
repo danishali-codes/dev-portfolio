@@ -1,0 +1,184 @@
+# Terminal easter eggs: the fun commands, the hidden ones and their punchlines.
+# The command names themselves (sudo, vim, hack…) live in the code. Only the replies are here.
+# See README.md in this folder for how the {placeholders} and *markup* work.
+
+fortunes:
+  - It works on my machine. Ship the machine.
+  - The best code is the code you deleted.
+  - Every side project starts by buying a domain.
+  - You will fix one bug and find three more. This is called progress.
+  - "Today's forecast: 90% chance of npm install."
+  - 'Weekend plan: one small refactor. Weekend result: rewrote everything.'
+  - The game jam deadline is closer than it appears.
+  - Your future holds a CSS bug that only happens on Safari.
+  - 'The rubber duck asks: have you tried reading the error message?'
+  - Somewhere a semicolon is missing. For once, it isn't yours.
+  - Cats guard biscuits. Developers guard main.
+  - A budget is just a for loop you're not allowed to break out of.
+  - Naming things is hard. That is why this file is called eggs.ts.
+  - Commit early, commit often, write better messages than "fix".
+
+# What `cat .secret` prints after `ls -a` reveals it.
+secret-file:
+  - You found the secret file.
+  - ''
+  - Most visitors just click the folders. You typed ls -a,
+  - which means you are my kind of person.
+  - ''
+  - There are more secrets around here. Some are not even in the terminal.
+
+neofetch:
+  # Each row is "Label: value". Keep the {placeholders} on the rows that have them.
+  rows:
+    - 'OS: PaperOS 1.0 (it runs in your browser)'
+    - 'Host: danishali.dev'
+    - 'Kernel: React 19 + Vite'
+    - 'Uptime: {uptime}'
+    - 'Packages: {projects} {projects|project|projects}'
+    - 'Shell: dsh 0.1 (danish shell)'
+    - 'Resolution: {width}x{height}'
+    - 'Theme: Soft Paper ({theme})'
+    - 'Terminal: {skin} on black'
+    - 'Browser: {browser}'
+  uptime-minutes: '{minutes} {minutes|min|mins}, {seconds} secs'
+  uptime-seconds: '{seconds} secs'
+  unknown-browser: a browser
+
+games:
+  title: '**Games** _· made at game jams, all playable in the browser on itch.io_'
+  play: play ↗
+  more: '_More at_ {itch} _· or play one right here:_ `snake`_,_ `guess`'
+  # Only used if the games folder is missing from content/projects.
+  fallback:
+    rolling-in-dough: 'Tower defense: cats guard their biscuits from dogs. Brackeys Jam 2025.2, I was on the code team.'
+    the-feed: Drag and drop news articles to control the feed. Pakistani Game Jam.
+    game-dev-loop: My first game jam, about jumping genres as deadlines hit. GMTK Jam.
+
+guess:
+  start: _I'm thinking of a number from 1 to 100. Type_ *q* _to give up._
+  gave-up: It was {target}. Next time!
+  invalid: A whole number from 1 to 100, please.
+  higher: Higher.
+  lower: Lower.
+  won: '**Got it in {tries} {tries|try|tries}!** '
+  won-fast: That is binary search, nice.
+  won-slow: Try halving the range each time.
+
+skin:
+  list: 'skins: '
+  reload: Green comes back when you reload.
+  set: skin set to {skin}
+
+eggs:
+  none: Nothing found yet. Keep poking around.
+  some: '{found} of {total} found. The notepad on the right has hints.'
+
+twinkle:
+  again: ✦ already in your pocket.
+  caught: ✦ You caught a star hiding in the colours.
+
+reboot: 'Broadcast message from danish@dev: the system is going down for reboot NOW!'
+shutdown: 'Broadcast message from danish@dev: the system is going down for poweroff NOW!'
+
+sudo:
+  usage: 'usage: sudo <command>'
+  hired: '*Permission granted.* _Opening the contact card…_'
+  sandwich: Okay.
+  password: '[sudo] password for danish: '
+  denied: danish is not in the sudoers file. This incident will be reported.
+  reported: '(reported to: nobody. you are fine.)'
+
+rm:
+  read-only: 'rm: this portfolio is read-only. Nice try though.'
+  removed: removed '~{path}'
+  more: … and {count} more
+  busy: 'rm: cannot remove /system/paperos: device or resource busy'
+  panic: 'kernel panic: not syncing: attempted to kill the init process'
+
+vim:
+  screen:
+    - '~'
+    - '**~               VIM - Vi IMproved**'
+    - '~'
+    - '_~   editing {file} (read-only)_'
+    - '~'
+  no-name: '[No Name]'
+  # Shown under the prompt while you're stuck in vim.
+  trap: Type  :qa!  and press <Enter> to abandon all changes and exit Vim
+  escaped: '*You escaped vim. Put that on your CV.*'
+  not-a-command: 'E492: Not an editor command: {command}'
+  insert: '-- INSERT --  (just kidding, the file is read-only)'
+  hint: '_psst: real vim users type_ *:q*'
+
+nano: 'nano: good taste, but everything here is read-only.'
+emacs: 'emacs: not installed. There is a vim though, if you are brave.'
+quit-outside-vim: You're not in vim. Good reflexes though.
+
+hack:
+  steps:
+    - connecting to mainframe…
+    - bypassing firewall  [##########] 100%
+    - decrypting passwords… hunter2, password123, letmein
+    - downloading the internet… 2%… actually, never mind
+    - enhancing… enhancing…
+  granted: ACCESS GRANTED
+
+coffee:
+  brewing: brewing coffee…
+  teapot: "Error 418: I'm a teapot."
+  try-tea: _Try_ `tea` _instead._
+brew-missing: 'brew: no formula named {name} here'
+
+tea:
+  # The cup, drawn line by line. Spaces count.
+  art:
+    - '    ( ('
+    - '     ) )'
+    - '  ........'
+    - '  |      |]'
+    - '  \      /'
+    - "   `----'"
+  ready: Tea is ready. Much better.
+
+make:
+  sandwich: What? Make it yourself.
+  no-rule: "make: *** No rule to make target '{target}'. Stop."
+
+xyzzy: Nothing happens.
+plugh: A hollow voice says "Fool."
+answer: Yes, 42. Now what was the question?
+hello: Hi! Thanks for stopping by. Try `neofetch` or `games`.
+
+ping:
+  start: 'PING {host}: 56 data bytes'
+  reply: '64 bytes from {host}: icmp_seq={seq} ttl=64 time={ms} ms'
+  done: 4 packets transmitted, 4 received, 0% packet loss. Fast, because it never left your browser.
+
+uname:
+  short: PaperOS
+  all: PaperOS danishali.dev 1.0 {browser} dsh
+
+man:
+  which: What manual page do you want?
+  try: '_man: try `{page} --help`, or just_ `help`'
+
+snake:
+  hud: score {score}   best {best}
+  help-touch: swipe to steer
+  help-keys: q quits · space pauses
+  ready-title: SNAKE
+  ready: press an arrow key or swipe to start
+  paused-title: PAUSED
+  paused: space to carry on
+  over-title: GAME OVER
+  over: score {score}{newBest} · arrow or swipe to play again
+  new-best: ' · new best!'
+  quit: 'snake: score {score}, best {best}'
+  # Read out by screen readers.
+  label: Snake. Arrow keys steer, space pauses, q quits.
+
+matrix:
+  quit: _Wake up, Neo… then try_ `games`
+  label: Falling green characters. Press any key to leave.
+
+konami: '**↑↑↓↓←→←→BA  +30 lives. Rainbow skin unlocked:** `skin`'

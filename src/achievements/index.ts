@@ -2,10 +2,17 @@
 // Ideas for several of these (the response header, the DNS record, the console login,
 // the WordPress login and hidden collectibles) come from https://lupine.dev.
 import { create } from 'zustand'
-import { ACHIEVEMENTS } from './list'
+import { ACHIEVEMENT_IDS, type Achievement } from './list'
+import { t } from '../text'
 
-export { ACHIEVEMENTS }
 export type { Achievement } from './list'
+
+export const ACHIEVEMENTS: Achievement[] = ACHIEVEMENT_IDS.map((id) => ({
+  id,
+  title: t(`achievements.${id}.title`),
+  hint: t(`achievements.${id}.hint`),
+  done: t(`achievements.${id}.done`),
+}))
 
 export type AchievementId = string
 
@@ -27,7 +34,7 @@ export interface Progress {
 
 const KEY = 'devportfolio.achievements'
 const OLD_KEY = 'devportfolio.eggs'
-const IDS = new Set(ACHIEVEMENTS.map((a) => a.id))
+const IDS = new Set<string>(ACHIEVEMENTS.map((a) => a.id))
 
 const newRunId = () => (crypto.randomUUID?.() ?? `${Date.now().toString(36)}-${Math.random().toString(36).slice(2)}`)
 

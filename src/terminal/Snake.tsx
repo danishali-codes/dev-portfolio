@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from 'react'
 import { txt, type Line } from './lines'
+import { t } from '../text'
 import { MAX_COLS, MAX_ROWS, canTurn, dirCode, newGame, tick, tickMs, type Move, type Pt, type SnakeGame } from '../leaderboard/snakeEngine'
 import { snakeStart } from '../leaderboard/api'
 import SnakeBoard from '../leaderboard/SnakeBoard'
@@ -100,7 +101,7 @@ export default function Snake({ onQuit }: { onQuit: (...l: Line[]) => void }) {
 
   function quit() {
     const s = game.current
-    onQuit([txt(`snake: score ${s.g.score}, best ${s.best}`, 'dim')])
+    onQuit([txt(t('eggs.snake.quit', { score: s.g.score, best: s.best }), 'dim')])
   }
 
   function steer(d: Pt) {
@@ -156,8 +157,8 @@ export default function Snake({ onQuit }: { onQuit: (...l: Line[]) => void }) {
     ctx.font = '13px "JetBrains Mono", ui-monospace, monospace'
     ctx.textBaseline = 'middle'
     ctx.fillStyle = dim
-    ctx.fillText(`score ${g.score}   best ${best}`, ox, HUD / 2)
-    const help = window.matchMedia?.('(pointer: coarse)').matches ? 'swipe to steer' : 'q quits · space pauses'
+    ctx.fillText(t('eggs.snake.hud', { score: g.score, best }), ox, HUD / 2)
+    const help = window.matchMedia?.('(pointer: coarse)').matches ? t('eggs.snake.help-touch') : t('eggs.snake.help-keys')
     ctx.fillText(help, Math.min(ox + g.cols * CELL, w - 40) - ctx.measureText(help).width, HUD / 2)
 
     {
@@ -171,11 +172,11 @@ export default function Snake({ onQuit }: { onQuit: (...l: Line[]) => void }) {
 
     const msg =
       state === 'ready'
-        ? ['SNAKE', 'press an arrow key or swipe to start']
+        ? [t('eggs.snake.ready-title'), t('eggs.snake.ready')]
         : state === 'paused'
-          ? ['PAUSED', 'space to carry on']
+          ? [t('eggs.snake.paused-title'), t('eggs.snake.paused')]
           : state === 'over'
-            ? ['GAME OVER', `score ${g.score}${g.score && g.score === best ? ' · new best!' : ''} · arrow or swipe to play again`]
+            ? [t('eggs.snake.over-title'), t('eggs.snake.over', { score: g.score, newBest: g.score && g.score === best ? t('eggs.snake.new-best') : '' })]
             : null
     if (msg) {
       const cy = oy + g.rows * CELL * 0.22
@@ -257,7 +258,7 @@ export default function Snake({ onQuit }: { onQuit: (...l: Line[]) => void }) {
       className="term-program"
       tabIndex={0}
       role="application"
-      aria-label="Snake. Arrow keys steer, space pauses, q quits."
+      aria-label={t('eggs.snake.label')}
       onKeyDown={onKey}
       onTouchStart={(e) => (touch.current = { x: e.touches[0].clientX, y: e.touches[0].clientY })}
       onTouchEnd={onTouchEnd}
