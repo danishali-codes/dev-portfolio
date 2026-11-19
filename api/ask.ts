@@ -2,7 +2,9 @@
 //
 // POST /api/ask  { question: string }  -> { answer: string }
 //
-// GEMINI_API_KEY is read from the environment. Without it the route says so
+// GEMINI_API_KEY is read from the environment, and GEMINI_MODEL can pick another model.
+// The default is Google's "latest Flash" alias, so a retired model can't break the
+// route again (gemini-2.5-flash now 404s for new keys). Without it the route says so
 // instead of inventing an answer. Questions are capped, and each IP gets a
 // handful per ten minutes on this server instance.
 
@@ -12,9 +14,11 @@ import { makeLimiter } from './_lib/askLimit.js'
 
 declare const process: { env: Record<string, string | undefined> }
 
-const MODEL = 'gemini-2.5-flash'
+const MODEL = process.env.GEMINI_MODEL || 'gemini-flash-latest'
 const MAX_IN = 500
-const MAX_TOKENS = 180
+// Newer Flash models think before answering and that counts against this limit,
+// so leave room; the instructions ask for short answers.
+const MAX_TOKENS = 1024
 const allow = makeLimiter(8, 10 * 60 * 1000)
 
 // The instructions live in content/text/server.yaml so the tone can be edited there.
@@ -56,14 +60,23 @@ export async function POST(request: Request) {
       body: JSON.stringify({
         systemInstruction: { parts: [{ text: SYSTEM }] },
         contents: [{ role: 'user', parts: [{ text: question }] }],
-        generationConfig: { maxOutputTokens: MAX_TOKENS, temperature: 0.2 },
+        generationConfig: {
+          maxOutputTokens: MAX_TOKENS,
+          temperature: 0.2,
+          thinkingConfig: { thinkingLevel: 'low' },
+        },
       }),
     })
-  } catch {
+  } catch (err) {
+    console.error(`ask: ${MODEL} request failed`, err)
     return json({ error: st('server.ask.failed') }, 502)
   }
   if (res.status === 429) return json({ error: st('server.ask.out-of-quota') }, 429)
-  if (!res.ok) return json({ error: st('server.ask.failed') }, 502)
+  if (!res.ok) {
+    // Logged so a wrong key or a retired model shows up in the Vercel logs.
+    console.error(`ask: ${MODEL} answered ${res.status}`, (await res.text()).slice(0, 500))
+    return json({ error: st('server.ask.failed') }, 502)
+  }
   const data = (await res.json()) as { candidates?: { content?: { parts?: { text?: string }[] } }[] }
   const answer = data.candidates?.[0]?.content?.parts?.map((p) => p.text ?? '').join('').trim()
   return json({ answer: answer || st('server.ask.dont-know') })
