@@ -78,8 +78,13 @@ export function syncNavigation(spec?: OpenSpec) {
 export function updateMetadata(spec?: OpenSpec) {
   const route = spec?.kind === 'notfound' ? '/' : routeFor(spec).split('?')[0]
   const project = shareableProjects().find((p) => p.path === route)
-  const title = spec?.kind === 'notfound' ? 'Not found · Danish Ali' : spec ? (project?.meta?.name ?? spec.title.replace(' · README', '')) + ' · Danish Ali' : 'Danish Ali · Dev portfolio'
-  const description = project?.meta?.tagline ?? "Danish Ali, a developer in Dubai building apps, games and tools for his homelab."
+  const title =
+    spec?.kind === 'notfound'
+      ? t('site.page-title', { page: t('site.not-found') })
+      : spec
+        ? t('site.page-title', { page: project?.meta?.name ?? spec.title.replace(' · README', '') })
+        : t('site.home-title')
+  const description = project?.meta?.tagline ?? t('site.window-description')
   const set = (selector: string, content: string) => document.querySelector<HTMLMetaElement>(selector)?.setAttribute('content', content)
   document.title = title
   set('meta[name="description"]', description)

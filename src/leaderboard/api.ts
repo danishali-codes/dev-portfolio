@@ -2,6 +2,7 @@
 // leaderboard is offline the games still work, they just aren't ranked.
 
 import type { Move } from './snakeEngine'
+import { st } from '../generated/server-text'
 
 export type Board = 'snake' | 'achievements'
 
@@ -20,10 +21,10 @@ async function call<T>(init: RequestInit, query: string): Promise<Result<T>> {
   try {
     const res = await fetch(`${ENDPOINT}?${query}`, { ...init, headers: { 'Content-Type': 'application/json' } })
     const body = await res.json().catch(() => ({}))
-    if (!res.ok) return { ok: false, error: body.error || (res.status === 404 ? 'leaderboard is offline' : `error ${res.status}`) }
+    if (!res.ok) return { ok: false, error: body.error || (res.status === 404 ? st('server.leaderboard.offline') : `error ${res.status}`) }
     return { ok: true, ...body }
   } catch {
-    return { ok: false, error: 'leaderboard is offline' }
+    return { ok: false, error: st('server.leaderboard.offline') }
   }
 }
 

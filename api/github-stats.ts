@@ -1,4 +1,5 @@
 import { collectGithub } from '../scripts/lib/github-stats.mjs'
+import { st } from '../src/generated/server-text.js'
 import type { Stats } from '../src/apps/stats'
 
 let cached: { github: Stats['github']; expires: number } | undefined
@@ -21,7 +22,7 @@ export async function GET() {
     inflight ??= refresh().finally(() => { inflight = undefined })
     const github = await inflight
     if (!Object.values(github.fetchedAt ?? {}).some(Boolean)) {
-      return Response.json({ error: 'GitHub is temporarily unavailable.' }, { status: 503, headers: { 'Cache-Control': 'no-store' } })
+      return Response.json({ error: st('server.github-down') }, { status: 503, headers: { 'Cache-Control': 'no-store' } })
     }
     // Retry partial failures sooner; never relabel retained sections as freshly fetched.
     const dates = Object.values(github.fetchedAt ?? {})

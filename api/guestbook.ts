@@ -15,6 +15,8 @@
 //   GUESTBOOK_NOTIFY_URL   optional, a Discord webhook or an ntfy topic URL
 //                          that gets a ping for every new note
 
+import { st } from '../src/generated/server-text.js'
+
 declare const process: { env: Record<string, string | undefined> }
 
 const PB = (process.env.PB_URL || 'https://pb.danishali.dev').replace(/\/+$/, '')
@@ -94,29 +96,29 @@ async function notify(name: string, message: string) {
 }
 
 export async function GET() {
-  if (!KEY) return json({ notes: [], error: 'The guestbook is not set up yet.' }, 503)
+  if (!KEY) return json({ notes: [], error: st('server.guestbook.not-set-up') }, 503)
   try {
     const res = await pb(`?perPage=50&sort=-created&filter=${encodeURIComponent('approved = true')}&fields=id,name,message,created`)
     if (!res.ok) {
       console.error('guestbook GET failed:', res.status)
-      return json({ notes: [], error: 'Could not load the guestbook.' }, 502)
+      return json({ notes: [], error: st('server.guestbook.load-failed') }, 502)
     }
     const data = (await res.json()) as { items: { id: string; name: string; message: string; created: string }[] }
     return json({ notes: data.items }, 200, { 'Cache-Control': 'public, s-maxage=60, stale-while-revalidate=600' })
   } catch (err) {
     console.error('guestbook GET error:', err)
-    return json({ notes: [], error: 'Could not load the guestbook.' }, 502)
+    return json({ notes: [], error: st('server.guestbook.load-failed') }, 502)
   }
 }
 
 export async function POST(request: Request) {
-  if (!KEY) return json({ error: 'The guestbook is not set up yet.' }, 503)
+  if (!KEY) return json({ error: st('server.guestbook.not-set-up') }, 503)
 
   let body: Record<string, unknown>
   try {
     body = (await request.json()) as Record<string, unknown>
   } catch {
-    return json({ error: 'That did not look like a note.' }, 400)
+    return json({ error: st('server.guestbook.not-a-note') }, 400)
   }
 
   // Honeypot and timing: answer "ok" so a bot has nothing to learn from.
@@ -125,9 +127,9 @@ export async function POST(request: Request) {
 
   const name = clean(body.name, NAME_MAX).replace(/\s+/g, ' ')
   const message = clean(body.message, MESSAGE_MAX)
-  if (!name) return json({ error: 'Add a name, even a made up one.' }, 400)
-  if (message.length < 2) return json({ error: 'The note is empty.' }, 400)
-  if ((message.match(/https?:\/\/|www\./gi) ?? []).length > 1) return json({ error: 'One link per note, please.' }, 400)
+  if (!name) return json({ error: st('server.guestbook.no-name') }, 400)
+  if (message.length < 2) return json({ error: st('server.guestbook.empty') }, 400)
+  if ((message.match(/https?:\/\/|www\./gi) ?? []).length > 1) return json({ error: st('server.guestbook.one-link') }, 400)
 
   const visitor = await visitorHash(request)
   try {
@@ -136,14 +138,14 @@ export async function POST(request: Request) {
       count(`visitor = "${visitor}" && created >= "${since(PER_VISITOR_WINDOW_MIN)}"`),
       count(`approved = false && created >= "${since(60)}"`),
     ])
-    if (mine >= PER_VISITOR) return json({ error: 'You just left a note. Give it a few minutes.' }, 429)
-    if (pending >= PENDING_PER_HOUR) return json({ error: 'The guestbook is busy right now. Try again later.' }, 429)
+    if (mine >= PER_VISITOR) return json({ error: st('server.guestbook.too-soon') }, 429)
+    if (pending >= PENDING_PER_HOUR) return json({ error: st('server.guestbook.busy') }, 429)
 
     const res = await pb('', { method: 'POST', body: JSON.stringify({ name, message, visitor, approved: false }) })
     if (!res.ok) throw new Error(`PocketBase ${res.status}`)
   } catch (err) {
     console.error('guestbook POST error:', err)
-    return json({ error: 'Could not save the note. Try again in a bit.' }, 502)
+    return json({ error: st('server.guestbook.save-failed') }, 502)
   }
 
   await notify(name, message)
