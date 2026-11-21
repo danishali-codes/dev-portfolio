@@ -159,7 +159,7 @@ top:
   sleeping: sleeping
   waiting: waiting
   # The made-up background processes, first three before the open windows, the last one after.
-  processes: [init, paperos-wm, wallpaper, coffee]
+  processes: [init, folio-os-wm, wallpaper, coffee]
 
 who:
   you: you

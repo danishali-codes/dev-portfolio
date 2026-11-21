@@ -1,3 +1,5 @@
+import { historyIndex } from './navigation'
+
 const KEY = 'devportfolio.resume'
 
 type Listener = (on: boolean) => void
@@ -29,8 +31,8 @@ export function setResume(on: boolean) {
   }
   const path = on ? '/resume' : '/'
   if (location.pathname !== path) {
-    history.pushState({ paperosIndex: (history.state?.paperosIndex ?? 0) + 1 }, '', path)
-    window.dispatchEvent(new Event('paperos:navigation'))
+    history.pushState({ folioosIndex: historyIndex() + 1 }, '', path)
+    window.dispatchEvent(new Event('folioos:navigation'))
   }
   listeners.forEach((fn) => fn(on))
 }

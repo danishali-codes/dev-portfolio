@@ -60,10 +60,10 @@ export default function Spotlight() {
       setOpen(true)
     }
     window.addEventListener('keydown', onKey)
-    window.addEventListener('paperos:spotlight', show)
+    window.addEventListener('folioos:spotlight', show)
     return () => {
       window.removeEventListener('keydown', onKey)
-      window.removeEventListener('paperos:spotlight', show)
+      window.removeEventListener('folioos:spotlight', show)
     }
   }, [])
 

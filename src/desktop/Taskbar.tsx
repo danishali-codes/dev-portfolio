@@ -21,10 +21,10 @@ function Clock() {
   useEffect(() => {
     const t = setInterval(() => setNow(new Date()), 15_000)
     const show = () => setCal(true)
-    window.addEventListener('paperos:calendar', show)
+    window.addEventListener('folioos:calendar', show)
     return () => {
       clearInterval(t)
-      window.removeEventListener('paperos:calendar', show)
+      window.removeEventListener('folioos:calendar', show)
     }
   }, [])
   return (
@@ -212,7 +212,7 @@ function Search() {
           }}
           autoComplete="off"
         />
-        <button type="button" className="tb-kbd" onClick={() => window.dispatchEvent(new Event('paperos:spotlight'))} title={t('desktop.taskbar.search-everything')} aria-label={t('desktop.taskbar.search-everything')}>
+        <button type="button" className="tb-kbd" onClick={() => window.dispatchEvent(new Event('folioos:spotlight'))} title={t('desktop.taskbar.search-everything')} aria-label={t('desktop.taskbar.search-everything')}>
           {/Mac|iPhone|iPad/.test(navigator.platform) ? '⌘K' : 'Ctrl K'}
         </button>
       </label>

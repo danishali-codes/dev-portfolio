@@ -30,7 +30,7 @@ secret-file:
 neofetch:
   # Each row is "Label: value". Keep the {placeholders} on the rows that have them.
   rows:
-    - 'OS: PaperOS 1.0 (it runs in your browser)'
+    - 'OS: Folio OS 1.0 (it runs in your browser)'
     - 'Host: danishali.dev'
     - 'Kernel: React 19 + Vite'
     - 'Uptime: {uptime}'
@@ -92,7 +92,7 @@ rm:
   read-only: 'rm: this portfolio is read-only. Nice try though.'
   removed: removed '~{path}'
   more: … and {count} more
-  busy: 'rm: cannot remove /system/paperos: device or resource busy'
+  busy: 'rm: cannot remove /system/folio-os: device or resource busy'
   panic: 'kernel panic: not syncing: attempted to kill the init process'
 
 vim:
@@ -155,8 +155,8 @@ ping:
   done: 4 packets transmitted, 4 received, 0% packet loss. Fast, because it never left your browser.
 
 uname:
-  short: PaperOS
-  all: PaperOS danishali.dev 1.0 {browser} dsh
+  short: Folio OS
+  all: Folio OS danishali.dev 1.0 {browser} dsh
 
 man:
   which: What manual page do you want?

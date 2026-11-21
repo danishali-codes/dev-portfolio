@@ -37,9 +37,9 @@ gotcha:
   hack: Nobody hacked anything. The "mainframe" is a React app, and the projects were public anyway.
 
 bsod:
-  label: PaperOS crashed
+  label: Folio OS crashed
   face: ':('
-  big: PaperOS ran into a problem it couldn't handle. Someone typed rm -rf /.
+  big: Folio OS ran into a problem it couldn't handle. Someone typed rm -rf /.
   body: We're collecting absolutely no error info, and then we'll pretend to restart for you.
   progress: '{percent}% complete'
   more-info: For more information about this issue, don't search online.
@@ -60,13 +60,13 @@ hack:
   uploading: uploading {file} … done
   any-key: press any key to accept your fate
 
-restart: Restarting PaperOS…
+restart: Restarting Folio OS…
 
 shutdown:
   label: Shut down
   shutting-down: Shutting down…
   failed: Shutdown failed.
-  body: PaperOS is a website. It doesn't have an off switch.
+  body: Folio OS is a website. It doesn't have an off switch.
   aside: (You could close the tab. Please don't.)
   back: Fine, back to the desktop
 

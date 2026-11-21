@@ -54,7 +54,7 @@ konami:
 restart:
   title: 'Off and on again'
   hint: 'Have you tried turning it off and on again?'
-  done: 'Restarted PaperOS.'
+  done: 'Restarted Folio OS.'
 
 shutdown:
   title: 'No off switch'
