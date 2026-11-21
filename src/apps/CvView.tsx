@@ -88,7 +88,7 @@ export default function CvView() {
             </>
           )}
           {c.links.map((l) => (
-            <a key={l.url} className="pill" href={l.url} target="_blank" rel="noreferrer">
+            <a key={l.url} className="pill" href={l.url} target="_blank" rel={l.label === 'LinkedIn' ? 'noopener noreferrer' : 'noreferrer'}>
               {l.label} ↗
             </a>
           ))}

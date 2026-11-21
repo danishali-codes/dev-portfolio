@@ -30,6 +30,21 @@ const person = {
   sameAs: (contact.links ?? []).map((l) => l.url).filter((u) => /^https:\/\//.test(u)),
 }
 const personTag = '<script type="application/ld+json">' + JSON.stringify(person).replace(/</g, '\\u003c') + '</script>'
+// Same LinkedIn URL as contact.links, which Person.sameAs already publishes.
+const linkedin = (contact.links ?? []).find((l) => l.label === 'LinkedIn' && l.url === 'https://www.linkedin.com/in/danishali121/')
+function withLinkedIn(text) {
+  if (!linkedin || text.includes(linkedin.url)) return text
+  const handle = linkedin.url.match(/\/in\/([^/]+)\/?$/)?.[1] ?? linkedin.label
+  const line = '- ' + linkedin.label + ': [' + handle + '](' + linkedin.url + ')'
+  const nl = text.startsWith('# ') ? text.indexOf('\n') : -1
+  if (nl !== -1) return text.slice(0, nl) + '\n\n' + line + text.slice(nl)
+  return line + '\n\n' + text
+}
+function openLinkedIn(html) {
+  if (!linkedin) return html
+  const href = escape(linkedin.url)
+  return html.replaceAll('<a href="' + href + '">', '<a href="' + href + '" target="_blank" rel="noopener noreferrer">')
+}
 const font = opentype.parse(readFileSync(join(root, 'node_modules/@fontsource/nunito/files/nunito-latin-800-normal.woff')))
 function label(text, x, y, size, align = 'left') {
   const glyphs = [...text].map((char) => font.charToGlyph(char))
@@ -81,6 +96,7 @@ function lines(text, limit = 36) {
   return rows
 }
 for (const page of pages) {
+  if (page.route === '/about' || page.route === '/contact' || page.route === '/resume') page.text = withLinkedIn(page.text)
   const key = page.route.slice(1).replaceAll('/', '--') || 'home'
   const image = origin + '/og/' + key + '.png'
   const headline = lines(page.name, 28).slice(0, 3)
@@ -108,7 +124,7 @@ for (const page of pages) {
     '<meta property="og:image" content="' + image + '" /><meta property="og:image:width" content="1200" /><meta property="og:image:height" content="630" />' +
     '<meta property="og:image:alt" content="' + escape(page.title) + '" /><meta name="twitter:image" content="' + image + '" />'
   html = html.replace('</head>', '<!--portfolio-meta:start-->' + tags + (page.route === '/' ? personTag : '') + '<!--portfolio-meta:end-->\n</head>')
-  html = html.replace('<div id="root"></div>', '<div id="root"><main style="max-width:760px;margin:48px auto;padding:24px;font:18px/1.6 sans-serif">' + marked.parse(page.text.replace(/<!--[\s\S]*?-->/g, '')) + '</main></div>')
+  html = html.replace('<div id="root"></div>', '<div id="root"><main style="max-width:760px;margin:48px auto;padding:24px;font:18px/1.6 sans-serif">' + openLinkedIn(marked.parse(page.text.replace(/<!--[\s\S]*?-->/g, ''))) + '</main></div>')
   const dest = page.route === '/' ? join(out, 'index.html') : join(out, page.route, 'index.html')
   mkdirSync(dirname(dest), { recursive: true })
   writeFileSync(dest, html)
