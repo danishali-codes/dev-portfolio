@@ -45,6 +45,11 @@ function openLinkedIn(html) {
   const href = escape(linkedin.url)
   return html.replaceAll('<a href="' + href + '">', '<a href="' + href + '" target="_blank" rel="noopener noreferrer">')
 }
+// Same new-tab treatment for the live sites named in the project write-ups.
+const LIVE_SITES = ['https://fuloos.danishali.dev', 'https://jeopardy.danishali.dev', 'https://ledger.danishali.dev']
+function openLiveSites(html) {
+  return LIVE_SITES.reduce((out, href) => out.replaceAll('<a href="' + href + '">', '<a href="' + href + '" target="_blank" rel="noopener noreferrer">'), html)
+}
 const font = opentype.parse(readFileSync(join(root, 'node_modules/@fontsource/nunito/files/nunito-latin-800-normal.woff')))
 function label(text, x, y, size, align = 'left') {
   const glyphs = [...text].map((char) => font.charToGlyph(char))
@@ -124,7 +129,9 @@ for (const page of pages) {
     '<meta property="og:image" content="' + image + '" /><meta property="og:image:width" content="1200" /><meta property="og:image:height" content="630" />' +
     '<meta property="og:image:alt" content="' + escape(page.title) + '" /><meta name="twitter:image" content="' + image + '" />'
   html = html.replace('</head>', '<!--portfolio-meta:start-->' + tags + (page.route === '/' ? personTag : '') + '<!--portfolio-meta:end-->\n</head>')
-  html = html.replace('<div id="root"></div>', '<div id="root"><main style="max-width:760px;margin:48px auto;padding:24px;font:18px/1.6 sans-serif">' + openLinkedIn(marked.parse(page.text.replace(/<!--[\s\S]*?-->/g, ''))) + '</main></div>')
+  const parsed = marked.parse(page.text.replace(/<!--[\s\S]*?-->/g, ''))
+  const article = openLinkedIn(page.route.startsWith('/projects/') ? openLiveSites(parsed) : parsed)
+  html = html.replace('<div id="root"></div>', '<div id="root"><main style="max-width:760px;margin:48px auto;padding:24px;font:18px/1.6 sans-serif">' + article + '</main></div>')
   const dest = page.route === '/' ? join(out, 'index.html') : join(out, page.route, 'index.html')
   mkdirSync(dirname(dest), { recursive: true })
   writeFileSync(dest, html)

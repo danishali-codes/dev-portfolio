@@ -9,6 +9,13 @@ import { clearSlideshow, peekSlideshow, SLIDE_MS } from './slideshow'
 
 marked.use({ gfm: true })
 
+/** Live sites named in the project write-ups. Markdown links have no target of their own. */
+const LIVE_SITES = ['https://fuloos.danishali.dev', 'https://jeopardy.danishali.dev', 'https://ledger.danishali.dev']
+
+function openInNewTab(html: string, href: string) {
+  return html.split(`<a href="${href}">`).join(`<a href="${href}" target="_blank" rel="noopener noreferrer">`)
+}
+
 function fileAt(path?: string): FileNode | undefined {
   const n = path ? getNode(path) : undefined
   return n?.type === 'file' ? n : undefined
@@ -112,8 +119,8 @@ export function MarkdownView({ path }: { path?: string }) {
     // Images further down a write-up wait until they are near the window.
     const parsed = (marked.parse(text) as string).replace(/<img /g, '<img loading="lazy" decoding="async" ')
     const linkedin = contact().links.find((l) => l.label === 'LinkedIn')?.url
-    const attrs = `<a href="${linkedin}" target="_blank" rel="noopener noreferrer">`
-    return linkedin ? parsed.split(`<a href="${linkedin}">`).join(attrs) : parsed
+    const hrefs = linkedin ? [linkedin, ...LIVE_SITES] : LIVE_SITES
+    return hrefs.reduce((html, href) => openInNewTab(html, href), parsed)
   }, [file, project])
   if (!file) return <Missing />
   return (

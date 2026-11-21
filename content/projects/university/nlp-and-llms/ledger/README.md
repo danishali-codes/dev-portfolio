@@ -2,6 +2,8 @@
 
 NLP and LLMs, Assessment 2: NLP solution design.
 
+Try it at [ledger.danishali.dev](https://ledger.danishali.dev).
+
 ## Problem
 
 Ledger reads the SMS alerts UAE banks send after every card payment, puts each
