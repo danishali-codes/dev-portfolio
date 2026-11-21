@@ -4,7 +4,7 @@ A quiz night game I built to play with friends. One laptop hosts, the TV shows
 the board, and everyone buzzes in from their own phone. No buzzer hardware, no
 app to install.
 
-Play it at jeopardy.danishali.dev.
+Play it at [jeopardy.danishali.dev](https://jeopardy.danishali.dev).
 
 ## How a game works
 

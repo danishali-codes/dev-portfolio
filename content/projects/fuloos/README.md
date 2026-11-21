@@ -4,7 +4,7 @@ Fuloos ("money" in Arabic) is the budgeting app I wanted and couldn't find: one
 that understands UAE bank statements and SMS alerts, works in AED, and doesn't
 need a paid AI service to tell me where my salary went.
 
-Try it at fuloos.danishali.dev. "Explore the demo" opens a sample workspace that
+Try it at [fuloos.danishali.dev](https://fuloos.danishali.dev). "Explore the demo" opens a sample workspace that
 runs entirely in your browser and is thrown away when you leave.
 
 ## What it does
