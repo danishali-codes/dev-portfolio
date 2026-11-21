@@ -1,5 +1,5 @@
 // Generate shareable HTML and PNG cards after Vite has built the desktop.
-import { readFileSync, writeFileSync, mkdirSync } from 'node:fs'
+import { existsSync, readFileSync, readdirSync, writeFileSync, mkdirSync } from 'node:fs'
 import { join, dirname } from 'node:path'
 import { fileURLToPath } from 'node:url'
 import { marked } from 'marked'
@@ -13,9 +13,21 @@ const tree = JSON.parse(readFileSync(join(root, 'src/generated/fs.json'), 'utf8'
 const TEXT = JSON.parse(readFileSync(join(root, 'src/generated/text.json'), 'utf8'))
 const t = (key, vars = {}) => String(TEXT[key] ?? key).replace(/\{(\w+)\}/g, (m, k) => (k in vars ? String(vars[k]) : m))
 const pageTitle = (page) => t('site.page-title', { page })
-const template = readFileSync(join(out, 'index.html'), 'utf8')
+// Nunito 700 is the above-the-fold UI weight. Preload the latin woff2 Vite emitted,
+// at the absolute URL the built CSS requests, on every prerendered page.
+const nunitoFile = readdirSync(join(out, 'assets')).filter((file) => /^nunito-latin-700-normal-.+\.woff2$/.test(file))
+if (nunitoFile.length !== 1) throw new Error('expected one Nunito 700 latin woff2 in dist/assets, found ' + (nunitoFile.join(', ') || 'none'))
+const nunitoHref = '/assets/' + nunitoFile[0]
+const nunitoReferenced = readdirSync(join(out, 'assets')).filter((file) => file.endsWith('.css')).some((file) => readFileSync(join(out, 'assets', file), 'utf8').includes(nunitoFile[0]))
+if (!nunitoReferenced) throw new Error('Nunito preload ' + nunitoHref + ' is not referenced by the built CSS')
+const nunitoPreload = '<link rel="preload" as="font" type="font/woff2" crossorigin href="' + nunitoHref + '" />'
+function withNunitoPreload(html) {
+  const stripped = html.replace(/[ \t]*<link\b[^>]*\bas="font"[^>]*>\n?/g, '')
+  return stripped.replace('<meta charset="UTF-8" />', '<meta charset="UTF-8" />\n    ' + nunitoPreload)
+}
+const template = withNunitoPreload(readFileSync(join(out, 'index.html'), 'utf8')
   .replace(/<!--portfolio-meta:start-->[\s\S]*?<!--portfolio-meta:end-->/g, '')
-  .replace(/<div id="root">[\s\S]*?<\/div>(?=\s*<noscript>)/, '<div id="root"></div>')
+  .replace(/<div id="root">[\s\S]*?<\/div>(?=\s*<noscript>)/, '<div id="root"></div>'))
 const origin = 'https://danishali.dev'
 const contact = JSON.parse(readFileSync(join(root, 'content/contact.json'), 'utf8'))
 // Structured data so a search for Danish's name can show who he is and where his profiles are.
@@ -156,4 +168,10 @@ writeFileSync(join(out, 'simple/index.html'), readFileSync(join(out, 'resume/ind
 mkdirSync(join(out, 'cv'), { recursive: true })
 writeFileSync(join(out, 'cv/index.html'), readFileSync(join(out, 'contact/index.html')))
 writeFileSync(join(out, 'sitemap.xml'), readFileSync(join(root, 'public/sitemap.xml')))
+if (!existsSync(join(out, nunitoHref.slice(1)))) throw new Error('preloaded font is not in dist: ' + nunitoHref)
+for (const page of ['index.html', 'about/index.html', '404.html']) {
+  const html = readFileSync(join(out, page), 'utf8')
+  if (!html.includes(nunitoPreload)) throw new Error('font preload missing from ' + page)
+}
 console.log('pages: ' + pages.length + ' HTML pages and social preview cards generated')
+console.log('font preload: ' + nunitoHref)
