@@ -33,7 +33,7 @@ export default function Resume() {
         <p className="resume-links">
           {c.email && <a href={`mailto:${c.email}`}>{c.email}</a>}
           {c.links.map((l) => (
-            <a key={l.url} href={l.url}>
+            <a key={l.url} href={l.url} {...(l.label === 'LinkedIn' ? { target: '_blank', rel: 'noopener noreferrer' } : {})}>
               {l.label}
             </a>
           ))}

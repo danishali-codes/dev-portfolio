@@ -3,6 +3,7 @@ import { t } from '../text'
 import { useEffect, useMemo, useRef, useState } from 'react'
 import { findApp, getNode, projectAt } from '../fs'
 import type { DirNode, FileNode } from '../fs/types'
+import { contact } from '../shell/contact'
 import { openNode } from '../shell/opener'
 import { clearSlideshow, peekSlideshow, SLIDE_MS } from './slideshow'
 
@@ -109,7 +110,10 @@ export function MarkdownView({ path }: { path?: string }) {
     // The project header already shows the title, so drop the README's first heading.
     const text = project ? file.text.replace(/^\s*(<!--[\s\S]*?-->\s*)*#\s.*\n/, '') : file.text
     // Images further down a write-up wait until they are near the window.
-    return (marked.parse(text) as string).replace(/<img /g, '<img loading="lazy" decoding="async" ')
+    const parsed = (marked.parse(text) as string).replace(/<img /g, '<img loading="lazy" decoding="async" ')
+    const linkedin = contact().links.find((l) => l.label === 'LinkedIn')?.url
+    const attrs = `<a href="${linkedin}" target="_blank" rel="noopener noreferrer">`
+    return linkedin ? parsed.split(`<a href="${linkedin}">`).join(attrs) : parsed
   }, [file, project])
   if (!file) return <Missing />
   return (

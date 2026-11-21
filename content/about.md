@@ -8,5 +8,6 @@ Outside work, I build things I actually use: Fuloos for my money, Lockout for ga
 
 I work with React, TypeScript, Node.js, Go and Unity, with Maya and Blender for 3D work. My AI coursework uses Python and PyTorch.
 
+- LinkedIn: [danishali121](https://www.linkedin.com/in/danishali121/)
 - GitHub: [danishali-codes](https://github.com/danishali-codes)
 - Site: [danishali.dev](https://danishali.dev)
