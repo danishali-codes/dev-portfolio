@@ -27,12 +27,16 @@ function Clock() {
       window.removeEventListener('folioos:calendar', show)
     }
   }, [])
+  const time = now.toLocaleTimeString(undefined, { hour: '2-digit', minute: '2-digit' })
+  const date = now.toLocaleDateString(undefined, { weekday: 'short', day: 'numeric', month: 'short' })
   return (
     <>
       {cal && <Calendar onClose={close} />}
-      <button type="button" className="tb-clock" onClick={() => setCal(!cal)} aria-expanded={cal} aria-haspopup="dialog" aria-label={t('desktop.taskbar.clock-label', { date: now.toLocaleString(undefined, { dateStyle: 'full', timeStyle: 'short' }) })}>
-        <time dateTime={now.toISOString()}>{now.toLocaleTimeString(undefined, { hour: '2-digit', minute: '2-digit' })}</time>
-        <span className="tb-date">{now.toLocaleDateString(undefined, { weekday: 'short', day: 'numeric', month: 'short' })}</span>
+      <button type="button" className="tb-clock" onClick={() => setCal(!cal)} aria-expanded={cal} aria-haspopup="dialog" aria-label={t('desktop.taskbar.clock-label', { date: `${time} ${date}` })}>
+        <time dateTime={now.toISOString()}>{time}</time>
+        {/* Word break so the time and date stay separate in the accessible name. Flex whitespace is not drawn. */}
+        {' '}
+        <span className="tb-date">{date}</span>
       </button>
     </>
   )
@@ -190,6 +194,7 @@ function Search() {
     openNode(p)
     setQ('')
   }
+  const shortcut = /Mac|iPhone|iPad/.test(navigator.platform) ? '⌘K' : 'Ctrl K'
   return (
     <div className="tb-search-wrap" role="search">
       <label className="tb-search" htmlFor="tb-search">
@@ -212,8 +217,8 @@ function Search() {
           }}
           autoComplete="off"
         />
-        <button type="button" className="tb-kbd" onClick={() => window.dispatchEvent(new Event('folioos:spotlight'))} title={t('desktop.taskbar.search-everything')} aria-label={t('desktop.taskbar.search-everything')}>
-          {/Mac|iPhone|iPad/.test(navigator.platform) ? '⌘K' : 'Ctrl K'}
+        <button type="button" className="tb-kbd" onClick={() => window.dispatchEvent(new Event('folioos:spotlight'))} title={t('desktop.taskbar.search-everything')} aria-label={`${shortcut}, ${t('desktop.taskbar.search-everything')}`}>
+          {shortcut}
         </button>
       </label>
       {q.trim() && (
