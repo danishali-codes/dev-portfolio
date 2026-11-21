@@ -32,7 +32,7 @@ export default function App() {
     }
     const unwatch = watchResume(setResumeView)
     window.addEventListener('popstate', restore)
-    window.addEventListener('paperos:navigation', restore)
+    window.addEventListener('folioos:navigation', restore)
     if (resumeOn()) {
       if (!resumePath(location.pathname)) setResume(true)
       restore()
@@ -40,7 +40,7 @@ export default function App() {
     return () => {
       unwatch()
       window.removeEventListener('popstate', restore)
-      window.removeEventListener('paperos:navigation', restore)
+      window.removeEventListener('folioos:navigation', restore)
     }
   }, [])
   if (resume) return <Resume />

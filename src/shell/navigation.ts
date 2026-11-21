@@ -62,15 +62,28 @@ export function notFoundSpec(input = location.href): OpenSpec | undefined {
   return { kind: 'notfound', title: t('desktop.titles.not-found'), url: path, color: 'var(--peach)' }
 }
 
+type HistoryState = { folioosIndex?: unknown; paperosIndex?: unknown } | null
+
+/** In-app history depth. `paperosIndex` is the pre-rename key, read so an open tab still goes back. */
+export function historyIndex(state: HistoryState = history.state): number {
+  if (typeof state?.folioosIndex === 'number') return state.folioosIndex
+  if (typeof state?.paperosIndex === 'number') return state.paperosIndex
+  return 0
+}
+
 export function initialiseHistory() {
-  if (typeof history.state?.paperosIndex !== 'number') history.replaceState({ ...history.state, paperosIndex: 0 }, '')
+  const state = history.state as HistoryState
+  if (typeof state?.folioosIndex === 'number') return
+  const next = { ...(state ?? {}), folioosIndex: historyIndex(state) }
+  delete next.paperosIndex
+  history.replaceState(next, '')
 }
 
 export function syncNavigation(spec?: OpenSpec) {
   const route = routeFor(spec)
   if (route !== location.pathname + location.search) {
-    history.pushState({ paperosIndex: (history.state?.paperosIndex ?? 0) + 1 }, '', route)
-    window.dispatchEvent(new Event('paperos:navigation'))
+    history.pushState({ folioosIndex: historyIndex() + 1 }, '', route)
+    window.dispatchEvent(new Event('folioos:navigation'))
   }
   updateMetadata(spec)
 }

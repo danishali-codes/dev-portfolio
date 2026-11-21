@@ -3,7 +3,7 @@ import { allProjects } from '../fs'
 
 /** Opens the calendar that lives behind the taskbar clock. */
 export function openCalendar() {
-  window.dispatchEvent(new Event('paperos:calendar'))
+  window.dispatchEvent(new Event('folioos:calendar'))
 }
 
 export interface CalEvent {

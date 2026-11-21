@@ -15,7 +15,7 @@ welcome:
   featured: Featured projects
 
 not-found:
-  prompt: 'danish@paperos:~$'
+  prompt: 'danish@folio-os:~$'
   error: 'cd: no such file or directory: {path}'
   title: '404: nothing lives here'
   body: The link may be old, or a letter slipped. Everything that does exist is one click away.

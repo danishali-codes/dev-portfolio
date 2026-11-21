@@ -127,7 +127,7 @@ export const UNIX_COMMANDS: Record<string, Command> = {
         [txt(t('terminal.top.summary', { minutes: Math.floor(up / 60), seconds: up % 60, windows: wins.length, cores: navigator.hardwareConcurrency || '?' }) + (mem ? t('terminal.top.memory', { mb: Math.round(mem.usedJSHeapSize / 1048576) }) : ''), 'dim')],
         [txt(t('terminal.top.header'), 'bold')],
       )
-      const [init = 'init', wm = 'paperos-wm', wallpaper = 'wallpaper', coffee = 'coffee'] = textLines('terminal.top.processes')
+      const [init = 'init', wm = 'folio-os-wm', wallpaper = 'wallpaper', coffee = 'coffee'] = textLines('terminal.top.processes')
       const procs: [string, State, string][] = [
         [init, 'running', '0.1'],
         [wm, 'running', (0.4 + wins.length * 0.3).toFixed(1)],

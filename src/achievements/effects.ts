@@ -26,7 +26,7 @@ export function goHome(from: Takeover) {
   document.documentElement.removeAttribute('data-wipe')
   takeover(null)
   useWindows.setState({ windows: [] })
-  window.dispatchEvent(new Event('paperos:home'))
+  window.dispatchEvent(new Event('folioos:home'))
   const note = GOTCHA[from]
   if (note) {
     useTerm.setState({ lines: [], cwd: '/', handler: null, program: null })

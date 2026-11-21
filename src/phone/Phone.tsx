@@ -1,6 +1,6 @@
 import CopyLink from '../apps/CopyLink'
 import { t } from '../text'
-import { initialiseHistory, notFoundSpec, specFromUrl, syncNavigation } from '../shell/navigation'
+import { historyIndex, initialiseHistory, notFoundSpec, specFromUrl, syncNavigation } from '../shell/navigation'
 import { useEffect, useRef, useState } from 'react'
 import { findReadme, getNode, projects, TRASH_DIR } from '../fs'
 import type { DirNode, FsNode } from '../fs/types'
@@ -62,10 +62,10 @@ export default function Phone() {
     registerWallpaperPicker(() => setStack((s) => [...s, WALLPAPER_SPEC]))
     // After the blue screen or the hack: back to the home screen.
     const home = () => setStack([])
-    window.addEventListener('paperos:home', home)
+    window.addEventListener('folioos:home', home)
     return () => {
       registerWallpaperPicker(undefined)
-      window.removeEventListener('paperos:home', home)
+      window.removeEventListener('folioos:home', home)
     }
   }, [])
 
@@ -81,7 +81,7 @@ export default function Phone() {
     titleRef.current?.focus({ preventScroll: true })
   }, [depth])
 
-  const back = () => history.state?.paperosIndex > 0 ? history.back() : setStack((s) => s.slice(0, -1))
+  const back = () => historyIndex() > 0 ? history.back() : setStack((s) => s.slice(0, -1))
   const current = stack[stack.length - 1]
   useEffect(() => { syncNavigation(current) }, [current])
   const about = getNode('/about.md')

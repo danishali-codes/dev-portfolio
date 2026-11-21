@@ -104,6 +104,6 @@ describe('terminal commands', () => {
     expect(commits).toBeLessThanOrEqual(3)
     const t = makeCtx('/')
     execute('top', t.ctx)
-    expect(t.text()).toContain('paperos-wm')
+    expect(t.text()).toContain('folio-os-wm')
   })
 })

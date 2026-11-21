@@ -3,10 +3,10 @@ import { resumeOn, setResume } from './plain'
 afterEach(() => { localStorage.clear(); history.replaceState(null, '', '/') })
 describe('resume navigation', () => {
   it('updates the URL and allows a return to the desktop', () => {
-    history.replaceState({ paperosIndex: 0 }, '', '/')
+    history.replaceState({ folioosIndex: 0 }, '', '/')
     setResume(true)
     expect(location.pathname).toBe('/resume')
-    expect(history.state.paperosIndex).toBe(1)
+    expect(history.state.folioosIndex).toBe(1)
     setResume(false)
     expect(location.pathname).toBe('/')
     expect(resumeOn()).toBe(false)
@@ -18,5 +18,10 @@ describe('resume navigation', () => {
     expect(resumeOn('/simple')).toBe(true)
     expect(resumeOn('/projects/ledger')).toBe(false)
     expect(resumeOn('/uses')).toBe(false)
+  })
+  it('keeps counting from the pre-rename history key', () => {
+    history.replaceState({ paperosIndex: 2 }, '', '/')
+    setResume(true)
+    expect(history.state.folioosIndex).toBe(3)
   })
 })

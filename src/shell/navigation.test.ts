@@ -1,7 +1,7 @@
 import { beforeEach, describe, expect, it } from 'vitest'
 import { findProject, findReadme, getNode } from '../fs'
 import { specFor } from '../apps/spec'
-import { initialiseHistory, routeFor, specFromUrl, syncNavigation } from './navigation'
+import { historyIndex, initialiseHistory, routeFor, specFromUrl, syncNavigation } from './navigation'
 
 beforeEach(() => { history.replaceState(null, '', '/'); initialiseHistory() })
 
@@ -31,6 +31,13 @@ describe('shareable navigation', () => {
     expect(history.length).toBe(before + 1)
     expect(location.pathname).toBe('/about')
     expect(document.title).toContain('Danish Ali')
+  })
+  it('copies a pre-rename history index onto the new key', () => {
+    history.replaceState({ paperosIndex: 4 }, '', '/about')
+    initialiseHistory()
+    expect(history.state.folioosIndex).toBe(4)
+    expect(history.state.paperosIndex).toBeUndefined()
+    expect(historyIndex()).toBe(4)
   })
   it('round trips contact, utility apps and media paths', () => {
     for (const route of ['/contact', '/stats', '/ask', '/uses', '/resume', '/terminal', '/guestbook', '/files/now.md']) {
