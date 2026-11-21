@@ -34,6 +34,7 @@ const contact = JSON.parse(readFileSync(join(root, 'content/contact.json'), 'utf
 const person = {
   '@context': 'https://schema.org',
   '@type': 'Person',
+  '@id': origin + '/#person',
   name: contact.name,
   url: origin + '/',
   jobTitle: contact.role,
@@ -42,6 +43,16 @@ const person = {
   sameAs: (contact.links ?? []).map((l) => l.url).filter((u) => /^https:\/\//.test(u)),
 }
 const personTag = '<script type="application/ld+json">' + JSON.stringify(person).replace(/</g, '\\u003c') + '</script>'
+// Same Person as above. Search stays in the page, so there is no SearchAction.
+const website = {
+  '@context': 'https://schema.org',
+  '@type': 'WebSite',
+  name: t('site.name'),
+  url: origin,
+  author: { '@id': person['@id'] },
+  publisher: { '@id': person['@id'] },
+}
+const websiteTag = '<script type="application/ld+json">' + JSON.stringify(website).replace(/</g, '\\u003c') + '</script>'
 // Same LinkedIn URL as contact.links, which Person.sameAs already publishes.
 const linkedin = (contact.links ?? []).find((l) => l.label === 'LinkedIn' && l.url === 'https://www.linkedin.com/in/danishali121/')
 function withLinkedIn(text) {
@@ -140,8 +151,11 @@ for (const page of pages) {
   const tags = '<link rel="canonical" href="' + origin + page.route + '" />\n' +
     '<meta property="og:image" content="' + image + '" /><meta property="og:image:width" content="1200" /><meta property="og:image:height" content="630" />' +
     '<meta property="og:image:alt" content="' + escape(page.title) + '" /><meta name="twitter:image" content="' + image + '" />'
-  html = html.replace('</head>', '<!--portfolio-meta:start-->' + tags + (page.route === '/' ? personTag : '') + '<!--portfolio-meta:end-->\n</head>')
-  const parsed = marked.parse(page.text.replace(/<!--[\s\S]*?-->/g, ''))
+  html = html.replace('</head>', '<!--portfolio-meta:start-->' + tags + (page.route === '/' ? personTag + websiteTag : '') + '<!--portfolio-meta:end-->\n</head>')
+  // resume.md uses ## sections, so the static page needs a name heading of its own.
+  let markdown = page.text.replace(/<!--[\s\S]*?-->/g, '')
+  if (page.route === '/resume' && !markdown.split('\n').some((line) => /^# [^#]/.test(line))) markdown = '# ' + contact.name + '\n\n' + markdown
+  const parsed = marked.parse(markdown)
   const article = openLinkedIn(page.route.startsWith('/projects/') ? openLiveSites(parsed) : parsed)
   html = html.replace('<div id="root"></div>', '<div id="root"><main style="max-width:760px;margin:48px auto;padding:24px;font:18px/1.6 sans-serif">' + article + '</main></div>')
   const dest = page.route === '/' ? join(out, 'index.html') : join(out, page.route, 'index.html')
