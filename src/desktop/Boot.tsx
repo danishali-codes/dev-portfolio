@@ -68,8 +68,9 @@ function Splash({ duration, onDone }: { duration: number; onDone: () => void }) 
 }
 
 /**
- * The start-up screen. Plays on every page load and after a restart; any key or
- * click skips it. Reloads in the same tab and reduced motion get the short version.
+ * The start-up screen. The first visit plays it; any key or click skips it.
+ * Later visits skip it (the booted flag lives in localStorage). Reduced motion
+ * skips the firmware text and keeps a short splash. Restart plays it again.
  */
 export default function Boot() {
   const { phase, short, boots, setPhase } = usePower()

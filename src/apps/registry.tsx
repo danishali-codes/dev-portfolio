@@ -2,10 +2,10 @@ import { lazy, Suspense, useEffect, type ReactNode } from 'react'
 import { t } from '../text'
 import { markRead } from '../achievements'
 import type { Win } from '../store/windows'
-import FolderView from './FolderView'
 import Introduction from './Introduction'
-import NotFound from './NotFound'
 
+const FolderView = lazy(() => import('./FolderView'))
+const NotFound = lazy(() => import('./NotFound'))
 const Terminal = lazy(() => import('./Terminal'))
 const viewers = () => import('./Viewers')
 const MarkdownView = lazy(() => viewers().then((m) => ({ default: m.MarkdownView })))
@@ -39,7 +39,11 @@ export function WindowContent({ win, opts }: { win: Pick<Win, 'kind' | 'path' | 
     case 'introduction':
       return <Introduction />
     case 'notfound':
-      return <NotFound path={win.url ?? '/'} />
+      return (
+        <Loading>
+          <NotFound path={win.url ?? '/'} />
+        </Loading>
+      )
     case 'terminal':
       return (
         <Loading>
@@ -47,7 +51,11 @@ export function WindowContent({ win, opts }: { win: Pick<Win, 'kind' | 'path' | 
         </Loading>
       )
     case 'folder':
-      return <FolderView path={win.path ?? '/'} onNavigate={opts.onNavigate} singleClick={opts.phone} />
+      return (
+        <Loading>
+          <FolderView path={win.path ?? '/'} onNavigate={opts.onNavigate} singleClick={opts.phone} />
+        </Loading>
+      )
     case 'markdown':
       return (
         <Loading>

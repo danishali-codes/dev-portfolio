@@ -1,6 +1,5 @@
-import { useCallback, useEffect, useRef, useState } from 'react'
+import { lazy, Suspense, useCallback, useEffect, useRef, useState } from 'react'
 import { t } from '../text'
-import Calendar from './Calendar'
 import { allProjects, getNode, projects } from '../fs'
 import type { DirNode, FsNode } from '../fs/types'
 import { openIntroduction, openAsk, openGuestbook, openNode, openStats, openTerminal, openWallpaperPicker } from '../shell/opener'
@@ -12,6 +11,9 @@ import { setResume } from '../shell/plain'
 import { useSound } from '../shell/sound'
 import { loadOnline } from '../shell/visit'
 
+const loadCalendar = () => import('./Calendar')
+const Calendar = lazy(loadCalendar)
+
 const GITHUB = 'https://github.com/danishali-codes'
 
 function Clock() {
@@ -22,16 +24,24 @@ function Clock() {
     const t = setInterval(() => setNow(new Date()), 15_000)
     const show = () => setCal(true)
     window.addEventListener('folioos:calendar', show)
+    const idle = window.requestIdleCallback?.(() => void loadCalendar(), { timeout: 2000 })
+    const wait = idle == null ? window.setTimeout(() => void loadCalendar(), 1200) : undefined
     return () => {
       clearInterval(t)
       window.removeEventListener('folioos:calendar', show)
+      if (idle != null) window.cancelIdleCallback(idle)
+      if (wait != null) window.clearTimeout(wait)
     }
   }, [])
   const time = now.toLocaleTimeString(undefined, { hour: '2-digit', minute: '2-digit' })
   const date = now.toLocaleDateString(undefined, { weekday: 'short', day: 'numeric', month: 'short' })
   return (
     <>
-      {cal && <Calendar onClose={close} />}
+      {cal && (
+        <Suspense fallback={<div className="calendar" role="dialog" aria-busy="true" aria-label={t('desktop.calendar.label')}>{t('windows.loading')}</div>}>
+          <Calendar onClose={close} />
+        </Suspense>
+      )}
       <button type="button" className="tb-clock" onClick={() => setCal(!cal)} aria-expanded={cal} aria-haspopup="dialog" aria-label={t('desktop.taskbar.clock-label', { date: `${time} ${date}` })}>
         <time dateTime={now.toISOString()}>{time}</time>
         {/* Word break so the time and date stay separate in the accessible name. Flex whitespace is not drawn. */}

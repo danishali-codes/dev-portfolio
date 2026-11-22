@@ -13,43 +13,52 @@ export type Phase = 'post' | 'splash' | 'on'
 
 interface PowerState {
   phase: Phase
-  /** A short boot skips the BIOS text: reloads in the same tab, and reduced motion. */
+  /** A short boot skips the BIOS text. Reduced motion uses it; a restart does too. */
   short: boolean
   boots: number
   setPhase: (p: Phase) => void
 }
 
-const SESSION_KEY = 'devportfolio.booted'
+const BOOT_KEY = 'devportfolio.booted'
 
+function rememberBoot() {
+  try {
+    localStorage.setItem(BOOT_KEY, '1')
+  } catch {
+    /* storage blocked */
+  }
+}
+
+/** True after a finished boot in this browser. The old same-tab flag still counts. */
 function bootedBefore() {
   try {
-    return sessionStorage.getItem(SESSION_KEY) === '1'
+    if (localStorage.getItem(BOOT_KEY) === '1') return true
+    if (sessionStorage.getItem(BOOT_KEY) === '1') {
+      rememberBoot()
+      return true
+    }
   } catch {
-    return false
+    /* storage blocked */
   }
+  return false
 }
 
 const reducedMotion = () => window.matchMedia?.('(prefers-reduced-motion: reduce)').matches ?? false
 
 export const usePower = create<PowerState>()((set) => ({
-  phase: 'post',
-  short: bootedBefore() || reducedMotion(),
+  // A return visit paints the desktop immediately. The first visit still boots.
+  phase: bootedBefore() ? 'on' : 'post',
+  short: reducedMotion(),
   boots: 1,
   setPhase: (phase) => {
-    if (phase === 'on') {
-      try {
-        sessionStorage.setItem(SESSION_KEY, '1')
-      } catch {
-        /* storage blocked */
-      }
-    }
+    if (phase === 'on') rememberBoot()
     set({ phase })
   },
 }))
 
 /**
  * Restart the machine: every window closes, the terminal forgets its session,
- * the URL goes back to / and the full boot sequence plays again.
+ * the URL goes back to / and the boot sequence plays again.
  */
 export function restart() {
   useWindows.setState({ windows: [], topZ: 1 })
