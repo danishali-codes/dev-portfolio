@@ -1,11 +1,13 @@
-import { useEffect, useState } from 'react'
+import { lazy, Suspense, useEffect, useState } from 'react'
 import { initialiseHistory, updateMetadata } from './shell/navigation'
 import { resumeOn, resumePath, setResume, watchResume } from './shell/plain'
-import Resume from './apps/Resume'
+import { t } from './text'
 import Desktop from './desktop/Desktop'
 import Phone from './phone/Phone'
 import Notepad, { AchievementToast } from './achievements/Notepad'
 import TakeoverLayer from './achievements/Takeover'
+
+const Resume = lazy(() => import('./apps/Resume'))
 
 const PHONE_QUERY = '(max-width: 720px)'
 
@@ -43,7 +45,13 @@ export default function App() {
       window.removeEventListener('folioos:navigation', restore)
     }
   }, [])
-  if (resume) return <Resume />
+  if (resume) {
+    return (
+      <Suspense fallback={<div className="appframe-loading">{t('windows.loading')}</div>}>
+        <Resume />
+      </Suspense>
+    )
+  }
   return (
     <>
       {phone ? <Phone /> : <Desktop />}
